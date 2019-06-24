@@ -25,8 +25,8 @@ Please install Node.js(latest or stable) and npm(Version 6+) on your Operating S
 1. Backend Development for Node.js/Express.js relies heavily on Postman. It is recommended to have it installed if you don't have it on your PC. PostMan is primarily used for intial testing of backend code during development process.<br>
 2. New Server-side packages must be installed in the root directory. New client-side packages must be installed in the ./client directory.
 ## Build for production
-cd client
-npm run build
+`cd client`<br>
+`npm run build`
 
 
 ## App Info
