@@ -1,6 +1,6 @@
 # Change My View
 
-> An reddit-like Forum 
+An reddit-like Forum 
 
 This site is now being developed. 
 ## Quick Start
