@@ -8,16 +8,16 @@ This site is now being developed.
 Please install Node.js(latest or stable) and npm(Version 6+) on your Operating System. Use node -v and npm -v to verify that they are installed on your machine.
 
 ### 1.Install server dependencies
-npm install
+`npm install`
 
 ### 2.Install client dependencies
-cd client<br>
-npm install
+`cd client`<br>
+`npm install`
 ### 3.back to root directory
-cd ..
+`cd ..`
 
 ### 4.Run both Express & React from root
-npm run dev
+`npm run dev`
 
 ### Trouble shooting: 
 1. If you see the server crashed and an error (port 3001 is already in use) is reported, please use the command line command `killall node` to manually stop all instances of node programs. It is suggested that you use this command immediately upon exit of the development process.
