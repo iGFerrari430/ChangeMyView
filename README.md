@@ -11,7 +11,7 @@ Please install Node.js(latest or stable) and npm(Version 6+) on your Operating S
 npm install
 
 ### 2.Install client dependencies
-cd client
+cd client<br>
 npm install
 ### 3.back to root directory
 cd ..
