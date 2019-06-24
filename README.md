@@ -27,8 +27,8 @@ npm run build
 
 ### Author
 
-Xiaowen Zhu
-Yinfei Wang
+Xiaowen Zhu<br/>
+Yinfei Wang<br/>
 Minliao Li
 
 ### Version
