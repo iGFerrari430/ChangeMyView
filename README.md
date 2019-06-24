@@ -6,19 +6,19 @@ This site is now being developed.
 ## Quick Start
 
 
-# Install server dependencies
+### Install server dependencies
 npm install
 
-# Install client dependencies
+### Install client dependencies
 cd client
 npm install
-# back to root directory
+### back to root directory
 cd ..
 
-# Run both Express & React from root
+### Run both Express & React from root
 npm run dev
 
-# Build for production
+### Build for production
 cd client
 npm run build
 
