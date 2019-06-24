@@ -29,7 +29,7 @@ npm run build
 
 ## App Info
 
-### Author
+### Engineers
 
 Xiaowen Zhu<br/>
 Yinfei Wang<br/>
