@@ -3,22 +3,22 @@
 An reddit-like Forum 
 
 This site is now being developed. 
-## Quick Start
+## Environment Setup
 
 
-### Install server dependencies
+### 1.Install server dependencies
 npm install
 
-### Install client dependencies
+### 2.Install client dependencies
 cd client
 npm install
-### back to root directory
+### 3.back to root directory
 cd ..
 
-### Run both Express & React from root
+### 4.Run both Express & React from root
 npm run dev
 
-### Build for production
+## Build for production
 cd client
 npm run build
 
