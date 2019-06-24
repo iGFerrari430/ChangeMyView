@@ -5,7 +5,7 @@ An reddit-like Forum
 This site is now being developed. 
 ## Environment Setup
 ### 0. Pre-requisite
-Please install Node.js(latest or stable) and npm(Version 6+) on your Operating System.
+Please install Node.js(latest or stable) and npm(Version 6+) on your Operating System. Use node -v and npm -v to verify that they are installed on your machine.
 
 ### 1.Install server dependencies
 npm install
