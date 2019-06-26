@@ -1,0 +1,33 @@
+body {
+    font-family: 'Arial'
+}
+/* Beginning of Navbar Components */
+.erzi {
+    background-color: lightpink;
+    color: blue;
+}
+
+.rightAlign {
+    text-align: right;
+}
+
+.NavSetup {
+    background-color:blue; 
+}
+
+.Txt {
+    margin-right: 6px;
+}
+
+.center_div{
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+}
+/* end of NavBar Components */
+
+/* start of AuthComponents */
+.AuthTitle {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-size: 200%
+}
