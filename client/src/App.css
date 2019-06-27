@@ -25,9 +25,14 @@ body {
 }
 /* end of NavBar Components */
 
+
 /* start of AuthComponents */
 .AuthTitle {
     margin-top: 20px;
     margin-bottom: 20px;
     font-size: 200%
 }
+
+/* end of AuthComponents */
+
+/* Start of Topic Preview */

@@ -11,8 +11,28 @@ import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; /
 
 import './App.css'
 export default class App extends React.Component {
-    state = {
-        user: null
+    /* Topic Format: 
+        {
+            title: string,
+            content: string,
+            hotness: number
+        }
+    */
+    constructor(props) {
+        super(props);
+        
+        let dummyTopic = {
+            title: "My Name is Yinfei Wang",
+            content:" I am from University of Harbin buddism!",
+            hotness: 100
+        };
+
+        let dummyList = [];
+        dummyList.push(dummyTopic);
+        this.state = {
+            user: null,
+            TopicList: dummyList
+        }
     }
 
     render() {
@@ -23,6 +43,7 @@ export default class App extends React.Component {
                 <Switch>
                     <Route path="/register" component={Register} />
                     <Route path="/login" component={Login} />
+                    <Route path="/" component={Landing} />
                 </Switch>
 
                 
