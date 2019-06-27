@@ -22,6 +22,7 @@ export default class App extends React.Component {
                 {this.state.user? <OutNav/> : <InNav/>}
                 <Switch>
                     <Route path="/register" component={Register} />
+                    <Route path="/login" component={Login} />
                 </Switch>
 
                 

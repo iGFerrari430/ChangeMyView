@@ -93,7 +93,7 @@ export default class Register extends React.Component {
                             required/>
                         </div>
 
-                        <button onSubmit={this.onSubmit} className="btn btn-success">Submit</button>
+                        <button onSubmit={this.onSubmit} className="btn btn-success">Sign up</button>
                     </form>
                     </div>
                 </div>
