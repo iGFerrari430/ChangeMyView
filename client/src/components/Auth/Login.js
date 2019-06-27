@@ -1,5 +1,5 @@
 import React from 'react'
-
+import axios from 'axios'
 export default class Register extends React.Component {
     constructor(props) {
         super(props)
@@ -9,21 +9,24 @@ export default class Register extends React.Component {
         }
     }
 
-    onEmailChange = (e) => {
+    onEmailChange = e => {
         const email = e.target.value;
         this.setState(() => ({ email }));
     }
 
-    onpasswordChange = (e) => {
+    onpasswordChange = e => {
         const password = e.target.value;
         this.setState(() => ({ password }));
     }
 
 
-    onSubmit = e => {
+    onSubmit = async e => {
         e.preventDefault();
-        console.log("Hello, World!");  
-        console.log(this.state);
+        const {email,password} = this.state;
+        const body = {email,password};
+        const res = await axios.post("/api/auth/Login",body);
+        console.log(res);
+
     }
     render() {
         return (

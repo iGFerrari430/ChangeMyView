@@ -36,3 +36,30 @@ body {
 /* end of AuthComponents */
 
 /* Start of Topic Preview */
+
+.Preview {
+    background-color:#F5F5F5;
+    border-radius: 10px 10px 0 0;
+    margin-top: 4%;
+    margin-left:4%;
+    margin-right:4%;
+    margin-bottom:0;
+    padding: 2%
+
+}
+.SocialShare {
+    background-color: #D0D3D4;
+    margin-left: 4%;
+    margin-right: 4%;
+    padding-top:0.5%;
+    padding-bottom:0.5%;
+    border-radius: 0 0 10px 10px;
+}
+
+.ShareAdjust {
+    margin-left: 1%;
+}
+
+.Adjust {
+    margin: 1%
+}

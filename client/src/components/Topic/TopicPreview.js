@@ -24,12 +24,38 @@ export default class TopicPreview extends React.Component {
         const {title,content,hotness} = this.props.topic;
         return (
             <div>
+            <div className="Preview">
+                <div className="row">
+                    <div className="col-9">
+                        <h3>{title}</h3>
+                        <div className="topicContent">
+                            <p>{content}</p>
+                        </div>
+                        <button type="button" className="btn btn-outline-info">View</button>
+                    </div>
 
-                    <p>{title}</p>
-                    <p>{content}</p>
-                    <p>{hotness}</p>
-
+                    <div className="Hotness col-3">
+                        <i className="fas fa-fire"></i>{hotness}
+                    </div>
+                </div>
             </div>
+
+            <div className="SocialShare">
+                <div>
+                    <span className="ShareAdjust">
+                        share this topic:
+                        <i className="Adjust fab fa-twitter-square fa-lg"></i>
+                        <i className="Adjust fab fa-facebook-f fa-lg"></i>
+                        <i className="Adjust fab fa-instagram fa-lg"></i>
+                        <i className="Adjust fab fa-weixin fa-lg"></i>
+
+                    </span>
+                </div>
+            </div>
+            </div>
+            
+            
+            
         );
     }
 }

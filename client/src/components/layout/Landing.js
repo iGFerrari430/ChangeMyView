@@ -28,16 +28,25 @@ export default class Landing extends React.Component {
     render() {
         return (
             <div className="container">
-            {
-                this.state.TopicList.map((topic,index) => 
-                    (
-                        <TopicPreview 
-                        key={index}
-                        topic={topic}
-                        />
-                    )
-                )
-            }
+                <div className="row">
+                    <div className="col-sm-9">
+                    {
+                        this.state.TopicList.map((topic,index) => 
+                            (
+                                <TopicPreview 
+                                key={index}
+                                topic={topic}
+                                />
+                            )
+                        )
+                    }
+                    </div>
+
+                    <div className="col-sm-3">
+                        some dummy values right now...
+                    </div>
+  
+                </div>
             </div>
         );
     }

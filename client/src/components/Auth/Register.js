@@ -1,5 +1,5 @@
 import React from 'react'
-
+import axios from 'axios';
 export default class Register extends React.Component {
     constructor(props) {
         super(props)
@@ -32,10 +32,17 @@ export default class Register extends React.Component {
     }
 
 
-    onSubmit = e => {
+    onSubmit = async e => {
         e.preventDefault();
         console.log("Hello, World!");  
         console.log(this.state);
+
+        const {userName,email,password1,password2} = this.state;
+        const body = {userName,email,password1,password2};
+
+        const res = await axios.post("/api/Auth/Register",body);
+        console.log(res);
+
     }
     render() {
         return (
