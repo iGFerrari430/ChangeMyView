@@ -1,7 +1,20 @@
+/*** GLOBAL STYLES *****/
+
 body {
-    font-family: 'Arial'
+    font-family: 'Arial';
+    /*
+    background-image: url("images/bg.png");
+    background-repeat: repeat;
+    */
+    background-color: #F3FCFF
 }
-/* Beginning of Navbar Components */
+
+
+
+
+/****END of global styles ****/
+
+/* BEGINNING of Navbar Components */
 .erzi {
     background-color: lightpink;
     color: blue;
@@ -36,21 +49,23 @@ body {
 /* end of AuthComponents */
 
 /* Start of Topic Preview */
-
+.topicContent {
+    word-wrap: break-word;
+}
 .Preview {
     background-color:#F5F5F5;
     border-radius: 10px 10px 0 0;
-    margin-top: 4%;
+    margin-top:2%;
     margin-left:4%;
-    margin-right:4%;
+    margin-right:0;
     margin-bottom:0;
-    padding: 2%
+    padding: 2%;
 
 }
 .SocialShare {
     background-color: #D0D3D4;
     margin-left: 4%;
-    margin-right: 4%;
+    margin-right: 0;
     padding-top:0.5%;
     padding-bottom:0.5%;
     border-radius: 0 0 10px 10px;
@@ -61,5 +76,27 @@ body {
 }
 
 .Adjust {
-    margin: 1%
+    margin: 1%;
+    cursor: pointer;
+}
+
+/***** END of Topic preview ******/
+
+/****** BEGINNING of Main page, side bar *******/
+
+.CreatePost {
+    width: 100%;
+    background-color: #F5F5F5;
+    border-radius: 10px;
+    margin-top: 6%;
+    margin-bottom: 2%;
+    margin-left: 0;
+    margin-right: 0;
+    padding: 10%;
+    text-align: center;
+}
+
+.Hand{
+    font-size: 200%;
+    font-family: 'Schoolbell', cursive;
 }

@@ -1,5 +1,8 @@
 import React from 'react';
 import TopicPreview from '../Topic/TopicPreview'
+import Editor from '../Topic/Editor'
+// eslint-disable-next-line
+import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
 export default class Landing extends React.Component {
     constructor(props) {
         super(props);
@@ -11,8 +14,8 @@ export default class Landing extends React.Component {
         };
 
         let dummyTopic2 = {
-            title: "My name is SB",
-            content: "I am shabi",
+            title: "I drew 3 more anime portraits of DOTA2 female heroes!",
+            content:"I would say okasa lhids is a complete trash.Please do not consider using however willing your own risks",
             hotness: "100"
         }
 
@@ -43,7 +46,12 @@ export default class Landing extends React.Component {
                     </div>
 
                     <div className="col-sm-3">
-                        some dummy values right now...
+                        <div className="CreatePost">
+                            <p className="Hand">Share new ideas to the community!</p>
+                            <Link to="/topic">
+                                <button type="button" className="btn btn-info">Create Topic</button>
+                            </Link>
+                        </div>
                     </div>
   
                 </div>

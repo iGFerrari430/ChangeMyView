@@ -8,7 +8,7 @@ import Login from './components/Auth/Login'
 import Landing from './components/layout/Landing'
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
-
+import Editor from './components/Topic/Editor';
 import './App.css'
 export default class App extends React.Component {
     /* Topic Format: 
@@ -20,22 +20,29 @@ export default class App extends React.Component {
     */
     state = {
         dummy: null
+
+        //render={(props) => <Editor {...props} isAuthed={true} />
+        //
     }
 
     render() {
         return (
-        <BrowserRouter>
-            <div className = "container.fluid">
-                {this.state.user? <OutNav/> : <InNav/>}
-                <Switch>
-                    <Route path="/register" component={Register} />
-                    <Route path="/login" component={Login} />
-                    <Route path="/" component={Landing} />
-                </Switch>
+        <div>
+            <BrowserRouter>
+                <div className = "container.fluid">
+                    {this.state.user? <OutNav/> : <InNav/>}
+                    <Switch>
+                        <Route exact path="/register" component={Register} />
+                        <Route exact path="/login" component={Login} />
+                        <Route exact path="/" component={Landing} />
+                        <Route exact path="/topic" component={Editor} />
+                    </Switch>
 
-                
-            </div>
-        </BrowserRouter>
+                    
+                </div>
+            </BrowserRouter>
+        </div>
+        
 
         );
     }

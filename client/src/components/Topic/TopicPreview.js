@@ -20,6 +20,9 @@ export default class TopicPreview extends React.Component {
         };
     }
 
+    twitterOnClick = () => {
+        console.log("Hello,World!")
+    }
     render() {
         const {title,content,hotness} = this.props.topic;
         return (
@@ -44,7 +47,7 @@ export default class TopicPreview extends React.Component {
                 <div>
                     <span className="ShareAdjust">
                         share this topic:
-                        <i className="Adjust fab fa-twitter-square fa-lg"></i>
+                        <i className="Adjust fab fa-twitter-square fa-lg" onClick={this.twitterOnClick}></i>
                         <i className="Adjust fab fa-facebook-f fa-lg"></i>
                         <i className="Adjust fab fa-instagram fa-lg"></i>
                         <i className="Adjust fab fa-weixin fa-lg"></i>
