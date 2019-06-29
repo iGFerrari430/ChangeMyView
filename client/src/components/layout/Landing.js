@@ -1,6 +1,6 @@
 import React from 'react';
 import TopicPreview from '../Topic/TopicPreview'
-import Editor from '../Topic/Editor'
+import EditTopic from '../Topic/EditTopic'
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
 export default class Landing extends React.Component {
@@ -23,7 +23,7 @@ export default class Landing extends React.Component {
         dummyList.push(dummyTopic1);
         dummyList.push(dummyTopic2)
         this.state = {
-            user: null,
+            user: "vevevewawawa",
             TopicList: dummyList
         }
     }
@@ -48,7 +48,7 @@ export default class Landing extends React.Component {
                     <div className="col-sm-3">
                         <div className="CreatePost">
                             <p className="Hand">Share new ideas to the community!</p>
-                            <Link to="/topic">
+                            <Link to={"/topic/"+this.state.user}>
                                 <button type="button" className="btn btn-info">Create Topic</button>
                             </Link>
                         </div>
