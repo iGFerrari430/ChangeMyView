@@ -9,7 +9,34 @@ body {
     background-color: #F3FCFF
 }
 
+@media (min-width: 768px) {
+    .container-small {
+        width: 300px;
+    }
+    .container-large {
+        width: 970px;
+    } 
+} 
+@media (min-width: 992px) {
+    .container-small {
+        width: 500px;
+    }
+    .container-large {
+        width: 1170px;
+    } 
+} 
+@media (min-width: 1200px) {
+    .container-small {
+        width: 700px;
+    }
+    .container-large {
+        width: 1500px;
+    } 
+}
 
+.container-small, .container-large {
+    max-width: 100%;
+}
 
 
 /****END of global styles ****/
@@ -99,4 +126,32 @@ body {
 .Hand{
     font-size: 200%;
     font-family: 'Schoolbell', cursive;
+}
+
+/****** Begin styling the editor ******/
+.wholeWrapper {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    height: 400px;
+
+}
+.toolbar{
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-top: 1px solid black;
+    border-bottom: 1px dashed grey;
+    border-radius: 0px 0px 0 0;
+    margin-bottom: 0;
+}
+.editor {
+    height: 80%;
+    margin-top: 0;
+    background-color: white;
+    padding: 2%;
+    
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-radius: 0 0 0px 0px;
+    word-wrap: break-word;
 }

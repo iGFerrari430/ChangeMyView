@@ -9,7 +9,7 @@ import Landing from './components/layout/Landing'
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
 import EditTopic from './components/Topic/EditTopic';
-import './App.css'
+import './styles/App.css'
 export default class App extends React.Component {
     /* Topic Format: 
         {
