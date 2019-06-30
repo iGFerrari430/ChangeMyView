@@ -4,7 +4,8 @@ import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
 import '../../styles/draft.css';
-import {$,jQuery} from 'jquery';
+import $ from 'jquery';
+import { findDOMNode } from 'react-dom';
 
 var script = document.createElement('script');
 script.src = 'http://code.jquery.com/jquery-1.11.0.min.js';
@@ -18,8 +19,7 @@ export default class EditorConvertToHTML extends Component {
     this.state = {
       editorState: EditorState.createEmpty(),
     }
-    //const editorHeight = $('.editor').height();
-    //console.log("HEIGHT: "+editorHeight);
+
     var x = document.getElementsByClassName("toolbar");
     console.log(x);
   }
