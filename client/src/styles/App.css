@@ -1,5 +1,4 @@
 /*** GLOBAL STYLES *****/
-
 body {
     font-family: 'Arial';
     /*
@@ -68,9 +67,9 @@ body {
 
 /* start of AuthComponents */
 .AuthTitle {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    font-size: 200%
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 200%;
 }
 
 /* end of AuthComponents */
@@ -129,27 +128,65 @@ body {
 }
 
 /****** Begin styling the editor ******/
+
 .wholeWrapper {
     margin-top: 2%;
-    margin-bottom: 0;
+    margin-bottom: 1%;
+
+
 }
 .toolbar{
     border-left: 1px solid black;
     border-right: 1px solid black;
     border-top: 1px solid black;
+
     border-bottom: 1px dashed grey;
-    border-radius: 0px 0px 0 0;
+    border-radius: 5px 5px 0 0;
     margin-bottom: 0;
     
 }
 .editor {
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-radius: 0 0 5px 5px;
     height: 300px;
     margin-top: 0;
     background-color: white;
     padding: 2%;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
-    border-radius: 0 0 0px 0px;
+
     word-wrap: break-word;
+}
+
+.buttonMargin {
+    margin-right: 1%;
+}
+
+.titleMargin {
+    margin-top: 0;
+}
+.EditTitle {
+    margin-top: 2%;
+    margin-bottom: 2%;
+    font-size: 200%;
+}
+
+.Blacken {
+    border-color: black;
+}
+
+.PolicyBox {
+    word-wrap: break-word;
+    border: 1px solid black;
+    border-radius: 5px;
+    background-color: #FAFAFA;
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 2%;
+    padding-left: 0%;
+    text-align: center;
+}
+
+ol.Edit-ol {
+    list-style-type: upper-roman;
 }
