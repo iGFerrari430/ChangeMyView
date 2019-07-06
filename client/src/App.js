@@ -2,6 +2,7 @@ import React from 'react';
 import InNav from './components/layout/InNav'
 import OutNav from './components/layout/OutNav'
 import Register from './components/Auth/Register'
+import TopicDetail from './components/Topic/TopicDetail'
 // eslint-disable-next-line
 import Login from './components/Auth/Login'
 // eslint-disable-next-line
@@ -36,6 +37,7 @@ export default class App extends React.Component {
                         <Route exact path="/login" component={Login} />
                         <Route exact path="/" component={Landing} />
                         <Route exact path="/topic/:uId" component={EditTopic} />
+                        <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
                     </Switch>
 
                     

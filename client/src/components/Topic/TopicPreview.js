@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link} from 'react-router-dom';
 export default class TopicPreview extends React.Component {
     // The format of props
 
@@ -16,7 +16,8 @@ export default class TopicPreview extends React.Component {
     {
         super(props)
         this.state = {
-            dummy: null
+            dummy: null,
+            topicId: "dummy"
         };
     }
 
@@ -34,7 +35,9 @@ export default class TopicPreview extends React.Component {
                         <div className="topicContent">
                             <p>{content}</p>
                         </div>
-                        <button type="button" className="btn btn-outline-info">View</button>
+                        <Link to={"/viewTopic/"+this.state.topicId}>
+                            <button type="button" className="btn btn-outline-info">View</button>
+                        </Link>
                     </div>
 
                     <div className="Hotness col-3">

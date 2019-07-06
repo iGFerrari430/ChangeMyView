@@ -8,15 +8,21 @@ export default class Landing extends React.Component {
         super(props);
         
         let dummyTopic1 = {
+            topicId: undefined,
             title: "My Name is Yinfei Wang",
             content:" I am from University of Harbin buddism!",
-            hotness: 100
+            hotness: 100,
+            time: undefined,
+            author: undefined
         };
 
         let dummyTopic2 = {
+            topicId: undefined,
             title: "I drew 3 more anime portraits of DOTA2 female heroes!",
             content:"I would say okasa lhids is a complete trash.Please do not consider using however willing your own risks",
-            hotness: "100"
+            hotness: "100",
+            time: undefined,
+            auther: undefined
         }
 
         let dummyList = [];

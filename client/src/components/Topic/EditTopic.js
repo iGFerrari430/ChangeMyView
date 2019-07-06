@@ -2,17 +2,20 @@ import React, { Component } from 'react';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import { Editor } from 'react-draft-wysiwyg';
 import draftToHtml from 'draftjs-to-html';
+// eslint-disable-next-line
 import htmlToDraft from 'html-to-draftjs';
 import '../../styles/draft.css';
+// eslint-disable-next-line
 import ReactHtmlParser from 'react-html-parser';
 
 export default class EditorConvertToHTML extends Component {
   constructor(props)
   {
+    super(props);
     const str = '{"blocks":[{"key":"54u14","text":"MAC OS X ","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":9,"style":"BOLD"}],"entityRanges":[],"data":{}},{"key":"ce22u","text":"IOS 13","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":6,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"1imab","text":"cdx","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":3,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"b8ice","text":"vds","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":3,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"ru07","text":"vdssd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"b3o16","text":"sdaf","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":4,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}';
     const raw = JSON.parse(str);
+    // eslint-disable-next-line
     const contentState = convertFromRaw(raw);
-    super(props);
     this.state = {
       editorState: EditorState.createEmpty(), //EditorState.createWithContent(contentState)
       title: '',

@@ -8,6 +8,15 @@ body {
     background-color: #F3FCFF
 }
 
+.AddMargin{
+    margin: 5px;
+}
+.rightAlign {
+    text-align: right;
+}
+.midAlign {
+    text-align: center;
+}
 @media (min-width: 768px) {
     .container-small {
         width: 300px;
@@ -44,10 +53,6 @@ body {
 .erzi {
     background-color: lightpink;
     color: blue;
-}
-
-.rightAlign {
-    text-align: right;
 }
 
 .NavSetup {
@@ -189,4 +194,32 @@ body {
 
 ol.Edit-ol {
     list-style-type: upper-roman;
+}
+
+/* END of the styles of the editor. */
+
+/* BEGIN of the styles of the topic detail page -- pick stage */
+
+.Detail_pick_wrapper {
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.Detail_Pick_Topic {
+    margin: 5px;
+}
+.Detail_pick_topic_main_wrap {
+    
+}
+.Detail_pick_wrap_me {
+    text-align: center;
+}
+.Detail_pick_midMargin {
+    display: block;
+}
+.Detail_pick_Topic_main {
+    border-top: 1px solid black;
+    word-break: break-word;
+    padding: 5px;
 }
