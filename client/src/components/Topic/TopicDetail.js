@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 
-export default class App extends React.Component {
+export default class TopicDetail extends React.Component {
     /* Topic Format: 
         {
             title: string,
@@ -45,7 +45,7 @@ export default class App extends React.Component {
             dummy: null,
             topicObject: null,// this stores the object of topic. The format is as the above comment.
 
-            currentStage: this.stages.PICK_POINT,
+            currentStage: this.stages.VIEW_OPPOSITE,
             info: {
                 userPick: null,
                 commentArray: null,
@@ -76,7 +76,7 @@ export default class App extends React.Component {
     onPickToggleClick = () => {
         console.log("Kawhi Leonard");
         let newValue = '';
-        if (this.state.pickButtonValue == "Hide Content"){
+        if (this.state.pickButtonValue === "Hide Content"){
             newValue = "Show Content";
         }else {
             newValue = "Hide Content";
@@ -92,7 +92,6 @@ export default class App extends React.Component {
     }
    
     renderPickPoint = () => {
-        const spaceAdd='';
         const dummyPoints = ["dafeige","minliaoli","xiaowenzhu","dsjlsd","dssdsd","dsdssdfdsf"];
         return (
             <div>
@@ -152,9 +151,56 @@ export default class App extends React.Component {
     }
     // onClick={() => this.handleSort(column)}
     renderViewOpposite = () => {
+        const dummyParagraph = '<h1><span style="font-family: Times New Roman;"><strong>wdsaj;a;fda;sfdadsl;kasf</strong></span></h1><p>WTFWTFWTFWTFDSJIOAFASDJOJIOADFOIJ;ASFJI;ASDFJASFDAJFDJADFS;ADFSK;LZ;ASDZDSFLKLKZDSF</p><p>AAAAAASFASDLKADFSJAKLJASDKLJASFJDLKLASJ;AD;AD;AKSF;ASD;ADASAJSLF;AJKDSAJ;ASJDFAKFDCKNASHJFJSCBVUDSHEWCUUBIAUS FIOCULIRALSIDFURHSCUHDSFACDGKJFAHCUHJDSFAHCFAJKCHSCAFLHCSDFADDSHFASCKSDHDSLCSHFDKSHFSDHHDSKHFSDKHDSKFHSDJHDSJKHFSJHDFKSHJFDHSKHDFJSKHSJDKJFSJFKWHF</p><ul><li>sjdkskldsd</li><li>sdfjklsdfsdflkj</li><li>sdfjkldsfjlsdljk</li><li>sadfjajsfksd</li></ul><ol><li>dfsjklsdflkjjlkdsf</li><li>sdfjkllkjdfsjlkfsd</li><li>sfdjjosdfojisdf</li><li>sdfjiofsdjiofsd</li></ol><p></p><p></p>'
+        const dummyTitle = "Does Obesity equal to unhealthiness?";
+        const dummyPoint = "Nope, not at all";
+        const dummyHotness = 105;
+        const viewIndex = 1;
+        const viewTotal = 3;
+        const dummyContributor = "Batian Diao";
+        const dummyUser1 = "Minliao Li"
+        const dummyComments = [{
+            author: "Degang Guo",
+            content: "You are talking shit.",
+            time: "a minute ago"
+        }, {
+            author: "Jieshi Jiang",
+            content: "Nay, don't talk shit. The fact is that you are stupid.",
+            time: "23 hours ago"
+        }]
         return (
-            <div>
-                <h3>Render View Opposite</h3>
+            <div className="Detail_Oppo_Wrapper">
+                <div className="Detail_Oppo_Head row">
+                    <div className="col-md-8">
+                        <h2>{dummyTitle}</h2>
+                        <h3>ViewPoint {viewIndex}/{viewTotal}: {dummyPoint}</h3>
+                    </div>
+
+                    <div className="col-md-4">
+                        <br/>
+                        <div>Hoteness: {dummyHotness}</div>
+                        <div>Point Contributor: {dummyContributor}</div>
+                    </div>
+                    
+
+                </div>
+
+                <div className="Detail_Oppo_Main row">
+                    <div className="Detail_Oppo_Main_Arg col-md-7">
+                        <div className="Detail_Oppo_Main_Arg_User">
+                            <i class="far fa-user"></i> <strong>{dummyUser1}</strong>
+                        </div>
+
+                        <div>
+                            {ReactHtmlParser(dummyParagraph)}
+                        </div>
+                    </div>
+
+                    <div className="Detail_Oppo_Main_Comment col-md-5">
+                        PLEASE GIVE ME SOME SPACE!
+                    </div>
+
+                </div>
             </div>
         );
     }

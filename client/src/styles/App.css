@@ -210,7 +210,7 @@ ol.Edit-ol {
     margin: 5px;
 }
 .Detail_pick_topic_main_wrap {
-    
+    margin: 0px;
 }
 .Detail_pick_wrap_me {
     text-align: center;
@@ -221,5 +221,36 @@ ol.Edit-ol {
 .Detail_pick_Topic_main {
     border-top: 1px solid black;
     word-break: break-word;
-    padding: 5px;
+    padding: 8px;
+}
+
+.Detail_Oppo_Wrapper {
+    margin: 0px;
+}
+
+.Detail_Oppo_Head {
+    border-radius: 10px 10px 0 0;
+    margin: 0px;
+    margin-top: 10px;
+    padding: 8px;
+    background-color:#E2E2E2;
+
+}
+.Detail_Oppo_Main_Arg {
+    height: 400px;
+    overflow-y: scroll;
+    word-break: break-word;
+}
+
+.Detail_Oppo_Main_Arg_User {
+    margin-top: 8px;
+}
+.Detail_Oppo_Main {
+    margin: 0px;
+    border-radius: 0 0 10px 10px;
+    background-color: #F6F6F6;
+    padding: 8px;
+    padding-top: 0;
+    height: 400px;
+    margin-bottom: 8px;
 }
