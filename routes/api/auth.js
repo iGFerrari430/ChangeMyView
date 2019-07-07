@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-
+const mongoose = require('mongoose')
 
 // Backend code goes here
 
@@ -10,8 +10,8 @@ const router = express.Router()
 // const connectionURL = 'mongodb://127.0.0.1:27017'
 // const database = 'CMV_manager'
 
+
 /*
-const mongoose = require('mongoose')
 mongoose.connect('mongodb://127.0.0.1:27017/CMV-manager',{
     useNewUrlParser: true,
     useCreateIndex: true
