@@ -1,3 +1,3 @@
 {
-  "mongoURI": "mongodb+srv://csci201project:csci201project@cluster0-tprgw.mongodb.net/CSCI201?retryWrites=true"
+  "mongoURI": "mongodb+srv://csci201project:csci201project@cluster0-tprgw.mongodb.net/ChangeMyView?retryWrites=true"
 }
