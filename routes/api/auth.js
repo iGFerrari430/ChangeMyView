@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const validator = require('validator')
-const User = require('./user')
+const User = require('./model_auth/user')
 
 
 // Backend code goes here
