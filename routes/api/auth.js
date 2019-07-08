@@ -1,63 +1,52 @@
 const express = require('express')
 const router = express.Router()
-const mongoose = require('mongoose')
+const validator = require('validator')
+const User = require('./model_auth/user')
+
 
 // Backend code goes here
 
-// const mongodb = require('mongodb')
-// const MongoClient = mongodb.MongoClient
-
-// const connectionURL = 'mongodb://127.0.0.1:27017'
-// const database = 'CMV_manager'
-
-
-/*
-mongoose.connect('mongodb://127.0.0.1:27017/CMV-manager',{
-    useNewUrlParser: true,
-    useCreateIndex: true
-})*/
-
-const User = mongoose.model('User', {
-    userName: {
-        type: String,
-        required: true,
-        trim: true,
-        validate(value){
-            if (value.length<5){
-                throw new Error('Username\'s length should longer than 5')
-            }
-        }
-    },
-    email:{
-        type: String,
-        required: true,
-        trim: true,
-        lowercase: true,
-        validate(value) {
-            if (!validator.isEmail(value)) {
-                throw new Error('Email is invalid')
-            }
-        }
-    },
-    password:{
-        type:String,
-        required: true,
-    }
-})
-
 router.post("/Register",async(req,res) => {
-    console.log(req.body)
+    const {userName, email, password1, password2} = req.body
 
-    return res.json({
-        "UserInfo": "大傻逼"
-    })
+    if (password1 === password2){
+        const user = new User({userName: userName, email: email, password: password1})
+        User.findOne({userName: user.userName}).then((sameNameUsers) => {
+            if (!sameNameUsers){
+                User.findOne({email: user.email}).then((sameEmailUsers) => {
+                    if (!sameEmailUsers){
+                        user.save().then(() => {
+                            res.status(200).send(user)
+                        })
+                    }else{
+                        res.status(404).send("The email address is already exist! Please try another one! Or ask ZHUXIAOWEN for a new one")
+                    }
+                })
+            }else{
+                res.status(404).send("The username is already exist! Please try another one! Or ask ZHUXIAOWEN for a new name")
+            }
+        }).catch((e) => {
+            res.status(400).send(e)
+        })
+    }else{
+        res.status(404).send("The password one and two does not match, please check them again! Or ask ZHUXIAOWEN for a new one")
+    }
+
+    
 })
 
 router.post("/Login",async(req,res) => {
-    console.log(req.body)
 
-    return res.json({
-        "Data": "臭傻逼"
+    User.findOne({email: req.body.email}).then((onRecordUser) => {
+        if (!onRecordUser){
+            res.status(400).send("The email address does not match any on the record! please try again! ")
+        }else if(onRecordUser.password !== req.body.password){
+            res.status(400).send("The password is not correct! please try again! ")
+        }else{
+            res.status(200).send(onRecordUser)
+        }
+    }).catch((e) => {
+        res.status(500).send(e)
     })
 })
 
