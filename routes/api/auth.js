@@ -19,17 +19,17 @@ router.post("/Register",async(req,res) => {
                             res.status(200).send(user)
                         })
                     }else{
-                        res.status(404).send("The email address is already exist! Please try another one! Or ask ZHUXIAOWEN for a new one")
+                        res.status(400).send("The email address is already exist! Please try another one! Or ask ZHUXIAOWEN for a new one")
                     }
                 })
             }else{
-                res.status(404).send("The username is already exist! Please try another one! Or ask ZHUXIAOWEN for a new name")
+                res.status(400).send("The username is already exist! Please try another one! Or ask ZHUXIAOWEN for a new name")
             }
         }).catch((e) => {
-            res.status(400).send(e)
+            res.status(500).send(e)
         })
     }else{
-        res.status(404).send("The password one and two does not match, please check them again! Or ask ZHUXIAOWEN for a new one")
+        res.status(400).send("The password one and two does not match, please check them again! Or ask ZHUXIAOWEN for a new one")
     }
 
     
