@@ -1,4 +1,7 @@
 /*** GLOBAL STYLES *****/
+
+
+
 body {
     font-family: 'Arial';
     /*
@@ -237,9 +240,9 @@ ol.Edit-ol {
 
 }
 .Detail_Oppo_Main_Arg {
-    height: 400px;
     overflow-y: scroll;
     word-break: break-word;
+    height: 400px;
 }
 
 .Detail_Oppo_Main_Arg_User {
@@ -250,7 +253,36 @@ ol.Edit-ol {
     border-radius: 0 0 10px 10px;
     background-color: #F6F6F6;
     padding: 8px;
+    padding-right: 0;
     padding-top: 0;
+
+}
+
+
+.Detail_Oppo_Main_Comments {
+    overflow-y: scroll;
     height: 400px;
-    margin-bottom: 8px;
+}
+
+::-webkit-scrollbar {
+    width: 5px;
+  }
+   
+::-webkit-scrollbar-thumb {
+    background: #666; 
+  }
+
+
+
+::-webkit-scrollbar-track {
+    display: none;
+}
+.Detail_Oppo_Main_Comment {
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-left: 5px;
+    margin-right: 5px;
+    background-color: lightpink;
+    border-radius: 5px;
 }

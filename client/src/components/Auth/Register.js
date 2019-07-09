@@ -1,6 +1,9 @@
-import React from 'react'
+import React from 'react';
 import axios from 'axios';
-export default class Register extends React.Component {
+import {registerUser,hashCode} from "../../actions/authActions";
+import { connect } from 'react-redux';
+
+class Register extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -36,11 +39,18 @@ export default class Register extends React.Component {
         e.preventDefault();
         console.log("Hello, World!");  
         console.log(this.state);
+        let {userName,email,password1,password2} = this.state;
+        userName = userName.trim();
+        email = email.trim();
+        password1 = hashCode(password1.trim()).toString();
+        password2 = hashCode(password2.trim()).toString();   
 
-        const {userName,email,password1,password2} = this.state;
-        const body = {userName,email,password1,password2};
+        const body ={userName,email,password1,password2} ;
+        console.log(body);
 
-        const res = await axios.post("/api/Auth/Register",body);
+        const res = await registerUser({userName,email,password1,password2},this.props.dispatch);
+
+        
         console.log(res);
 
     }
@@ -110,3 +120,9 @@ export default class Register extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps,{registerUser})(Register);

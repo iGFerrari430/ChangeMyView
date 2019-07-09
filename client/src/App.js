@@ -10,7 +10,11 @@ import Landing from './components/layout/Landing'
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
 import EditTopic from './components/Topic/EditTopic';
+import getStore from "./store/store";
+import {Provider} from "react-redux";
 import './styles/App.css'
+
+const store = getStore();
 export default class App extends React.Component {
     /* Topic Format: 
         {
@@ -29,20 +33,23 @@ export default class App extends React.Component {
     render() {
         return (
         <div>
-            <BrowserRouter>
-                <div className = "container.fluid">
-                    {this.state.user? <OutNav/> : <InNav/>}
-                    <Switch>
-                        <Route exact path="/register" component={Register} />
-                        <Route exact path="/login" component={Login} />
-                        <Route exact path="/" component={Landing} />
-                        <Route exact path="/topic/:uId" component={EditTopic} />
-                        <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
-                    </Switch>
+            <Provider store={store}>
+                <BrowserRouter>
+                    <div className = "container.fluid">
+                        {this.state.user? <OutNav/> : <InNav/>}
+                        <Switch>
+                            <Route exact path="/register" component={Register} />
+                            <Route exact path="/login" component={Login} />
+                            <Route exact path="/" component={Landing} />
+                            <Route exact path="/topic/:uId" component={EditTopic} />
+                            <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
+                        </Switch>
 
-                    
-                </div>
-            </BrowserRouter>
+                        
+                    </div>
+                </BrowserRouter>
+            </Provider>
+            
         </div>
         
 

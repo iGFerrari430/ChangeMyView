@@ -158,7 +158,7 @@ export default class TopicDetail extends React.Component {
         const viewIndex = 1;
         const viewTotal = 3;
         const dummyContributor = "Batian Diao";
-        const dummyUser1 = "Minliao Li"
+        const dummyUser1 = "LeBron James"
         const dummyComments = [{
             author: "Degang Guo",
             content: "You are talking shit.",
@@ -167,10 +167,22 @@ export default class TopicDetail extends React.Component {
             author: "Jieshi Jiang",
             content: "Nay, don't talk shit. The fact is that you are stupid.",
             time: "23 hours ago"
+        }, {
+            author: "Yun Ma",
+            content: "You are a typical stupid ass. Your account should be permanently banned.",
+            time: "1 day ago"
+        }, {
+            author: "唐纳德·特朗普",
+            content: "Nice work bro. i REALLY LIKE YOUR POINT! Make America Great Again!",
+            time: "A year ago"
+        }, {
+            author: "川建国",
+            content: "I am happy that Rajon Rondo and Demarcus Cousins are coming to lakers.",
+            time: "A century ago"
         }]
         return (
             <div className="Detail_Oppo_Wrapper">
-                <div className="Detail_Oppo_Head row">
+                <div className="Detail_Oppo_Head row no-gutters">
                     <div className="col-md-8">
                         <h2>{dummyTitle}</h2>
                         <h3>ViewPoint {viewIndex}/{viewTotal}: {dummyPoint}</h3>
@@ -184,23 +196,42 @@ export default class TopicDetail extends React.Component {
                     
 
                 </div>
+                <div className="Detail_Oppo_Main">
+                    <div className="row no-gutters">
+                        <div className="col-sm-8 Detail_Oppo_Main_Arg">
+                            <div className="Detail_Oppo_Main_Arg_User">
+                                <i class="far fa-user"></i> <strong>{dummyUser1}</strong>
+                            </div>
 
-                <div className="Detail_Oppo_Main row">
-                    <div className="Detail_Oppo_Main_Arg col-md-7">
-                        <div className="Detail_Oppo_Main_Arg_User">
-                            <i class="far fa-user"></i> <strong>{dummyUser1}</strong>
+                            <div>
+                                {ReactHtmlParser(dummyParagraph)}
+                            </div>
                         </div>
 
-                        <div>
-                            {ReactHtmlParser(dummyParagraph)}
+                        <div className="col-sm-4">
+                            <div className="Detail_Oppo_Main_Comments">
+                            {
+                                dummyComments.map((comment, index) => {
+    
+                                    return (
+                                        <div className="Detail_Oppo_Main_Comment">
+                                            <div className="comment_Info">
+                                                <p><i class="far fa-user"></i> <strong>{comment.author}</strong>  <i>{comment.time}</i></p>
+                                            </div>
+                                            <p>{comment.content}</p>
+                                        </div>
+    
+                                    );
+    
+                                })
+                            }
+                            </div>
+
                         </div>
-                    </div>
 
-                    <div className="Detail_Oppo_Main_Comment col-md-5">
-                        PLEASE GIVE ME SOME SPACE!
                     </div>
-
                 </div>
+
             </div>
         );
     }
