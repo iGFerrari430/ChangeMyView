@@ -8,7 +8,7 @@ const User = require('./model_auth/user')
 
 router.post("/Register",async(req,res) => {
     const {userName, email, password1, password2} = req.body
-
+    console.log(req.body);
     if (password1 === password2){
         const user = new User({userName: userName, email: email, password: password1})
         User.findOne({userName: user.userName}).then((sameNameUsers) => {

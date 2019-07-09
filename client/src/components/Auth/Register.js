@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 class Register extends React.Component {
     constructor(props) {
         super(props)
+        console.log(props)
         this.state = {
             userName: '',
             email: '',
@@ -48,10 +49,16 @@ class Register extends React.Component {
         const body ={userName,email,password1,password2} ;
         console.log(body);
 
-        const res = await registerUser({userName,email,password1,password2},this.props.dispatch);
+        try{
+            const res = await registerUser({userName,email,password1,password2},this.props.dispatch);
+            console.log(res);
+        } catch(err) {
+            console.log(err);
+        }
+        
 
         
-        console.log(res);
+
 
     }
     render() {
@@ -125,4 +132,4 @@ const mapStateToProps = state => ({
     auth: state.auth
 });
 
-export default connect(mapStateToProps,{registerUser})(Register);
+export default connect(mapStateToProps)(Register);
