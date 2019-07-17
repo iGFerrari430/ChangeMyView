@@ -44,8 +44,8 @@ export default class TopicDetail extends React.Component {
         this.state = {
             dummy: null,
             topicObject: null,// this stores the object of topic. The format is as the above comment.
-
-            currentStage: this.stages.VIEW_OPPOSITE,
+            IsLoggedIn: "",
+            currentStage: this.stages.SUMMARY,
             info: {
                 userPick: null,
                 commentArray: null,
@@ -151,6 +151,8 @@ export default class TopicDetail extends React.Component {
     }
     // onClick={() => this.handleSort(column)}
     renderViewOpposite = () => {
+        const userStatus = this.state.IsLoggedIn;
+        const textPlaceholder = userStatus ? "Type your comment!" : "Please log in!";
         const dummyParagraph = '<h1><span style="font-family: Times New Roman;"><strong>wdsaj;a;fda;sfdadsl;kasf</strong></span></h1><p>WTFWTFWTFWTFDSJIOAFASDJOJIOADFOIJ;ASFJI;ASDFJASFDAJFDJADFS;ADFSK;LZ;ASDZDSFLKLKZDSF</p><p>AAAAAASFASDLKADFSJAKLJASDKLJASFJDLKLASJ;AD;AD;AKSF;ASD;ADASAJSLF;AJKDSAJ;ASJDFAKFDCKNASHJFJSCBVUDSHEWCUUBIAUS FIOCULIRALSIDFURHSCUHDSFACDGKJFAHCUHJDSFAHCFAJKCHSCAFLHCSDFADDSHFASCKSDHDSLCSHFDKSHFSDHHDSKHFSDKHDSKFHSDJHDSJKHFSJHDFKSHJFDHSKHDFJSKHSJDKJFSJFKWHF</p><ul><li>sjdkskldsd</li><li>sdfjklsdfsdflkj</li><li>sdfjkldsfjlsdljk</li><li>sadfjajsfksd</li></ul><ol><li>dfsjklsdflkjjlkdsf</li><li>sdfjkllkjdfsjlkfsd</li><li>sfdjjosdfojisdf</li><li>sdfjiofsdjiofsd</li></ol><p></p><p></p>'
         const dummyTitle = "Does Obesity equal to unhealthiness?";
         const dummyPoint = "Nope, not at all";
@@ -198,7 +200,7 @@ export default class TopicDetail extends React.Component {
                 </div>
                 <div className="Detail_Oppo_Main">
                     <div className="row no-gutters">
-                        <div className="col-sm-8 Detail_Oppo_Main_Arg">
+                        <div className="col-sm-7 Detail_Oppo_Main_Arg">
                             <div className="Detail_Oppo_Main_Arg_User">
                                 <i class="far fa-user"></i> <strong>{dummyUser1}</strong>
                             </div>
@@ -208,7 +210,7 @@ export default class TopicDetail extends React.Component {
                             </div>
                         </div>
 
-                        <div className="col-sm-4">
+                        <div className="col-sm-5">
                             <div className="Detail_Oppo_Main_Comments">
                             {
                                 dummyComments.map((comment, index) => {
@@ -231,15 +233,71 @@ export default class TopicDetail extends React.Component {
 
                     </div>
                 </div>
+                <div className="Detail_Oppo_Action">
+                    <div className="row">
+                        <div className="col-md-7 Detail_Oppo_Action_Attitude">
+                            <button className="btn btn-primary Detail_margin1" disabled={!userStatus}>Listen</button>
+                            <button className="btn btn-secondary" disabled={!userStatus}>Persuaded</button>
+                        </div>
+
+                        <div className="col-md-5">
+                            <textarea className="Detail_Oppo_commentArea" disabled={!userStatus} placeholder={textPlaceholder} />
+                            <button className="btn btn-success btn-block" disabled={!userStatus}>Submit your comment</button>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         );
     }
 
     renderSummary = () => {
+        const summary = [[1,2],[4,1],[6,1],[4,2]];
+        const title = "Does Obesity equal to unhealthiness?"
         return (
-            <div>
-                <h3>Render Summary</h3>
+            <div className="Detail_Summary">
+                <div className="Detail_Summary_Content">
+                    <div className="midAlign">
+                        <h1>Summary</h1>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-6 ">
+                            <h3>{title}</h3>
+                        </div>
+                        <div className="col-md-6 rightAlign">
+                            Hoteness: {10} Persuaded: {20}
+                        </div>
+                    </div>
+                    <div className="Detail_Summary_Content_gains">
+                    {
+                        summary.map((comment, index) => {
+                            return (
+                                <div>
+                                    You have listened to point {index+1} <strong>{comment[0]}</strong> times, and been persuaded <strong>{comment[1]}</strong> times
+                                </div>
+                            );
+                        })
+                    }
+                    <div>
+                        <br/>
+                        You earned <strong>100</strong> experience and <strong>30</strong> honors in total!
+                    </div>
+                    </div>
+                </div>
+                <div className="Detail_Summary_Action">
+                    <h2 className="midAlign">You Can:</h2>
+                    <div className="row Detail_Summary_Action_Button">
+                        <div className="col-md-4 midAlign">
+                            <button className="btn btn-lg btn-primary">Add Argument</button>
+                        </div>
+                        <div className="col-md-4 midAlign">
+                            <button className="btn btn-lg btn-primary">Persuaded</button>
+                        </div>
+                        <div className="col-md-4 midAlign"> 
+                            <button className="btn btn-lg btn-primary">well, nvm..</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         );
     }

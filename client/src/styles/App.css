@@ -20,6 +20,7 @@ body {
 .midAlign {
     text-align: center;
 }
+
 @media (min-width: 768px) {
     .container-small {
         width: 300px;
@@ -226,7 +227,31 @@ ol.Edit-ol {
     word-break: break-word;
     padding: 8px;
 }
-
+.Detail_Summary{
+    margin: 0;
+    padding: 0;
+}
+.Detail_Summary_Content{
+    background-color: lightgoldenrodyellow;
+    border-radius: 10px 10px 0 0;
+    font-size: 30px;
+    padding-left:10px;
+    padding-right: 10px;
+    margin-top: 10px;
+}
+.Detail_Summary_Content_gains {
+    border-top: 1px dashed black;
+    padding-top: 15px;
+    padding-bottom: 30px;
+}
+.Detail_Summary_Action_Button{
+    padding: 0;
+}
+.Detail_Summary_Action{
+    padding-bottom: 15px;
+    border-radius: 0 0 10px 10px;
+    background-color: lightcyan;
+}
 .Detail_Oppo_Wrapper {
     margin: 0px;
 }
@@ -239,6 +264,7 @@ ol.Edit-ol {
     background-color:#E2E2E2;
 
 }
+
 .Detail_Oppo_Main_Arg {
     overflow-y: scroll;
     word-break: break-word;
@@ -250,7 +276,7 @@ ol.Edit-ol {
 }
 .Detail_Oppo_Main {
     margin: 0px;
-    border-radius: 0 0 10px 10px;
+    border-radius: 0 0 0 0;
     background-color: #F6F6F6;
     padding: 8px;
     padding-right: 0;
@@ -258,6 +284,19 @@ ol.Edit-ol {
 
 }
 
+.Detail_Oppo_Action {
+    margin: 0px;
+    background-color: #F6F6F6;
+    padding: 8px;
+    border-radius: 0 0 10px 10px;
+}
+.Detail_Oppo_Action_Attitude{
+    text-align: center;
+}
+
+.Detail_margin1 {
+    margin-right: 3.5%;
+}
 
 .Detail_Oppo_Main_Comments {
     overflow-y: scroll;
@@ -266,16 +305,21 @@ ol.Edit-ol {
 
 ::-webkit-scrollbar {
     width: 5px;
-  }
+}
    
 ::-webkit-scrollbar-thumb {
     background: #666; 
-  }
+}
 
 
 
 ::-webkit-scrollbar-track {
     display: none;
+}
+
+.Detail_Oppo_commentArea {
+    width: 100%;
+    border: 1px solid black;
 }
 .Detail_Oppo_Main_Comment {
     margin-top: 5px;
