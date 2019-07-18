@@ -36,7 +36,12 @@ export default class App extends React.Component {
             <Provider store={store}>
                 <BrowserRouter>
                     <div className = "container.fluid">
-                        {this.state.user? <OutNav/> : <InNav/>}
+                    <Route
+                    path="/"
+                    component={
+                      localStorage.getItem("user") ? OutNav : InNav
+                    }
+                  />
                         <Switch>
                             <Route exact path="/register" component={Register} />
                             <Route exact path="/login" component={Login} />

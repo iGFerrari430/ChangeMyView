@@ -25,8 +25,9 @@ export const removeUser = () => {
 export const registerUser = async(body,dispatch) =>  {
     try{
         const res = await axios.post("/api/auth/Register",body);
-        dispatch(removeUser());
+        dispatch(setUser(res.data));
         console.log(res);
+        return res.data.userName;
     } catch (err) {
         return err;
     }

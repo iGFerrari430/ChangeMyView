@@ -50,8 +50,10 @@ class Register extends React.Component {
         console.log(body);
 
         try{
-            const res = await registerUser({userName,email,password1,password2},this.props.dispatch);
-            console.log(res);
+            const currUser = await registerUser({userName,email,password1,password2},this.props.dispatch);
+            console.log(currUser);
+            localStorage.setItem("user",currUser);
+            this.props.history.push('/');
         } catch(err) {
             console.log(err);
         }

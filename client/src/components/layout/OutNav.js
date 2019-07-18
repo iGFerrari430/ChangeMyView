@@ -1,17 +1,27 @@
 import React from 'react';
 // eslint-disable-next-line
 import { BrowserRouter, Route, Switch, Link, NavLink } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-export default class OutNav extends React.Component {
-    state = {
-        dummy: null
-    };
+class OutNav extends React.Component {
+    constructor(props) {
+        super(props)
+        console.log(props);
+        this.state = {
+            dummy: null
+        };
+    }
 
+
+    onLogOut = () => {
+        localStorage.removeItem("user");
+        this.props.history.push("/");
+    }
     render() {
         return (
             <nav className="navbar navbar-expand-sm row bg-light" style={{backgroundColor: ""}}>
                 <div className="col-sm-4">
-                    <NavLink to="/" className="navbar-brand"><i class="far fa-paper-plane"></i></NavLink>
+                    <NavLink to="/" className="navbar-brand"><i className="far fa-paper-plane"></i></NavLink>
                     <NavLink to="/" className="navbar-brand">ChangeMyView</NavLink>
                 </div>
                 
@@ -23,10 +33,10 @@ export default class OutNav extends React.Component {
 
                  <div className="col-sm-4 rightAlign ">
                     <span className="navbar-text Txt">
-                        Welcome, foo!
+                        Welcome, {localStorage.getItem("user")}!
                     </span>
                     <Link to="/signup"><button className="btn btn-outline-info">Dashboard</button></Link>
-                    <Link to="/login"><button className="btn btn-outline-info">Log Out</button></Link>
+                    <button className="btn btn-outline-info" onClick={this.onLogOut}>Log Out</button>
                  </div>
 
 
@@ -35,3 +45,10 @@ export default class OutNav extends React.Component {
         );
     }
 }
+
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(OutNav);

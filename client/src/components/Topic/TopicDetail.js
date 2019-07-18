@@ -45,7 +45,7 @@ export default class TopicDetail extends React.Component {
             dummy: null,
             topicObject: null,// this stores the object of topic. The format is as the above comment.
             IsLoggedIn: "",
-            currentStage: this.stages.SUMMARY,
+            currentStage: this.stages.PICK_POINT,
             info: {
                 userPick: null,
                 commentArray: null,
@@ -202,7 +202,7 @@ export default class TopicDetail extends React.Component {
                     <div className="row no-gutters">
                         <div className="col-sm-7 Detail_Oppo_Main_Arg">
                             <div className="Detail_Oppo_Main_Arg_User">
-                                <i class="far fa-user"></i> <strong>{dummyUser1}</strong>
+                                <i className="far fa-user"></i> <strong>{dummyUser1}</strong>
                             </div>
 
                             <div>
@@ -216,9 +216,9 @@ export default class TopicDetail extends React.Component {
                                 dummyComments.map((comment, index) => {
     
                                     return (
-                                        <div className="Detail_Oppo_Main_Comment">
+                                        <div key={index} className="Detail_Oppo_Main_Comment">
                                             <div className="comment_Info">
-                                                <p><i class="far fa-user"></i> <strong>{comment.author}</strong>  <i>{comment.time}</i></p>
+                                                <p><i className="far fa-user"></i> <strong>{comment.author}</strong>  <i>{comment.time}</i></p>
                                             </div>
                                             <p>{comment.content}</p>
                                         </div>
@@ -272,7 +272,7 @@ export default class TopicDetail extends React.Component {
                     {
                         summary.map((comment, index) => {
                             return (
-                                <div>
+                                <div key={index}>
                                     You have listened to point {index+1} <strong>{comment[0]}</strong> times, and been persuaded <strong>{comment[1]}</strong> times
                                 </div>
                             );
@@ -302,6 +302,20 @@ export default class TopicDetail extends React.Component {
         );
     }
 
+    handleChange = e => {
+        let newStage = this.state.currentStage;
+        if (e.target.value === "PickPoint"){
+            newStage = this.stages.PICK_POINT;
+        }else if (e.target.value === "ViewOpposite"){
+            newStage = this.stages.VIEW_OPPOSITE;
+        }else {
+            newStage = this.stages.SUMMARY;
+        }
+
+        this.setState(() => ({
+            currentStage: newStage
+        }))
+    }
     render() {
         let mainContent = null;
         const stage = this.state.currentStage;
@@ -316,6 +330,15 @@ export default class TopicDetail extends React.Component {
 
         return (
             <div className="container">
+            <div>
+                <label > <input type="radio" name='stage' value="PickPoint"
+                                onChange={this.handleChange}/>PickPoint Stage</label><br/>
+                <label > <input type="radio" name='stage' value="ViewOpposite"
+                                onChange={this.handleChange}/>View Opposite Stage</label><br/>
+                <label > <input type="radio" name='stage' value="Summary"
+                                onChange={this.handleChange}/>Summary Stage</label>
+            </div>
+
                 {mainContent}
             </div>
         
