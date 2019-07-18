@@ -15,6 +15,11 @@ app.use('/api/users', require('./routes/api/users'));
 app.use('/api/auth', require('./routes/api/auth'));
 app.use('/api/profile', require('./routes/api/profile'));
 app.use('/api/posts', require('./routes/api/posts'));
+app.use('/api/models/argument', require('./routes/api/models/argument'));
+app.use('/api/models/comment', require('./routes/api/models/comment'));
+app.use('/api/models/proposition', require('./routes/api/models/proposition'));
+app.use('/api/models/topic', require('./routes/api/models/topic'));
+app.use('/api/models/user', require('./routes/api/models/user'));
 
 // Serve static assets in production
 if (process.env.NODE_ENV === 'production') {
