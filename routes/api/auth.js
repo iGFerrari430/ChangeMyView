@@ -51,11 +51,7 @@ router.post("/Login",async (req,res) => {
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         res.status(200).send(user)
     }catch(e){
-<<<<<<< HEAD
         res.status(400).send("OMG you are so stupid. Either password wrong or username no exist. Stop using our service.");
-=======
-        res.status(400).send("Cannot login with the email adress and password. Don/'t worry, it/'s all Zhuxiaowen/'s fault")
->>>>>>> 36e163bda3d673203d3b31281afc64448f95ccca
     }
 })
 
