@@ -1,12 +1,14 @@
 import React from 'react'
 import axios from 'axios'
-
-export default class Register extends React.Component {
+import {loginUser,hashCode} from "../../actions/authActions";
+import { connect } from 'react-redux';
+class Login extends React.Component {
     constructor(props) {
         super(props)
         this.state = {
             email: '',
-            password: ''
+            password: '',
+            errorMsg: ''
         }
     }
 
@@ -23,10 +25,27 @@ export default class Register extends React.Component {
 
     onSubmit = async e => {
         e.preventDefault();
-        const {email,password} = this.state;
+        let {email,password} = this.state;
+        email = email.trim();
+        password = hashCode(password.trim()).toString();
         const body = {email,password};
-        const res = await axios.post("/api/auth/Login",body);
-        console.log(res);
+        const LoginMsg = await loginUser(body,this.props.dispatch);
+        try{
+            if (LoginMsg === "SUCCESS"){
+                this.setState(() => ({
+                    errorMsg: ''
+                }))
+                this.props.history.push('/');
+            }else{
+                console.log(LoginMsg);
+                this.setState(() => ({
+                    errorMsg: LoginMsg
+                }))
+            }
+        }catch(err){
+            console.log(err);
+        }
+
 
     }
     render() {
@@ -60,7 +79,11 @@ export default class Register extends React.Component {
                             placeholder="Password" 
                             required/>
                         </div>
-
+                        {
+                            this.state.errorMsg && <div className="alert alert-warning" role="alert">
+                                {this.state.errorMsg}
+                            </div>
+                        }
                         <button onSubmit={this.onSubmit} className="btn btn-primary">Log in</button>
                     </form>
                     </div>
@@ -71,3 +94,9 @@ export default class Register extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(Login);

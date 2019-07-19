@@ -34,7 +34,16 @@ export const registerUser = async(body,dispatch) =>  {
     }
     
 }
-
+export const loginUser = async(body,dispatch) => {
+    try{
+        let res = await axios.post("/api/auth/Login",body);
+        dispatch(setUser(res.data));
+        return "SUCCESS";
+        
+    }catch (err) {
+        return err.response.data;
+    }
+}
 export const logoutUser = async(dispatch) => {
     console.log("租子");
     try{
@@ -45,11 +54,3 @@ export const logoutUser = async(dispatch) => {
     }
 }
 
-export const loginUser = (body) => async dispatch => {
-    try{
-        let res = await axios.post("/api/auth/Login",body);
-        console.log(res);
-    }catch (err) {
-        return err;
-    }
-}

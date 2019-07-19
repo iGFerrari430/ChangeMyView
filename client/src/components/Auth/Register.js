@@ -129,7 +129,7 @@ class Register extends React.Component {
                             required/>
                         </div>
                         {
-                            this.state.errorMsg && <div class="alert alert-warning" role="alert">
+                            this.state.errorMsg && <div className="alert alert-warning" role="alert">
                                 {this.state.errorMsg}
                             </div>
                         }
