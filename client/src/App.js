@@ -14,8 +14,8 @@ import getStore from "./store/store";
 import {Provider} from "react-redux";
 import './styles/App.css'
 import { connect } from 'react-redux';
-
-const store = getStore();
+import {PersistGate} from 'redux-persist/integration/react'
+const {store,persistor} = getStore();
 export default class App extends React.Component {
     constructor(props){
         super(props)
@@ -26,11 +26,11 @@ export default class App extends React.Component {
             //
         }
 
-        
+        console.log("Inspect store: ",store.getState());
         store.subscribe(() => {
             console.log("娃子东西");
             this.setState(() => ({
-                isLoggedin: true
+                isLoggedin: store.getState().auth.isLoggedin
             }))
             console.log("get here!");
         });
@@ -52,18 +52,19 @@ export default class App extends React.Component {
     }
 
     render() {
-        console.log("check store user: "+store.getState().auth.isLoggedin);
+        //console.log("check store user: "+store.getState().auth.isLoggedin);
         return (
         <div>
             <Provider store={store}>
-                <BrowserRouter>
+                <PersistGate loading={null} persistor={persistor}>
+                    <BrowserRouter>
                     <div className = "container.fluid">
                     <Route
                     path="/"
                     component={
-                      store.getState().auth.isLoggedin ? OutNav : InNav
+                    store.getState().auth.isLoggedin ? OutNav : InNav
                     }
-                  />
+                    />
                         <Switch>
                             <Route exact path="/register" component={Register} />
                             <Route exact path="/login" component={Login} />
@@ -74,7 +75,9 @@ export default class App extends React.Component {
 
                         
                     </div>
-                </BrowserRouter>
+                    </BrowserRouter>
+                </PersistGate>
+            
             </Provider>
             
         </div>
