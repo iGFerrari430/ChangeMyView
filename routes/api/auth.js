@@ -29,14 +29,14 @@ router.post("/Register",async (req,res) => {
                     }
 
                 }catch(error){
-                    res.status(500).send(e)
+                    res.status(500).send("There is something wrong with your internet! Ask ZHUXIAOWEN to fix it~!")
                 }
             }else{
                 res.status(400).send("The username is already exist! Please try another one! Or ask ZHUXIAOWEN for a new name")
             }
 
         }catch(e){
-            res.status(500).send(e)
+            res.status(500).send("There is something wrong with your internet! Ask ZHUXIAOWEN to fix it~!")
         }
 
     }else{
@@ -51,7 +51,11 @@ router.post("/Login",async (req,res) => {
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         res.status(200).send(user)
     }catch(e){
+<<<<<<< HEAD
         res.status(400).send("OMG you are so stupid. Either password wrong or username no exist. Stop using our service.");
+=======
+        res.status(400).send("Cannot login with the email adress and password. Don/'t worry, it/'s all Zhuxiaowen/'s fault")
+>>>>>>> 36e163bda3d673203d3b31281afc64448f95ccca
     }
 })
 
