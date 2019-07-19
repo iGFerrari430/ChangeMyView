@@ -8,29 +8,51 @@ import Login from './components/Auth/Login'
 // eslint-disable-next-line
 import Landing from './components/layout/Landing'
 // eslint-disable-next-line
-import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
+import { Router,BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
 import EditTopic from './components/Topic/EditTopic';
 import getStore from "./store/store";
 import {Provider} from "react-redux";
 import './styles/App.css'
+import { connect } from 'react-redux';
 
 const store = getStore();
 export default class App extends React.Component {
-    /* Topic Format: 
-        {
-            title: string,
-            content: string,
-            hotness: number
+    constructor(props){
+        super(props)
+        this.state = {
+            dummy: false,
+            isLoggedin: false
+            //render={(props) => <EditTopic {...props} isAuthed={true} />
+            //
         }
-    */
-    state = {
-        dummy: null
 
-        //render={(props) => <EditTopic {...props} isAuthed={true} />
-        //
+        
+        store.subscribe(() => {
+            console.log("娃子东西");
+            this.setState(() => ({
+                isLoggedin: true
+            }))
+            console.log("get here!");
+        });
+        
+    }
+
+    componentDidMount() {
+        console.log("Did Mount!");
+        this.setState(() => ({
+            dummy: !this.state.dummy
+        }))
+    }
+
+    componentWillMount() {
+        console.log("Will Mount!");
+        this.setState(() => ({
+            dummy: false
+        }))
     }
 
     render() {
+        console.log("check store user: "+store.getState().auth.isLoggedin);
         return (
         <div>
             <Provider store={store}>
@@ -39,7 +61,7 @@ export default class App extends React.Component {
                     <Route
                     path="/"
                     component={
-                      localStorage.getItem("user") ? OutNav : InNav
+                      store.getState().auth.isLoggedin ? OutNav : InNav
                     }
                   />
                         <Switch>
@@ -61,3 +83,5 @@ export default class App extends React.Component {
         );
     }
 }
+
+

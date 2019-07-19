@@ -11,7 +11,8 @@ class Register extends React.Component {
             userName: '',
             email: '',
             password1: '',
-            password2: ''
+            password2: '',
+            errorMsg: ''
         }
     }
 
@@ -50,10 +51,19 @@ class Register extends React.Component {
         console.log(body);
 
         try{
-            const currUser = await registerUser({userName,email,password1,password2},this.props.dispatch);
-            console.log(currUser);
-            localStorage.setItem("user",currUser);
-            this.props.history.push('/');
+            const RegisterMsg = await registerUser({userName,email,password1,password2},this.props.dispatch);
+            if (RegisterMsg === "SUCCESS"){
+                localStorage.setItem("user",RegisterMsg);
+                this.setState(() => ({
+                    errorMsg: ''
+                }))
+                this.props.history.push('/');
+            }
+            else{
+                this.setState(() => ({
+                    errorMsg: RegisterMsg
+                }))
+            }
         } catch(err) {
             console.log(err);
         }
@@ -118,6 +128,11 @@ class Register extends React.Component {
                             placeholder="Password" 
                             required/>
                         </div>
+                        {
+                            this.state.errorMsg && <div class="alert alert-warning" role="alert">
+                                {this.state.errorMsg}
+                            </div>
+                        }
 
                         <button onSubmit={this.onSubmit} className="btn btn-success">Sign up</button>
                     </form>

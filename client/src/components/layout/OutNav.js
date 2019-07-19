@@ -2,6 +2,7 @@ import React from 'react';
 // eslint-disable-next-line
 import { BrowserRouter, Route, Switch, Link, NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
+import {registerUser,hashCode,logoutUser} from "../../actions/authActions"
 
 class OutNav extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class OutNav extends React.Component {
 
 
     onLogOut = () => {
-        localStorage.removeItem("user");
+        console.log("onLogOut");
+        logoutUser(this.props.dispatch);
         this.props.history.push("/");
     }
     render() {
@@ -33,7 +35,7 @@ class OutNav extends React.Component {
 
                  <div className="col-sm-4 rightAlign ">
                     <span className="navbar-text Txt">
-                        Welcome, {localStorage.getItem("user")}!
+                        Welcome, {this.props.auth.user.userName}!
                     </span>
                     <Link to="/signup"><button className="btn btn-outline-info">Dashboard</button></Link>
                     <button className="btn btn-outline-info" onClick={this.onLogOut}>Log Out</button>

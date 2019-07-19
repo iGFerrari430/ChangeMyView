@@ -27,15 +27,22 @@ export const registerUser = async(body,dispatch) =>  {
         const res = await axios.post("/api/auth/Register",body);
         dispatch(setUser(res.data));
         console.log(res);
-        return res.data.userName;
+        return "SUCCESS";
     } catch (err) {
-        return err;
+        console.log("ve: "+err.response.data);
+        return err.response.data;
     }
     
 }
 
-export const logoutUser = () => {
+export const logoutUser = async(dispatch) => {
     console.log("租子");
+    try{
+        dispatch(removeUser());
+        console.log("dispatched remove user");
+    } catch (err) {
+        return err;
+    }
 }
 
 export const loginUser = (body) => async dispatch => {
