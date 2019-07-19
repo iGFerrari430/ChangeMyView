@@ -51,7 +51,7 @@ router.post("/Login",async (req,res) => {
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         res.status(200).send(user)
     }catch(e){
-        res.status(400).send()
+        res.status(400).send(e)
     }
 })
 
