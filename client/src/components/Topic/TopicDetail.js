@@ -164,7 +164,7 @@ export default class TopicDetail extends React.Component {
         const dummyComments = [{
             author: "Degang Guo",
             content: "You are talking shit.",
-            time: "a minute ago"
+            time: "A minute ago"
         }, {
             author: "Jieshi Jiang",
             content: "Nay, don't talk shit. The fact is that you are stupid.",

@@ -54,7 +54,7 @@ export default class Landing extends React.Component {
                     <div className="col-sm-3">
                         <div className="CreatePost">
                             <p className="Hand">Share new ideas to the community!</p>
-                            <Link to={"/topic/"+this.state.user}>
+                            <Link to={"/topic"}>
                                 <button type="button" className="btn btn-info">Create Topic</button>
                             </Link>
                         </div>
