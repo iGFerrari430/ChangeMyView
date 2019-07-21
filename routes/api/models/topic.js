@@ -24,12 +24,12 @@ const topicSchema = new mongoose.Schema({
         required: true,
     },
 
-    title: {
+    richTextContent: {
         type: String,
-        required: true,
+        required: true
     },
 
-    content: {
+    plainTextContent: {
         type: String,
         required: true
     },

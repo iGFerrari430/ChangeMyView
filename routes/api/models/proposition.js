@@ -24,7 +24,8 @@ const propoSchema = new mongoose.Schema({
     },
 
     argument: {
-        type: []
+        type: [],
+        default: []
     }
 
 })
