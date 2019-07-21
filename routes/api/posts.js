@@ -4,11 +4,11 @@ const Topic = require("./models/topic")
 const Proposition = require("./models/proposition")
 // backend code starts here 
 
-router.post("/Post",async (req,res) => {
+router.get("/Get",async (req,res) => {
 
 })
 
-router.get("/Get", async (req, res) => {
+router.post("/Post", async (req, res) => {
     const {rich_tc, plain_tc, title, userName, postDate, proposition1, proposition2} = req.body
 
     const prop1 = new proposition({userName: userName, postDate: postDate, content: proposition1})
@@ -18,9 +18,9 @@ router.get("/Get", async (req, res) => {
         await prop1.save()
         await prop2.save()
         await topic.save()
-        // res.status(200).send("save")
+        res.status(200).send("save")
     }catch(e){
-        // res.status(400).send(e)
+        res.status(400).send(e)
     }
 })
 
