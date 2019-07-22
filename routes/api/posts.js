@@ -5,7 +5,12 @@ const Proposition = require("./models/proposition")
 // backend code starts here 
 
 router.get("/Get/allTopics",async (req,res) => {
+    const topics = await Topic.find({})
+    topics.sort(function(a, b){return a.postDate - b.postDate})
+    res.status(200).send(topics)
+
 })
+
 
 
 router.post("/Post/allTopics", async (req, res) => {
