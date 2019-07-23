@@ -1,12 +1,11 @@
 import React from 'react';
-import TopicPreview from '../Topic/TopicPreview'
-import EditTopic from '../Topic/EditTopic'
+import TopicPreview from '../Topic/TopicPreview';
+import EditTopic from '../Topic/EditTopic';
+import axios from "axios";
+import { connect } from 'react-redux';
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
-export default class Landing extends React.Component {
-    constructor(props) {
-        super(props);
-        
+/*
         let dummyTopic1 = {
             topicId: undefined,
             title: "My Name is Yinfei Wang",
@@ -28,12 +27,44 @@ export default class Landing extends React.Component {
         let dummyList = [];
         dummyList.push(dummyTopic1);
         dummyList.push(dummyTopic2)
+    */
+class Landing extends React.Component {
+
+    constructor(props) {
+        super(props);
         this.state = {
-            user: "vevevewawawa",
-            TopicList: dummyList
+            user: "vava",
+            TopicList: [],
+            isLoggedin: this.props.auth.isLoggedin
         }
+
+        console.log("Constructor landing props visit: ",this.props);
     }
 
+    componentDidMount() {
+        this.setState((prevState) => ({
+            isloggedin: !prevState.isLoggedin
+        }))
+
+        console.log("Landing props revisit:",this.props);
+    }
+
+    async componentWillMount() {
+        try{
+            console.log("Begin mounting...")
+            const res = await axios.get("/api/posts/Get/allTopics",null);
+            this.setState(() => ({
+                TopicList: res.data
+            }))
+
+            console.log("Mounted!");
+
+        }catch(err){
+            this.setState(() => ({
+                TopicList: []
+            }))
+        }
+    }
     render() {
         return (
             <div className="container">
@@ -55,7 +86,7 @@ export default class Landing extends React.Component {
                         <div className="CreatePost">
                             <p className="Hand">Share new ideas to the community!</p>
                             <Link to={"/topic"}>
-                                <button type="button" className="btn btn-info">Create Topic</button>
+                                <button type="button" className="btn btn-info" disabled={!this.props.auth.isLoggedin}>{this.props.auth.isLoggedin ? "Create Topic" : "Please Log In" }</button>
                             </Link>
                         </div>
                     </div>
@@ -65,3 +96,9 @@ export default class Landing extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    auth: state.auth
+  });
+  
+export default connect(mapStateToProps)(Landing);

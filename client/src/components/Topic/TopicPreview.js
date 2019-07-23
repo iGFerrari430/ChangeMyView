@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import moment from 'moment';
 export default class TopicPreview extends React.Component {
     // The format of props
 
@@ -25,7 +26,7 @@ export default class TopicPreview extends React.Component {
         console.log("Hello,World!")
     }
     render() {
-        const {title,content,hotness} = this.props.topic;
+        const {title,plainTextContent,Hotness,postDate,userName} = this.props.topic;
         return (
             <div>
             <div className="Preview">
@@ -33,7 +34,7 @@ export default class TopicPreview extends React.Component {
                     <div className="col-9">
                         <h3>{title}</h3>
                         <div className="topicContent">
-                            <p>{content}</p>
+                            <p>{plainTextContent}</p>
                         </div>
                         <Link to={"/viewTopic/"+this.state.topicId}>
                             <button type="button" className="btn btn-outline-info">View</button>
@@ -41,7 +42,10 @@ export default class TopicPreview extends React.Component {
                     </div>
 
                     <div className="Hotness col-3">
-                        <i className="fas fa-fire"></i>{hotness}
+                        <div style={{marginBottom: "2px"}}><i className="far fa-user"></i> <strong>{userName}</strong></div>
+                        <div style={{fontStyle: "italic",marginBottom: "10px"}}>{moment(postDate).fromNow()}</div>
+                        <div style={{marginBottom: "10px"}}>View: {Hotness}</div>
+
                     </div>
                 </div>
             </div>

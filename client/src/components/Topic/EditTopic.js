@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import moment from 'moment';
 // eslint-disable-next-line
 import htmlToDraft from 'html-to-draftjs';
+import axios from "axios";
 import '../../styles/draft.css';
 // eslint-disable-next-line
 import ReactHtmlParser from 'react-html-parser';
@@ -80,34 +81,44 @@ class TopicEditor extends Component {
       dummy: htmlText
     }))
 
-    const richTextContent = JSON.stringify(rawState);
-    const plainTextContent = this.state.editorState.getCurrentContent().getPlainText();
-    const Title = this.state.title;
-    const author = this.props.auth.user.userName;
-    const postTime = new Date();
+    const rich_tc = JSON.stringify(rawState);
+    const plain_tc = this.state.editorState.getCurrentContent().getPlainText();
+    const title = this.state.title;
+    const userName = this.props.auth.user.userName;
+    const postDate = new Date();
     const proposition1 = this.state.proposition1;
     const proposition2 = this.state.proposition2;
 
     const body = {
-      richTextContent,
-      plainTextContent,
-      Title,
-      author,
-      postTime,
+      rich_tc,
+      plain_tc,
+      title,
+      userName,
+      postDate,
       proposition1,
       proposition2
     }
 
-    console.log("Type of plain: ",typeof(plainTextContent));
-    console.log(plainTextContent);
-    console.log(postTime);
-    console.log(richTextContent);
-
+    //console.log("Type of plain: ",typeof(plainTextContent));
+    //console.log(plainTextContent);
+    //console.log(postTime);
+    //console.log(richTextContent);
+    //const res = await axios.post("/api/auth/Register",body);
+    try{
+      const res = await axios.post("/api/posts/Post/allTopics",body);
+      console.log(res.data);
+      this.props.history.push('/');
+      
+    }catch(err){
+      this.setState(() => ({
+        error: "There is some server error. Try again or check your internet"
+      }))
+    }
     /*
     moment(Date);
     const momentTime = moment(postTime);
     console.log(momentTime);*/
-    var day = moment(postTime);
+    //var day = moment(postTime);
     //console.log(ve);
 
     //console.log(JSON.parse(ve));
