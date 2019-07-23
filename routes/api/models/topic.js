@@ -15,8 +15,7 @@ const topicSchema = new mongoose.Schema({
 
     title: {
         type: String,
-        required: true,
-        lowercase: true
+        required: true
     },
 
     postDate: {
