@@ -6,7 +6,7 @@ const Proposition = require("./models/proposition")
 
 router.get("/Get/allTopics",async (req,res) => {
     const topics = await Topic.find({})
-    topics.sort(function(a, b){return a.postDate - b.postDate})
+    topics.sort(function(a, b){return b.postDate - a.postDate})
     res.status(200).send(topics)
 
 })
