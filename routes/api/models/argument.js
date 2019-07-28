@@ -23,13 +23,19 @@ const argumentSchema = new mongoose.Schema({
         required: true
     },
 
-    content: {
+    plainTextContent: {
+        type: String,
+        required: true
+    },
+
+    richTextContent: {
         type: String,
         required: true
     },
 
     comment: {
-        type: []
+        type: [],
+        default: []
     }
 
 })

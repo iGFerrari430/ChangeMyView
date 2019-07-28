@@ -41,7 +41,7 @@ const topicSchema = new mongoose.Schema({
 
     proposition: {
         type: [],
-        required: true,
+        default: []
     },
 
 })
