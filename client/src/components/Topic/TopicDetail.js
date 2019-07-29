@@ -38,7 +38,9 @@ export default class TopicDetail extends React.Component {
     constructor(props)
     {
         super(props)
-        console.log(props.match.params);
+        console.log(this.props.history.location);
+        const topic = this.props.history.location.query.topic;
+        console.log("topic is: ",topic);
         /*Connect backend to get the information of the post! */
 
         this.state = {

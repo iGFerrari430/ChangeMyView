@@ -53,10 +53,11 @@ class Landing extends React.Component {
         try{
             console.log("Begin mounting...")
             const res = await axios.get("/api/posts/Get/allTopics",null);
+            console.log("posts: ",res);
             this.setState(() => ({
                 TopicList: res.data
             }))
-
+            
             console.log("Mounted!");
 
         }catch(err){
