@@ -18,12 +18,7 @@ const propoSchema = new mongoose.Schema({
         required: true
     },
 
-    richTextContent: {
-        type: String,
-        required: true
-    },
-
-    plainTextContent: {
+    content: {
         type: String,
         required: true
     },

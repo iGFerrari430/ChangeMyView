@@ -83,15 +83,15 @@ router.post("/Post/argument", async (req, res) => {
 
 router.post("/Post/Everythingfortest", async (req, res) =>{
     const {topic_user, topic_title, topic_postDate, topic_richTextContent, topic_plainTextContent,
-        prop1_user, prop1_postDate, prop1_richTextContent, prop1_plainTextContent, 
+        prop1_user, prop1_postDate, prop1_content, 
         arg1_user, arg1_title, arg1_postDate, arg1_richTextContent, arg1_plainTextContent,
-        prop2_user, prop2_title, prop2_postDate, prop2_richTextContent, prop2_plainTextContent,
+        prop2_user, prop2_postDate, prop2_content, 
         arg2_user, arg2_title, arg2_postDate, arg2_richTextContent, arg2_plainTextContent
         } = req.body
     arg1 = new Argument({userName: arg1_user, postDate: arg1_postDate, title: arg1_title, richTextContent: arg1_richTextContent, plainTextContent:arg1_plainTextContent})
     arg2 = new Argument({userName: arg2_user, postDate: arg2_postDate, title: arg2_title, richTextContent: arg2_richTextContent, plainTextContent:arg2_plainTextContent})
-    prop1 = new Proposition({userName: prop1_user, postDate: prop1_postDate, richTextContent:prop1_richTextContent, plainTextContent: prop1_plainTextContent})
-    prop2 = new Proposition({userName: prop2_user, postDate: prop2_postDate, richTextContent:prop2_richTextContent, plainTextContent: prop2_plainTextContent})
+    prop1 = new Proposition({userName: prop1_user, postDate: prop1_postDate, content:prop1_content})
+    prop2 = new Proposition({userName: prop2_user, postDate: prop2_postDate, content:prop2_content})
     prop1.argument.push(arg1)
     prop2.argument.push(arg2)
 
