@@ -62,7 +62,7 @@ class Landing extends React.Component {
             return (
                 <div style={{marginLeft: "45%",  marginTop: "25%"}}>
                     <Loader
-                    type="Puff"
+                    type="ThreeDots"
                     color="#00BFFF"
                     height="100"	
                     width="100"
