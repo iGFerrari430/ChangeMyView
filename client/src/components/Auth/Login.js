@@ -37,7 +37,6 @@ class Login extends React.Component {
                 }))
                 this.props.history.push('/');
             }else{
-                console.log(LoginMsg);
                 this.setState(() => ({
                     errorMsg: LoginMsg
                 }))

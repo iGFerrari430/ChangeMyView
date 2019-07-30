@@ -2,6 +2,7 @@ import React from 'react';
 import TopicPreview from '../Topic/TopicPreview';
 import EditTopic from '../Topic/EditTopic';
 import axios from "axios";
+import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
@@ -35,30 +36,19 @@ class Landing extends React.Component {
         this.state = {
             user: "vava",
             TopicList: [],
+            stage: 0,
             isLoggedin: this.props.auth.isLoggedin
         }
 
-        console.log("Constructor landing props visit: ",this.props);
     }
 
-    componentDidMount() {
-        this.setState((prevState) => ({
-            isloggedin: !prevState.isLoggedin
-        }))
-
-        console.log("Landing props revisit:",this.props);
-    }
-
-    async componentWillMount() {
+    async componentDidMount() {
         try{
-            console.log("Begin mounting...")
             const res = await axios.get("/api/posts/Get/allTopics",null);
-            console.log("posts: ",res);
             this.setState(() => ({
-                TopicList: res.data
+                TopicList: res.data,
+                stage: 1
             }))
-            
-            console.log("Mounted!");
 
         }catch(err){
             this.setState(() => ({
@@ -66,35 +56,50 @@ class Landing extends React.Component {
             }))
         }
     }
-    render() {
-        return (
-            <div className="container">
-                <div className="row">
-                    <div className="col-sm-9">
-                    {
-                        this.state.TopicList.map((topic,index) => 
-                            (
-                                <TopicPreview 
-                                key={index}
-                                topic={topic}
-                                />
-                            )
-                        )
-                    }
-                    </div>
 
-                    <div className="col-sm-3">
-                        <div className="CreatePost">
-                            <p className="Hand">Share new ideas to the community!</p>
-                            <Link to={"/topic"}>
-                                <button type="button" className="btn btn-info" disabled={!this.props.auth.isLoggedin}>{this.props.auth.isLoggedin ? "Create Topic" : "Please Log In" }</button>
-                            </Link>
-                        </div>
-                    </div>
-  
+    render() {
+        if (this.state.stage === 0){
+            return (
+                <div style={{marginLeft: "45%",  marginTop: "25%"}}>
+                    <Loader
+                    type="Puff"
+                    color="#00BFFF"
+                    height="100"	
+                    width="100"
+                    />
                 </div>
-            </div>
-        );
+            );
+        }else{
+            return (
+                <div className="container">
+                    <div className="row">
+                        <div className="col-sm-9">
+                        {
+                            this.state.TopicList.map((topic,index) => 
+                                (
+                                    <TopicPreview 
+                                    key={index}
+                                    topic={topic}
+                                    />
+                                )
+                            )
+                        }
+                        </div>
+    
+                        <div className="col-sm-3">
+                            <div className="CreatePost">
+                                <p className="Hand">Share new ideas to the community!</p>
+                                <Link to={"/topic"}>
+                                    <button type="button" className="btn btn-info" disabled={!this.props.auth.isLoggedin}>{this.props.auth.isLoggedin ? "Create Topic" : "Please Log In" }</button>
+                                </Link>
+                            </div>
+                        </div>
+      
+                    </div>
+                </div>
+            );
+        }
+
     }
 }
 

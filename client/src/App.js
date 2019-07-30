@@ -26,33 +26,27 @@ export default class App extends React.Component {
             //
         }
 
-        console.log("Inspect store: ",store.getState());
         store.subscribe(() => {
-            console.log("娃子东西");
             this.setState(() => ({
                 isLoggedin: store.getState().auth.isLoggedin
             }))
-            console.log("get here!");
         });
         
     }
 
     componentDidMount() {
-        console.log("Did Mount!");
         this.setState(() => ({
             dummy: !this.state.dummy
         }))
     }
 
     componentWillMount() {
-        console.log("Will Mount!");
         this.setState(() => ({
             dummy: false
         }))
     }
 
     render() {
-        //console.log("check store user: "+store.getState().auth.isLoggedin);
         return (
         <div>
             <Provider store={store}>

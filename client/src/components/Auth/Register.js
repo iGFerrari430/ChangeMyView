@@ -6,7 +6,6 @@ import { connect } from 'react-redux';
 class Register extends React.Component {
     constructor(props) {
         super(props)
-        console.log(props)
         this.state = {
             userName: '',
             email: '',
@@ -39,8 +38,6 @@ class Register extends React.Component {
 
     onSubmit = async e => {
         e.preventDefault();
-        console.log("Hello, World!");  
-        console.log(this.state);
         let {userName,email,password1,password2} = this.state;
         userName = userName.trim();
         email = email.trim();
@@ -48,7 +45,6 @@ class Register extends React.Component {
         password2 = hashCode(password2.trim()).toString();   
 
         const body ={userName,email,password1,password2} ;
-        console.log(body);
 
         try{
             const RegisterMsg = await registerUser({userName,email,password1,password2},this.props.dispatch);

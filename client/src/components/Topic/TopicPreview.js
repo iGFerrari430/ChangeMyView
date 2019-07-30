@@ -37,10 +37,7 @@ export default class TopicPreview extends React.Component {
                             <p>{plainTextContent}</p>
                         </div>
                         <Link to={{
-                            pathname: "/viewTopic/dummy",
-                            query: {
-                                topic: this.props.topic
-                            }
+                            pathname: "/viewTopic/"+this.props.topic._id
                         }}
                         >
                             <button type="button" className="btn btn-outline-info">View</button>

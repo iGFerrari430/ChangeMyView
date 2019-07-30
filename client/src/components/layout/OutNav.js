@@ -7,7 +7,6 @@ import {registerUser,hashCode,logoutUser} from "../../actions/authActions"
 class OutNav extends React.Component {
     constructor(props) {
         super(props)
-        console.log(props);
         this.state = {
             dummy: null
         };
@@ -15,7 +14,6 @@ class OutNav extends React.Component {
 
 
     onLogOut = () => {
-        console.log("onLogOut");
         logoutUser(this.props.dispatch);
         this.props.history.push("/");
     }

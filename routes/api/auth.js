@@ -8,7 +8,6 @@ const User = require('./models/user')
 
 router.post("/Register",async (req,res) => {
     const {userName, email, password1, password2} = req.body
-    console.log(req.body);
     //check if password 1 and 2 matches
     if (password1 === password2){
         

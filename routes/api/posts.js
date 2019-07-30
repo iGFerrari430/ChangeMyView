@@ -13,9 +13,11 @@ router.get("/Get/allTopics",async (req,res) => {
 
 })
 
-router.get("/Get/specificTopic", async (req, res) =>{
-    const {title} = req.body
-    const topic = await Topic.findOne({title: title})
+router.get("/Get/specificTopic/:tId", async (req, res) =>{
+    //console.log("req body is: ",req.body);
+    const tId = req.params.tId;
+    console.log(tId);
+    const topic = await Topic.findOne({_id: mongoose.Types.ObjectId(tId)});
 
     if(topic){
         res.status(200).send(topic)

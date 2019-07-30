@@ -29,12 +29,10 @@ class TopicEditor extends Component {
       error: ''
     }
 
-    var x = document.getElementsByClassName("toolbar");
-    console.log(x);
-
     //get plain text: 
     //const myText = this.state.editorState.getCurrentContent().getPlainText();
   }
+
   onFinish = async(e) => {
     if(this.state.title.trim().length === 0){
       this.setState(() => ({
@@ -105,7 +103,7 @@ class TopicEditor extends Component {
     //console.log(richTextContent);
     //const res = await axios.post("/api/auth/Register",body);
     try{
-      const res = await axios.post("/api/posts/Post/allTopics",body);
+      const res = await axios.post("/api/posts/Post/Topic",body);
       console.log(res.data);
       this.props.history.push('/');
       

@@ -1,0 +1,24 @@
+###JULY 28TH Updates
+Purpose: Retrieving users' view histories and recover progress.
+
+1. POST Request: change the view history of a topic for a specific user. 
+If the history doesn't exist yet, *create* one (i.e. push the history object to user's history array in mongo)
+Parameter:
+body = {
+    topicId: ObjectId,
+    IsFinished: boolean,
+    PropIndex: int,
+    argIndex: int,
+    tempHonor: int,
+    tempExperience: int
+
+}
+
+2.GET Request: get the view hisotry of a topic for a specific user. 
+if the history does not exist, return null.
+parameter: body = {
+    TopicId: ObjectId,
+    userName: String
+}
+
+3.

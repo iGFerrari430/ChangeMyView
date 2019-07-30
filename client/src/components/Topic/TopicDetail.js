@@ -1,63 +1,55 @@
 import React from 'react';
+import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
 import ReactHtmlParser from 'react-html-parser';
-
+import axios from "axios";
+import TopicPreview from './TopicPreview';
+import Loader from 'react-loader-spinner';
+import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
 export default class TopicDetail extends React.Component {
-    /* Topic Format: 
-        {
-            title: string,
-            content: string,
-            hotness: number
-        }
-    */
-            /*
-
-        Information include: 
-        {
-            title: str,
-            content_rich: str,
-            argument: [{  //论点Object
-                arg_point: string, // 论点内容
-                arg_author: string, // 论点提供者
-                interpretations: [{ // 论证object
-                    Author: string // 论证作者
-                    interpretationContent: string, // 论证内容
-                    createDate: datetime,
-                    interpId: objectId
-                    comments: [{
-                        commentId: objectId,
-                        createDate: datetime,
-                        Author: string // 评论作者
-                        commentContent: 评论内容
-                    }]
-                }]
-
-            }]
-        }
-        */
 
     constructor(props)
     {
-        super(props)
-        console.log(this.props.history.location);
-        const topic = this.props.history.location.query.topic;
-        console.log("topic is: ",topic);
-        /*Connect backend to get the information of the post! */
+        super(props);
 
+        /*Connect backend to get the information of the post! */
         this.state = {
-            dummy: null,
             topicObject: null,// this stores the object of topic. The format is as the above comment.
             IsLoggedIn: "",
-            currentStage: this.stages.PICK_POINT,
+            currentStage: this.stages.LOADING,
             info: {
                 userPick: null,
                 commentArray: null,
 
             },
-
+            IsUserFinished: false,
+            propIndex: -1,
+            argIndex: -1,
+            userStand: null,
+            xpGained: 0,
+            honorGained: 0,
             // Following dedicated to PICK stage handles.
             pickButtonValue: "Hide Content" // alternative: "Show Content"
 
         }
+    }
+
+    async componentDidMount() {
+        try{
+            const body = {
+                tId: this.props.match.params.topicId
+            };
+
+            console.log("W T F");
+            const res = await axios.get("/api/posts/Get/specificTopic/"+this.props.match.params.topicId);
+            this.setState(() => ({
+                    topicObject: res.data,
+                    currentStage: this.stages.PICK_POINT
+            }))
+        }catch(err){
+            console.log(err.data);
+        }    
+        
     }
     renderDummyValue = () => {
         const dummyParagraph = '<h1><span style="font-family: Times New Roman;"><strong>wdsaj;a;fda;sfdadsl;kasf</strong></span></h1><p>WTFWTFWTFWTFDSJIOAFASDJOJIOADFOIJ;ASFJI;ASDFJASFDAJFDJADFS;ADFSK;LZ;ASDZDSFLKLKZDSF</p><p>AAAAAASFASDLKADFSJAKLJASDKLJASFJDLKLASJ;AD;AD;AKSF;ASD;ADASAJSLF;AJKDSAJ;ASJDFAKFDCKNASHJFJSCBVUDSHEWCUUBIAUS FIOCULIRALSIDFURHSCUHDSFACDGKJFAHCUHJDSFAHCFAJKCHSCAFLHCSDFADDSHFASCKSDHDSLCSHFDKSHFSDHHDSKHFSDKHDSKFHSDJHDSJKHFSJHDFKSHJFDHSKHDFJSKHSJDKJFSJFKWHF</p><ul><li>sjdkskldsd</li><li>sdfjklsdfsdflkj</li><li>sdfjkldsfjlsdljk</li><li>sadfjajsfksd</li></ul><ol><li>dfsjklsdflkjjlkdsf</li><li>sdfjkllkjdfsjlkfsd</li><li>sfdjjosdfojisdf</li><li>sdfjiofsdjiofsd</li></ol><p></p><p></p>'
@@ -70,13 +62,14 @@ export default class TopicDetail extends React.Component {
         )
     }
     stages = {
+        LOADING: "Loading",
         PICK_POINT: "pick_point",
         VIEW_OPPOSITE: "view_opposite",
-        SUMMARY: "summary"
+        SUMMARY: "summary",
+        LACK_CONTENT: "LACK_CONTENT"
     }
     
     onPickToggleClick = () => {
-        console.log("Kawhi Leonard");
         let newValue = '';
         if (this.state.pickButtonValue === "Hide Content"){
             newValue = "Show Content";
@@ -92,20 +85,34 @@ export default class TopicDetail extends React.Component {
     renderTopicBody = () => {
 
     }
-   
+    renderLoading = () => {
+        return (
+            <div style={{marginLeft: "45%",  marginTop: "25%"}}>
+                <Loader
+                type="Puff"
+                color="#00BFFF"
+                height="100"	
+                width="100"
+                />
+            </div>
+        );
+    }
     renderPickPoint = () => {
+        console.log("state is: ",this.state);
+        const topic = this.state.topicObject;
+
         const dummyPoints = ["dafeige","minliaoli","xiaowenzhu","dsjlsd","dssdsd","dsdssdfdsf"];
         return (
             <div>
             <div className="Detail_pick_wrapper AddMargin">
                 <div className="Detail_Pick_Topic">
-                    <h2>This is the place that title is supposed to show. Be ready that 
-                    title may actually Take up LOOOTs of space! 
+                    <h2>
+                        {topic.title}
                     </h2>
                     <div className="Detail_Pick_Topic_Info row">
                         <div className="col-md-8 cdx">
-                            {"Hoteness:  "+100+" "}
-                            <span>Contributor: Batian Diao</span>
+                            {"Hoteness:  "+topic.Hotness+" "}
+                            <span>Contributor: {topic.userName}</span>
                         </div>
 
                         <div className="col-md-4 rightAlign">
@@ -120,7 +127,7 @@ export default class TopicDetail extends React.Component {
                     (this.state.pickButtonValue === "Hide Content") && 
                     <div className="Detail_pick_topic_main_wrap">
                         <div className="Detail_pick_Topic_main">
-                            {this.renderDummyValue()}
+                            {ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))}
                         </div>
                     </div>
 
@@ -134,13 +141,13 @@ export default class TopicDetail extends React.Component {
             <div className="Detail_pick_wrap_me">
                 <div className="Detail_pick_midMargin">
                     {
-                        dummyPoints.map((point, index) =>
+                        topic.proposition.map((point, index) =>
                         // Only do this if items have no stable IDs
                         <button 
                         key={index} 
                         onClick={() => this.handlePointPick(index)} 
                         className="btn btn-secondary btn-lg AddMargin">
-                            {point}
+                            {topic.plainTextContent}
                         </button>
                         )
                     }
@@ -318,16 +325,18 @@ export default class TopicDetail extends React.Component {
             currentStage: newStage
         }))
     }
+
     render() {
         let mainContent = null;
         const stage = this.state.currentStage;
-        console.log(stage);
         if (stage === this.stages.PICK_POINT){
             mainContent = this.renderPickPoint();
         }else if (stage === this.stages.VIEW_OPPOSITE) {
             mainContent = this.renderViewOpposite();
         }else if (stage === this.stages.SUMMARY) {
             mainContent = this.renderSummary();
+        }else if (stage === this.stages.LOADING) {
+            mainContent = this.renderLoading();
         }
 
         return (
