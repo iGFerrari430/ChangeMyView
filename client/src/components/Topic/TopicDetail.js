@@ -5,8 +5,8 @@ import ReactHtmlParser from 'react-html-parser';
 import axios from "axios";
 import TopicPreview from './TopicPreview';
 import Loader from 'react-loader-spinner';
-import autoMergeLevel1 from 'redux-persist/es/stateReconciler/autoMergeLevel1';
-export default class TopicDetail extends React.Component {
+import { connect } from 'react-redux';
+class TopicDetail extends React.Component {
 
     constructor(props)
     {
@@ -15,7 +15,7 @@ export default class TopicDetail extends React.Component {
         /*Connect backend to get the information of the post! */
         this.state = {
             topicObject: null,// this stores the object of topic. The format is as the above comment.
-            IsLoggedIn: "",
+            IsLoggedIn: this.props.auth.isLoggedin,
             currentStage: this.stages.LOADING,
             info: {
                 userPick: null,
@@ -25,9 +25,10 @@ export default class TopicDetail extends React.Component {
             IsUserFinished: false,
             propIndex: -1,
             argIndex: -1,
-            userStand: null,
+            userStand: -1,
             xpGained: 0,
             honorGained: 0,
+            listenRecorder: null,
             // Following dedicated to PICK stage handles.
             pickButtonValue: "Hide Content" // alternative: "Show Content"
 
@@ -42,10 +43,18 @@ export default class TopicDetail extends React.Component {
 
             console.log("W T F");
             const res = await axios.get("/api/posts/Get/specificTopic/"+this.props.match.params.topicId);
+            const length = res.data.proposition.length;
+            let listenRecorder = [];
+            for (let i=0; i<length; i++){
+                listenRecorder.push([0,0]);
+            }
             this.setState(() => ({
-                    topicObject: res.data,
-                    currentStage: this.stages.PICK_POINT
+                listenRecorder,
+                topicObject: res.data,
+                currentStage: this.stages.PICK_POINT
             }))
+
+            console.log("post is: ",res.data);
         }catch(err){
             console.log(err.data);
         }    
@@ -66,9 +75,10 @@ export default class TopicDetail extends React.Component {
         PICK_POINT: "pick_point",
         VIEW_OPPOSITE: "view_opposite",
         SUMMARY: "summary",
-        LACK_CONTENT: "LACK_CONTENT"
+        LACK_CONTENT: "LACK_CONTENT",
+        VIEW_AGAIN: "VIEW_AGAIN"
     }
-    
+
     onPickToggleClick = () => {
         let newValue = '';
         if (this.state.pickButtonValue === "Hide Content"){
@@ -79,12 +89,110 @@ export default class TopicDetail extends React.Component {
 
         this.setState(() => ({ pickButtonValue: newValue }));
     }
-    handlePointPick = (index) => {
-        console.log(index);
+
+    onViewAction = (actionInd) => {
+        let xpGained = this.state.xpGained;
+        let honorGained = this.state.honorGained;
+        let record = this.state.listenRecorder;
+        let propInd = this.state.propIndex;
+        xpGained += 10;
+
+
+        if (actionInd === 2){
+            honorGained += 1;
+            record[propInd][1]++;
+        }else{
+            record[propInd][0]++;
+        }
+        
+        const PropArg = this.findNextItem();
+        if (PropArg){
+            this.setState(() => ({
+                propIndex: PropArg[0],
+                argIndex: PropArg[1],
+                xpGained,
+                honorGained,
+                listenRecorder: record
+            }))
+        }else{
+            this.setState(() => ({
+                xpGained,
+                honorGained,
+                currentStage: this.stages.SUMMARY,
+                listenRecorder: record
+            }))
+        }
     }
-    renderTopicBody = () => {
+
+    IsArgExist = () => {
+        const propList = this.state.topicObject.proposition;
+        for (let i=0; i<propList.length; i++){
+            if (i === this.state.userStand){
+                continue;
+            }
+            if (propList[i].argument.length !== 0){
+                return true;
+            }
+        }
+
+        return false;
+    }
+    findNextItem = () => {
+        console.log("User stand:",this.state.userStand);
+        let propList = this.state.topicObject.proposition;
+        let currProp = this.state.propIndex;
+        let currArg = this.state.argIndex+1;
+        let finished = false;
+        let found = false;
+        while(!finished){
+            if (currProp === -1){
+                currProp = 0;
+                currArg = 0;
+            }else if (currProp === this.state.userStand){
+                currProp++;
+                currArg = 0;
+            }else{
+                if(currProp >= propList.length){
+                    finished = true;
+                }else if (currArg >= propList[currProp].argument.length){
+                    currProp++;
+                    currArg = 0;
+                }else{
+                    finished = true;
+                    found = true;
+                }
+            }
+        }
+        if (found){
+            console.log("Next Res: ",[currProp,currArg]);
+            return [currProp,currArg];
+            
+        }else{
+            return null;
+        }
+    }
+    handlePointPick = async(index) => {
+        console.log("from handlePointPick: "+"Index: "+index);
+        const ind = index;
+        await this.setState(() => ({
+            userStand: ind
+        }))
+        console.log("From handlePointPick: ",this.state);
+        if (this.IsArgExist()){
+            const propArg = this.findNextItem();
+            this.setState(() => ({
+                currentStage: this.stages.VIEW_OPPOSITE,
+                propIndex: propArg[0],
+                argIndex: propArg[1]
+            }))
+        }else{
+            this.setState(() => ({
+                currentStage: this.stages.LACK_CONTENT
+            }))
+        }
 
     }
+
     renderLoading = () => {
         return (
             <div style={{marginLeft: "45%",  marginTop: "25%"}}>
@@ -94,6 +202,13 @@ export default class TopicDetail extends React.Component {
                 height="100"	
                 width="100"
                 />
+            </div>
+        );
+    }
+    renderLackContent = () => {
+        return (
+            <div>
+                <h1>LACK CONTENT! SHOULD DISPLAY SOME OPTIONS BASED ON THAT!</h1>
             </div>
         );
     }
@@ -127,7 +242,8 @@ export default class TopicDetail extends React.Component {
                     (this.state.pickButtonValue === "Hide Content") && 
                     <div className="Detail_pick_topic_main_wrap">
                         <div className="Detail_pick_Topic_main">
-                            {ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))}
+                            {/*ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))*/}
+                            {topic.richTextContent}
                         </div>
                     </div>
 
@@ -147,7 +263,7 @@ export default class TopicDetail extends React.Component {
                         key={index} 
                         onClick={() => this.handlePointPick(index)} 
                         className="btn btn-secondary btn-lg AddMargin">
-                            {topic.plainTextContent}
+                            {point.content}
                         </button>
                         )
                     }
@@ -166,8 +282,6 @@ export default class TopicDetail extends React.Component {
         const dummyTitle = "Does Obesity equal to unhealthiness?";
         const dummyPoint = "Nope, not at all";
         const dummyHotness = 105;
-        const viewIndex = 1;
-        const viewTotal = 3;
         const dummyContributor = "Batian Diao";
         const dummyUser1 = "LeBron James"
         const dummyComments = [{
@@ -191,18 +305,22 @@ export default class TopicDetail extends React.Component {
             content: "I am happy that Rajon Rondo and Demarcus Cousins are coming to lakers.",
             time: "A century ago"
         }]
+        // none dummy contents begin here 
+        const topic = this.state.topicObject;
+        const propInd = this.state.propIndex;
+        const argInd = this.state.argIndex;
         return (
             <div className="Detail_Oppo_Wrapper">
                 <div className="Detail_Oppo_Head row no-gutters">
                     <div className="col-md-8">
-                        <h2>{dummyTitle}</h2>
-                        <h3>ViewPoint {viewIndex}/{viewTotal}: {dummyPoint}</h3>
+                        <h2>{topic.title}</h2>
+                        <h3>Proposition {propInd+1}/{topic.proposition.length}: {topic.proposition[propInd].content}</h3>
                     </div>
 
                     <div className="col-md-4">
                         <br/>
-                        <div>Hoteness: {dummyHotness}</div>
-                        <div>Point Contributor: {dummyContributor}</div>
+                        <div>Topic Hoteness: {topic.Hotness}</div>
+                        <div>Point Contributor: {topic.proposition[propInd].userName}</div>
                     </div>
                     
 
@@ -211,18 +329,25 @@ export default class TopicDetail extends React.Component {
                     <div className="row no-gutters">
                         <div className="col-sm-7 Detail_Oppo_Main_Arg">
                             <div className="Detail_Oppo_Main_Arg_User">
-                                <i className="far fa-user"></i> <strong>{dummyUser1}</strong>
+                                <i className="far fa-user"></i> <strong>{topic.proposition[propInd].argument[argInd].userName}</strong>
                             </div>
 
                             <div>
-                                {ReactHtmlParser(dummyParagraph)}
+                                {/*ReactHtmlParser(dummyParagraph)*/}
+                                {topic.proposition[propInd].argument[argInd].richTextContent}
                             </div>
                         </div>
 
                         <div className="col-sm-5">
                             <div className="Detail_Oppo_Main_Comments">
                             {
-                                dummyComments.map((comment, index) => {
+                                (topic.proposition[propInd].argument[argInd].comment.length === 0) && 
+                                <div style={{textAlign: "center", marginLeft: "5px", marginRight: "5px",marginTop:"10px"}}>
+                                    {"no comment yet :("}
+                                </div>
+                            }
+                            {
+                                topic.proposition[propInd].argument[argInd].comment.map((comment, index) => {
     
                                     return (
                                         <div key={index} className="Detail_Oppo_Main_Comment">
@@ -232,7 +357,7 @@ export default class TopicDetail extends React.Component {
                                             <p>{comment.content}</p>
                                         </div>
     
-                                    );
+                                    ); 
     
                                 })
                             }
@@ -245,8 +370,8 @@ export default class TopicDetail extends React.Component {
                 <div className="Detail_Oppo_Action">
                     <div className="row">
                         <div className="col-md-7 Detail_Oppo_Action_Attitude">
-                            <button className="btn btn-primary Detail_margin1" disabled={!userStatus}>Listen</button>
-                            <button className="btn btn-secondary" disabled={!userStatus}>Persuaded</button>
+                            <button className="btn btn-primary Detail_margin1" disabled={!userStatus} onClick={() => this.onViewAction(1)}>Listen</button>
+                            <button className="btn btn-secondary" disabled={!userStatus} onClick={() => this.onViewAction(2)}>Persuaded</button>
                         </div>
 
                         <div className="col-md-5">
@@ -261,7 +386,7 @@ export default class TopicDetail extends React.Component {
     }
 
     renderSummary = () => {
-        const summary = [[1,2],[4,1],[6,1],[4,2]];
+        const summary = this.state.listenRecorder;
         const title = "Does Obesity equal to unhealthiness?"
         return (
             <div className="Detail_Summary">
@@ -281,15 +406,16 @@ export default class TopicDetail extends React.Component {
                     {
                         summary.map((comment, index) => {
                             return (
-                                <div key={index}>
-                                    You have listened to point {index+1} <strong>{comment[0]}</strong> times, and been persuaded <strong>{comment[1]}</strong> times
-                                </div>
+                                    (index !== this.state.userStand) && 
+                                    <div key={index}>
+                                        You have listened to point {index+1} <strong>{comment[0]}</strong> times, and been persuaded <strong>{comment[1]}</strong> times
+                                    </div>
                             );
                         })
                     }
                     <div>
                         <br/>
-                        You earned <strong>100</strong> experience and <strong>30</strong> honors in total!
+                        You earned <strong>{this.state.xpGained}</strong> experience and <strong>{this.state.honorGained}</strong> honors in total!
                     </div>
                     </div>
                 </div>
@@ -337,18 +463,25 @@ export default class TopicDetail extends React.Component {
             mainContent = this.renderSummary();
         }else if (stage === this.stages.LOADING) {
             mainContent = this.renderLoading();
+        }else if (stage === this.stages.LACK_CONTENT){
+            mainContent = this.renderLackContent();
         }
 
         return (
             <div className="container">
-            <div>
+            {
+                /*
+                <div>
                 <label > <input type="radio" name='stage' value="PickPoint"
                                 onChange={this.handleChange}/>PickPoint Stage</label><br/>
                 <label > <input type="radio" name='stage' value="ViewOpposite"
                                 onChange={this.handleChange}/>View Opposite Stage</label><br/>
                 <label > <input type="radio" name='stage' value="Summary"
                                 onChange={this.handleChange}/>Summary Stage</label>
-            </div>
+                </div>
+                */
+            }
+
 
                 {mainContent}
             </div>
@@ -357,3 +490,9 @@ export default class TopicDetail extends React.Component {
         );
     }
 }
+
+const mapStateToProps = state => ({
+    auth: state.auth
+});
+
+export default connect(mapStateToProps)(TopicDetail);

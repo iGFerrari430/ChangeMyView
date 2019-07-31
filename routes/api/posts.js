@@ -90,10 +90,14 @@ router.post("/Post/Everythingfortest", async (req, res) =>{
         } = req.body
     arg1 = new Argument({userName: arg1_user, postDate: arg1_postDate, title: arg1_title, richTextContent: arg1_richTextContent, plainTextContent:arg1_plainTextContent})
     arg2 = new Argument({userName: arg2_user, postDate: arg2_postDate, title: arg2_title, richTextContent: arg2_richTextContent, plainTextContent:arg2_plainTextContent})
+    arg3 = new Argument({userName: "dummy3", postDate: arg1_postDate, title: "arg3", richTextContent: "", plainTextContent:"arg3_pt"})
+    arg4 = new Argument({userName: "dummy4", postDate: arg2_postDate, title: "arg4", richTextContent: "", plainTextContent:"arg4_pt"}) 
     prop1 = new Proposition({userName: prop1_user, postDate: prop1_postDate, content:prop1_content})
     prop2 = new Proposition({userName: prop2_user, postDate: prop2_postDate, content:prop2_content})
     prop1.argument.push(arg1)
-    prop2.argument.push(arg2)
+    prop1.argument.push(arg2)
+    prop2.argument.push(arg3)
+    prop2.argument.push(arg4)
 
     topic = new Topic({userName: topic_user, title: topic_title, postDate: topic_postDate, richTextContent: topic_richTextContent, plainTextContent: topic_plainTextContent})
     topic.proposition.push(prop1)
