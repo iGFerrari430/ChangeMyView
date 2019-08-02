@@ -1,11 +1,13 @@
 import React from 'react';
 import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import {Link} from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import axios from "axios";
 import TopicPreview from './TopicPreview';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
+import Particles from 'reactparticles.js';
 class TopicDetail extends React.Component {
 
     constructor(props)
@@ -31,6 +33,8 @@ class TopicDetail extends React.Component {
             listenRecorder: null,
             // Following dedicated to PICK stage handles.
             pickButtonValue: "Hide Content" // alternative: "Show Content"
+
+            //The following is 
 
         }
     }
@@ -105,7 +109,7 @@ class TopicDetail extends React.Component {
             record[propInd][0]++;
         }
         
-        const PropArg = this.findNextItem();
+        const PropArg = this.findNextItem(); // find the next proposition/argument page to view
         if (PropArg){
             this.setState(() => ({
                 propIndex: PropArg[0],
@@ -206,9 +210,98 @@ class TopicDetail extends React.Component {
         );
     }
     renderLackContent = () => {
+
+        const titleStyle={
+            marginLeft: "0px",
+            marginRight: "0px",
+            marginTop: "5%",
+            paddingTop: "1%",
+            paddingLeft: "2%",
+            paddingRight: "2%",
+            paddingBottom: "2%",
+            backgroundColor: "#E2E2E2",
+            borderRadius: "10px 10px 0 0"
+
+        }
+
+        const titleTextStyle={
+            wordWrap: "break-word"
+        }
+
+        const bodyStyle={
+            marginTop: "0px",
+            paddingLeft: "2%",
+            paddingRight: "2%",
+            marginLeft: "0px",
+            marginRight: "0px",
+            paddingBottom: "2%",
+            textAlign: "center",
+            backgroundColor: "#F6F6F6",
+            borderRadius: "0 0 10px 10px"
+        }
+        const topic = this.state.topicObject;
+
+        const bodyTextStyle1 = {
+            fontSize: "150%",
+            marginBottom: "5%"
+        }
+
+        const bodyTextStyle2 = {
+            
+            marginTop: "10%",
+            marginBottom: "3%",
+            fontSize: "175%"
+        }
+
+        const button1Style = {
+            marginRight: "10px",
+            fontSize: "100%",
+            
+        }
+
+        const button2Style = {
+            marginLeft: "10px",
+            fontSize: "100%"
+        }
+        
+        let editLink = "/EditArgumentProp/"+topic._id+"/"+this.state.userStand;
         return (
-            <div>
-                <h1>LACK CONTENT! SHOULD DISPLAY SOME OPTIONS BASED ON THAT!</h1>
+            <div className="row">
+                <div className="col-md-2"></div>
+                <div className="col-md-8">
+                    <div className="row" style={titleStyle} >
+                        <div className="col-md-8" style={titleTextStyle}>
+                            <h2>{topic.title}</h2>
+                        </div>
+                        <div className="col-md-4">
+                            <br/>
+                            <div>Hotness: {topic.Hotness}</div>
+                            <div>Topic Contributor: {topic.userName}</div>
+                        </div>
+                    </div>
+                    <div style={bodyStyle}>
+                        <div style={bodyTextStyle1}>
+                            This topic lacks content at this time.
+                        </div>
+                        <div style={bodyTextStyle2}>
+                            You Can:
+                        </div>
+                        <Link to={editLink}>
+                            <button style={button1Style} className="btn btn-outline-info">
+                                Contribute to this topic
+                            </button>
+                        </Link>
+
+                        <Link to="/">
+                            <button className="btn btn-outline-info">
+                                View Other Topics
+                            </button>
+                         </Link>
+                    </div>
+
+                </div>
+                <div className="col-md-2"></div>
+                
             </div>
         );
     }
@@ -276,8 +369,6 @@ class TopicDetail extends React.Component {
     }
     // onClick={() => this.handleSort(column)}
     renderViewOpposite = () => {
-        const userStatus = this.state.IsLoggedIn;
-        const textPlaceholder = userStatus ? "Type your comment!" : "Please log in!";
         const dummyParagraph = '<h1><span style="font-family: Times New Roman;"><strong>wdsaj;a;fda;sfdadsl;kasf</strong></span></h1><p>WTFWTFWTFWTFDSJIOAFASDJOJIOADFOIJ;ASFJI;ASDFJASFDAJFDJADFS;ADFSK;LZ;ASDZDSFLKLKZDSF</p><p>AAAAAASFASDLKADFSJAKLJASDKLJASFJDLKLASJ;AD;AD;AKSF;ASD;ADASAJSLF;AJKDSAJ;ASJDFAKFDCKNASHJFJSCBVUDSHEWCUUBIAUS FIOCULIRALSIDFURHSCUHDSFACDGKJFAHCUHJDSFAHCFAJKCHSCAFLHCSDFADDSHFASCKSDHDSLCSHFDKSHFSDHHDSKHFSDKHDSKFHSDJHDSJKHFSJHDFKSHJFDHSKHDFJSKHSJDKJFSJFKWHF</p><ul><li>sjdkskldsd</li><li>sdfjklsdfsdflkj</li><li>sdfjkldsfjlsdljk</li><li>sadfjajsfksd</li></ul><ol><li>dfsjklsdflkjjlkdsf</li><li>sdfjkllkjdfsjlkfsd</li><li>sfdjjosdfojisdf</li><li>sdfjiofsdjiofsd</li></ol><p></p><p></p>'
         const dummyTitle = "Does Obesity equal to unhealthiness?";
         const dummyPoint = "Nope, not at all";
@@ -306,6 +397,8 @@ class TopicDetail extends React.Component {
             time: "A century ago"
         }]
         // none dummy contents begin here 
+        const userStatus = this.state.IsLoggedIn;
+        const textPlaceholder = userStatus ? "Type your comment!" : "Please log in!";
         const topic = this.state.topicObject;
         const propInd = this.state.propIndex;
         const argInd = this.state.argIndex;

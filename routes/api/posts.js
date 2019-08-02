@@ -16,7 +16,6 @@ router.get("/Get/allTopics",async (req,res) => {
 router.get("/Get/specificTopic/:tId", async (req, res) =>{
     //console.log("req body is: ",req.body);
     const tId = req.params.tId;
-    console.log(tId);
     const topic = await Topic.findOne({_id: mongoose.Types.ObjectId(tId)});
 
     if(topic){
@@ -27,9 +26,9 @@ router.get("/Get/specificTopic/:tId", async (req, res) =>{
 })
 
 router.post("/Post/proposition", async (req, res) => {
-    const {topic_title, content} = req.body
+    const {topicId, content} = req.body
     //get the topic object from the given topic title
-    const topic = await Topic.findOne({title: topic_title})
+    const topic = await Topic.findOne({_id: mongoose.Types.ObjectId(topicId)})
 
     //check if the topis exist
     if (topic){
@@ -51,11 +50,11 @@ router.post("/Post/proposition", async (req, res) => {
 })
 
 router.post("/Post/argument", async (req, res) => {
-    const {topic_title, proposition_id, argument_title, argument_plaintext, argument_richtext} = req.body
+    const {topicId, proposition_id, argument_title, argument_plaintext, argument_richtext} = req.body
     // console.log(typeof proposition_id)
     const proposition = await Proposition.findOne({_id: mongoose.Types.ObjectId(proposition_id)})
     if (proposition){
-        const topic = await Topic.findOne({title: topic_title})
+        const topic = await Topic.findOne({_id: mongoose.Types.ObjectId(topicId)})
         if (topic){
 
             const argument = new Argument({userName: proposition.userName, postDate: proposition.postDate, title: argument_title, plainTextContent: argument_plaintext, richTextContent: argument_richtext})

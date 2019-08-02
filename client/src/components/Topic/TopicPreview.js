@@ -2,17 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import moment from 'moment';
 export default class TopicPreview extends React.Component {
-    // The format of props
 
-    /* 
-
-            let dummyTopic = {
-            title: "My Name is Yinfei Wang",
-            content:" I am from University of Harbin buddism!",
-            hotness: 100
-        };
-
-    */
     constructor(props)
     {
         super(props)

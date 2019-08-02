@@ -7,6 +7,7 @@ import TopicDetail from './components/Topic/TopicDetail'
 import Login from './components/Auth/Login'
 // eslint-disable-next-line
 import Landing from './components/layout/Landing'
+import EditArgumentProp from './components/Topic/EditArgumentProp'
 // eslint-disable-next-line
 import { Router,BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
 import EditTopic from './components/Topic/EditTopic';
@@ -15,6 +16,7 @@ import {Provider} from "react-redux";
 import './styles/App.css'
 import { connect } from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react'
+import Particles from 'reactparticles.js';
 const {store,persistor} = getStore();
 export default class App extends React.Component {
     constructor(props){
@@ -48,7 +50,8 @@ export default class App extends React.Component {
 
     render() {
         return (
-        <div>
+        <div className="AppClass">
+            
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <BrowserRouter>
@@ -65,6 +68,7 @@ export default class App extends React.Component {
                             <Route exact path="/" component={Landing} />
                             <Route exact path="/topic" component={EditTopic} />
                             <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
+                            <Route exact path="/EditArgumentProp/:topicId/:userStand" component={EditArgumentProp} />
                         </Switch>
 
                         
