@@ -4,6 +4,9 @@ const router = express.Router();
 const Topic = require("./models/topic")
 const Proposition = require("./models/proposition")
 const Argument = require("./models/argument")
+const Comment = require("./models/comment")
+const User = require("./models/user")
+const History = require("./models/history")
 // backend code starts here 
 
 router.get("/Get/allTopics",async (req,res) => {
@@ -80,6 +83,95 @@ router.post("/Post/argument", async (req, res) => {
 
 })
 
+router.post("/Post/comment", async(req, res) =>{
+    const {post_id, post_date, topic_id, proposition_id, argument_id,comment_content} = req.body
+
+    const proposition = await Proposition.findOne({_id: mongoose.Types.ObjectId(proposition_id)})
+    const topic = await Topic.findOne({_id: mongoose.Types.ObjectId(topic_id)})
+    const argument = await Argument.findOne({_id: mongoose.Types.ObjectId(argument_id)})
+
+    if (proposition && topic && argument){
+        const comment = new Comment({userName: post_id, postDate: post_date, content: comment_content, numLike: 0})
+
+        topic.proposition.splice(topic.proposition.indexOf(proposition), 1)
+        proposition.argument.splice(proposition.argument.indexOf(argument), 1)
+        argument.comment.push(comment)
+        proposition.argument.push(argument)
+        topic.proposition.push(proposition)
+
+        try{
+            await comment.save()
+            await proposition.save()
+            await argument.save()
+            await topic.save()
+            res.status(200).send("save comment")
+        }catch(e){
+            res.status(400).send(e)
+        }
+    }else{
+        res.status(400).send("cannot find topic or proposition or comment id! zxwdsb")
+    }
+})
+
+router.post("/Post/userHistory", async(req, res) => {
+    const {user_id, topic_id, isFinished, propIndex, argIndex, tempHonor, tempExperience} = req.body
+    console.log(1)
+    
+    const user = await User.findOne({_id: mongoose.Types.ObjectId(user_id)})
+    if (user){
+        var history = undefined
+        if (user.history){
+            for (i=0; i<user.history.length; i++){
+                if (user.history[i].topic_id === topic_id){
+                    history = user.history[i]
+                }
+            }
+        }
+        // const check_history = await user.history.some(async(element) =>{
+        //     return element.topicId === topic_id
+        // })
+
+        if (history){
+            user.history.splice(user.history.indexOf(history), 1)
+        }
+
+        const new_history = new History({topic_id: topic_id, isFinished: isFinished, propIndex: propIndex, argIndex: argIndex, tempHonor: tempHonor, tempExperience: tempExperience})
+        console.log(new_history)
+        user.history.push(new_history)
+
+        try{
+            await new_history.save()
+            await user.save()
+            res.status(200).send("The user history have been changed")
+        }catch(e){
+            res.status(500).send(e)
+        }
+
+    }else{
+        res.status(400).send("The user_id does not exist! ZXWSB")
+    }
+})
+
+router.get("/Get/userHistory", async(req, res) =>{
+    const {topic_id, userName} = req.body
+
+    const user = await User.findOne({userName})
+    console.log(user)
+
+    if(user){
+        var history = undefined
+        for (i=0; i<user.history.length; i++){
+            if (user.history[i].topic_id === topic_id){
+                history = user.history[i]
+            }
+        }
+        res.status(200).send(history)
+
+    }else{
+        res.status(400).send("cannot find userid")
+    }
+})
+
 router.post("/Post/Everythingfortest", async (req, res) =>{
     const {topic_user, topic_title, topic_postDate, topic_richTextContent, topic_plainTextContent,
         prop1_user, prop1_postDate, prop1_content, 
@@ -89,14 +181,14 @@ router.post("/Post/Everythingfortest", async (req, res) =>{
         } = req.body
     arg1 = new Argument({userName: arg1_user, postDate: arg1_postDate, title: arg1_title, richTextContent: arg1_richTextContent, plainTextContent:arg1_plainTextContent})
     arg2 = new Argument({userName: arg2_user, postDate: arg2_postDate, title: arg2_title, richTextContent: arg2_richTextContent, plainTextContent:arg2_plainTextContent})
-    arg3 = new Argument({userName: "dummy3", postDate: arg1_postDate, title: "arg3", richTextContent: "", plainTextContent:"arg3_pt"})
-    arg4 = new Argument({userName: "dummy4", postDate: arg2_postDate, title: "arg4", richTextContent: "", plainTextContent:"arg4_pt"}) 
+    // arg3 = new Argument({userName: "dummy3", postDate: arg1_postDate, title: "arg3", richTextContent: "", plainTextContent:"arg3_pt"})
+    // arg4 = new Argument({userName: "dummy4", postDate: arg2_postDate, title: "arg4", richTextContent: "", plainTextContent:"arg4_pt"}) 
     prop1 = new Proposition({userName: prop1_user, postDate: prop1_postDate, content:prop1_content})
     prop2 = new Proposition({userName: prop2_user, postDate: prop2_postDate, content:prop2_content})
     prop1.argument.push(arg1)
-    prop1.argument.push(arg2)
-    prop2.argument.push(arg3)
-    prop2.argument.push(arg4)
+    prop2.argument.push(arg2)
+    // prop2.argument.push(arg3)
+    // prop2.argument.push(arg4)
 
     topic = new Topic({userName: topic_user, title: topic_title, postDate: topic_postDate, richTextContent: topic_richTextContent, plainTextContent: topic_plainTextContent})
     topic.proposition.push(prop1)

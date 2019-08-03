@@ -28,6 +28,14 @@ const userSchema = new mongoose.Schema({
     password:{
         type:String,
         required: true,
+    },
+    honor:{
+        type: Number,
+        default: 0
+    },
+    history:{
+        type: [],
+        default: []
     }
 })
 
