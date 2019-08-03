@@ -205,13 +205,15 @@ ol.Edit-ol {
 /* BEGIN of the styles of the topic detail page -- pick stage */
 
 .Detail_pick_wrapper {
-    background-color: white;
+    margin-top: 30px;
     border: 1px solid black;
     border-radius: 10px;
+    background-color: #F6F6F6;
 }
 
 .Detail_Pick_Topic {
-    margin: 5px;
+    padding-top: 15px;
+    padding-left: 10px;
 }
 .Detail_pick_topic_main_wrap {
     margin: 0px;
@@ -232,12 +234,14 @@ ol.Edit-ol {
     padding: 0;
 }
 .Detail_Summary_Content{
-    background-color: lightgoldenrodyellow;
+    background-color: #F6F6F6 ;
     border-radius: 10px 10px 0 0;
+    border: 1px solid black;
+    border-bottom: none;
     font-size: 30px;
     padding-left:10px;
     padding-right: 10px;
-    margin-top: 10px;
+    margin-top: 30px;
 }
 .Detail_Summary_Content_gains {
     border-top: 1px dashed black;
@@ -249,11 +253,14 @@ ol.Edit-ol {
 }
 .Detail_Summary_Action{
     padding-bottom: 15px;
+    border: 1px solid black;
     border-radius: 0 0 10px 10px;
-    background-color: lightcyan;
+    border-top: none;
+    background-color: #F6F6F6;
 }
 .Detail_Oppo_Wrapper {
     margin: 0px;
+    padding-left: 10px;
 }
 
 .Detail_Oppo_Head {
@@ -266,6 +273,7 @@ ol.Edit-ol {
 }
 
 .Detail_Oppo_Main_Arg {
+    padding-left: 10px;
     overflow-y: scroll;
     word-break: break-word;
     height: 400px;

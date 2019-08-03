@@ -308,11 +308,13 @@ class TopicDetail extends React.Component {
     renderPickPoint = () => {
         console.log("state is: ",this.state);
         const topic = this.state.topicObject;
-
+        const bodyStyle = {
+            fontSize: "20px"
+        }
         const dummyPoints = ["dafeige","minliaoli","xiaowenzhu","dsjlsd","dssdsd","dsdssdfdsf"];
         return (
             <div>
-            <div className="Detail_pick_wrapper AddMargin">
+            <div className="Detail_pick_wrapper">
                 <div className="Detail_Pick_Topic">
                     <h2>
                         {topic.title}
@@ -333,10 +335,10 @@ class TopicDetail extends React.Component {
 
                 {
                     (this.state.pickButtonValue === "Hide Content") && 
-                    <div className="Detail_pick_topic_main_wrap">
+                    <div className="Detail_pick_topic_main_wrap" style={bodyStyle}>
                         <div className="Detail_pick_Topic_main">
-                            {/*ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))*/}
-                            {topic.richTextContent}
+                            {ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))}
+                            {/*topic.richTextContent*/}
                         </div>
                     </div>
 
@@ -402,6 +404,13 @@ class TopicDetail extends React.Component {
         const topic = this.state.topicObject;
         const propInd = this.state.propIndex;
         const argInd = this.state.argIndex;
+        const wordBreaker = {
+            wordBreak: "break-word"
+        }
+        const argTitleStyle = {
+            fontSize: "20px",
+            fontWeight: "bold"
+        }
         return (
             <div className="Detail_Oppo_Wrapper">
                 <div className="Detail_Oppo_Head row no-gutters">
@@ -422,12 +431,16 @@ class TopicDetail extends React.Component {
                     <div className="row no-gutters">
                         <div className="col-sm-7 Detail_Oppo_Main_Arg">
                             <div className="Detail_Oppo_Main_Arg_User">
-                                <i className="far fa-user"></i> <strong>{topic.proposition[propInd].argument[argInd].userName}</strong>
+                                <div style={argTitleStyle}>{topic.proposition[propInd].argument[argInd].title}</div>
+                                <div>
+                                    <i className="far fa-user"></i> <strong>{topic.proposition[propInd].argument[argInd].userName}</strong>
+                                </div>
+                                <br/>
                             </div>
 
                             <div>
                                 {/*ReactHtmlParser(dummyParagraph)*/}
-                                {topic.proposition[propInd].argument[argInd].richTextContent}
+                                {ReactHtmlParser(draftToHtml(JSON.parse(topic.proposition[propInd].argument[argInd].richTextContent)))}
                             </div>
                         </div>
 
