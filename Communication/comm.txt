@@ -21,4 +21,8 @@ parameter: body = {
     userName: String
 }
 
-3.
+// 8.5 - 8.10 TODO list: 
+1. add a "Success&Back to Main Page" component;
+2. Integrate "History" functionality
+3. Add "Search" functionality
+4. Add "Profile" functionality

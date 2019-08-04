@@ -11,7 +11,8 @@ class Register extends React.Component {
             email: '',
             password1: '',
             password2: '',
-            errorMsg: ''
+            errorMsg: '',
+            isSubmitting: false
         }
     }
 
@@ -47,6 +48,9 @@ class Register extends React.Component {
         const body ={userName,email,password1,password2} ;
 
         try{
+            await this.setState(() => ({
+                isSubmitting: true
+            }))
             const RegisterMsg = await registerUser({userName,email,password1,password2},this.props.dispatch);
             if (RegisterMsg === "SUCCESS"){
                 localStorage.setItem("user",RegisterMsg);
@@ -57,7 +61,8 @@ class Register extends React.Component {
             }
             else{
                 this.setState(() => ({
-                    errorMsg: RegisterMsg
+                    errorMsg: RegisterMsg,
+                    isSubmitting: false
                 }))
             }
         } catch(err) {
@@ -130,7 +135,9 @@ class Register extends React.Component {
                             </div>
                         }
 
-                        <button onSubmit={this.onSubmit} className="btn btn-success">Sign up</button>
+                        <button onSubmit={this.onSubmit} className="btn btn-success" disabled={this.state.isSubmitting}>
+                            {this.state.isSubmitting ? "Signing you up..." : "Sign Up"}
+                        </button>
                     </form>
                     </div>
                 </div>

@@ -7,6 +7,7 @@ import axios from "axios";
 import TopicPreview from './TopicPreview';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import Particles from 'reactparticles.js';
 class TopicDetail extends React.Component {
 
@@ -32,7 +33,9 @@ class TopicDetail extends React.Component {
             honorGained: 0,
             listenRecorder: null,
             // Following dedicated to PICK stage handles.
-            pickButtonValue: "Hide Content" // alternative: "Show Content"
+            pickButtonValue: "Hide Content", // alternative: "Show Content"
+            commentContent: "",
+            isSubmittingComment: false
 
             //The following is 
 
@@ -220,6 +223,9 @@ class TopicDetail extends React.Component {
             paddingRight: "2%",
             paddingBottom: "2%",
             backgroundColor: "#E2E2E2",
+            borderTop: "1px solid black",
+            borderLeft: "1px solid black",
+            borderRight: "1px solid black",
             borderRadius: "10px 10px 0 0"
 
         }
@@ -237,9 +243,12 @@ class TopicDetail extends React.Component {
             paddingBottom: "2%",
             textAlign: "center",
             backgroundColor: "#F6F6F6",
+            borderBottom: "1px solid black",
+            borderLeft: "1px solid black",
+            borderRight: "1px solid black",
             borderRadius: "0 0 10px 10px"
         }
-        const topic = this.state.topicObject;
+        
 
         const bodyTextStyle1 = {
             fontSize: "150%",
@@ -264,6 +273,7 @@ class TopicDetail extends React.Component {
             fontSize: "100%"
         }
         
+        const topic = this.state.topicObject;
         let editLink = "/EditArgumentProp/"+topic._id+"/"+this.state.userStand;
         return (
             <div className="row">
@@ -311,41 +321,50 @@ class TopicDetail extends React.Component {
         const bodyStyle = {
             fontSize: "20px"
         }
-        const dummyPoints = ["dafeige","minliaoli","xiaowenzhu","dsjlsd","dssdsd","dsdssdfdsf"];
+        const showStyle = {
+            borderRadius: "10px 10px 0 0"
+        }
+
+        const hideStyle = {
+            borderRadius: "10px"
+        }
         return (
             <div>
-            <div className="Detail_pick_wrapper">
-                <div className="Detail_Pick_Topic">
-                    <h2>
-                        {topic.title}
-                    </h2>
-                    <div className="Detail_Pick_Topic_Info row">
-                        <div className="col-md-8 cdx">
-                            {"Hoteness:  "+topic.Hotness+" "}
-                            <span>Contributor: {topic.userName}</span>
-                        </div>
+            <div className="row">
+                <div className="col-md-1"></div>
+                <div className="Detail_pick_wrapper col-md-10">
+                    <div className="Detail_Pick_Topic" style={this.state.pickButtonValue==="Hide Content" ? showStyle : hideStyle}>
+                        <h2>
+                            {topic.title}
+                        </h2>
+                        <div className="Detail_Pick_Topic_Info row">
+                            <div className="col-md-8 cdx">
+                                {"Hoteness:  "+topic.Hotness+" "}
+                                <span>Contributor: {topic.userName}</span>
+                            </div>
 
-                        <div className="col-md-4 rightAlign">
-                            <button onClick={this.onPickToggleClick} className="btn btn-link">
-                                {this.state.pickButtonValue}
-                            </button>
+                            <div className="col-md-4 rightAlign">
+                                <button onClick={this.onPickToggleClick} className="btn btn-link">
+                                    {this.state.pickButtonValue}
+                                </button>
+                            </div>
                         </div>
                     </div>
+
+                    {
+                        (this.state.pickButtonValue === "Hide Content") && 
+                        <div className="Detail_pick_topic_main_wrap" style={bodyStyle}>
+                            <div className="Detail_pick_Topic_main">
+                                {ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))}
+                                {/*topic.richTextContent*/}
+                            </div>
+                        </div>
+
+                    }
+    
                 </div>
-
-                {
-                    (this.state.pickButtonValue === "Hide Content") && 
-                    <div className="Detail_pick_topic_main_wrap" style={bodyStyle}>
-                        <div className="Detail_pick_Topic_main">
-                            {ReactHtmlParser(draftToHtml(JSON.parse(topic.richTextContent)))}
-                            {/*topic.richTextContent*/}
-                        </div>
-                    </div>
-
-                }
- 
+                <div className="col-md-1"></div>
             </div>
-
             <div className="Detail_pick_Query midAlign">
                 <h2>What is your Point of View?</h2>
             </div>
@@ -371,33 +390,6 @@ class TopicDetail extends React.Component {
     }
     // onClick={() => this.handleSort(column)}
     renderViewOpposite = () => {
-        const dummyParagraph = '<h1><span style="font-family: Times New Roman;"><strong>wdsaj;a;fda;sfdadsl;kasf</strong></span></h1><p>WTFWTFWTFWTFDSJIOAFASDJOJIOADFOIJ;ASFJI;ASDFJASFDAJFDJADFS;ADFSK;LZ;ASDZDSFLKLKZDSF</p><p>AAAAAASFASDLKADFSJAKLJASDKLJASFJDLKLASJ;AD;AD;AKSF;ASD;ADASAJSLF;AJKDSAJ;ASJDFAKFDCKNASHJFJSCBVUDSHEWCUUBIAUS FIOCULIRALSIDFURHSCUHDSFACDGKJFAHCUHJDSFAHCFAJKCHSCAFLHCSDFADDSHFASCKSDHDSLCSHFDKSHFSDHHDSKHFSDKHDSKFHSDJHDSJKHFSJHDFKSHJFDHSKHDFJSKHSJDKJFSJFKWHF</p><ul><li>sjdkskldsd</li><li>sdfjklsdfsdflkj</li><li>sdfjkldsfjlsdljk</li><li>sadfjajsfksd</li></ul><ol><li>dfsjklsdflkjjlkdsf</li><li>sdfjkllkjdfsjlkfsd</li><li>sfdjjosdfojisdf</li><li>sdfjiofsdjiofsd</li></ol><p></p><p></p>'
-        const dummyTitle = "Does Obesity equal to unhealthiness?";
-        const dummyPoint = "Nope, not at all";
-        const dummyHotness = 105;
-        const dummyContributor = "Batian Diao";
-        const dummyUser1 = "LeBron James"
-        const dummyComments = [{
-            author: "Degang Guo",
-            content: "You are talking shit.",
-            time: "A minute ago"
-        }, {
-            author: "Jieshi Jiang",
-            content: "Nay, don't talk shit. The fact is that you are stupid.",
-            time: "23 hours ago"
-        }, {
-            author: "Yun Ma",
-            content: "You are a typical stupid ass. Your account should be permanently banned.",
-            time: "1 day ago"
-        }, {
-            author: "唐纳德·特朗普",
-            content: "Nice work bro. i REALLY LIKE YOUR POINT! Make America Great Again!",
-            time: "A year ago"
-        }, {
-            author: "川建国",
-            content: "I am happy that Rajon Rondo and Demarcus Cousins are coming to lakers.",
-            time: "A century ago"
-        }]
         // none dummy contents begin here 
         const userStatus = this.state.IsLoggedIn;
         const textPlaceholder = userStatus ? "Type your comment!" : "Please log in!";
@@ -458,7 +450,7 @@ class TopicDetail extends React.Component {
                                     return (
                                         <div key={index} className="Detail_Oppo_Main_Comment">
                                             <div className="comment_Info">
-                                                <p><i className="far fa-user"></i> <strong>{comment.author}</strong>  <i>{comment.time}</i></p>
+                                                <p><i className="far fa-user"></i> <strong>{comment.userName}</strong>  <i>{moment(comment.postDate).fromNow()}</i></p>
                                             </div>
                                             <p>{comment.content}</p>
                                         </div>
@@ -481,8 +473,8 @@ class TopicDetail extends React.Component {
                         </div>
 
                         <div className="col-md-5">
-                            <textarea className="Detail_Oppo_commentArea" disabled={!userStatus} placeholder={textPlaceholder} />
-                            <button className="btn btn-success btn-block" disabled={!userStatus}>Submit your comment</button>
+                            <textarea className="Detail_Oppo_commentArea" disabled={!userStatus} placeholder={textPlaceholder} onChange={this.onCommentChange} value={this.state.commentContent}/>
+                            <button className="btn btn-success btn-block" disabled={!userStatus || this.state.isSubmittingComment} onClick={this.onSubmitComment}>Submit your comment</button>
                         </div>
                     </div>
                 </div>
@@ -490,10 +482,67 @@ class TopicDetail extends React.Component {
             </div>
         );
     }
+    onCommentChange = (e) => {
+        const val = e.target.value;
+        this.setState(() => ({
+            commentContent: val
+        }))
+    }
+    onSubmitComment = async() => {
+        const propInd = this.state.propIndex;
+        const argInd = this.state.argIndex;
+        const topic = this.state.topicObject;
 
+        let post_id = this.props.auth.user.userName;
+        let post_date = new Date();
+        let topic_id = topic._id;
+        let proposition_id = topic.proposition[propInd]._id;
+        let argument_id = topic.proposition[propInd].argument[argInd]._id;
+        let content = this.state.commentContent;
+
+        const body = {
+            post_id,
+            post_date,
+            topic_id,
+            proposition_id,
+            argument_id,
+            comment_content: content
+        }
+        console.log("comment body: ",body);
+        console.log("Prop: ",this.props)
+        try{
+            await this.setState(() => ({
+                isSubmittingComment: true
+            }))
+
+            const res = await axios.post("/api/posts/Post/comment",body);
+            topic.proposition[propInd].argument[argInd].comment.push({
+                content,
+                userName: post_id,
+                postDate: post_date
+            })
+
+            await this.setState(() => ({
+                isSubmittingComment: false,
+                topicObject: topic,
+                commentContent: ""
+            }))
+        }catch(err){
+            console.log("Comment submit on error: ",err.response.data);
+            await this.setState(() => ({
+                isSubmittingComment: false,
+            }))
+        }
+
+    }
+    handleSummaryAction = async(index) => {
+
+    }
     renderSummary = () => {
         const summary = this.state.listenRecorder;
-        const title = "Does Obesity equal to unhealthiness?"
+        const title = "Does Obesity equal to unhealthiness?";
+        const topic = this.state.topicObject;
+        let editLink = "/EditArgumentProp/"+topic._id+"/"+this.state.userStand;
         return (
             <div className="Detail_Summary">
                 <div className="Detail_Summary_Content">
@@ -529,13 +578,20 @@ class TopicDetail extends React.Component {
                     <h2 className="midAlign">You Can:</h2>
                     <div className="row Detail_Summary_Action_Button">
                         <div className="col-md-4 midAlign">
-                            <button className="btn btn-lg btn-primary">Add Argument</button>
+                            <Link to={editLink}>
+                                <button className="btn btn-lg btn-primary">Contribute</button>
+                            </Link>
                         </div>
                         <div className="col-md-4 midAlign">
-                            <button className="btn btn-lg btn-primary">Persuaded</button>
+                            <Link to="/">
+                                <button className="btn btn-lg btn-primary">Persuaded</button>
+                            </Link>
+                            
                         </div>
                         <div className="col-md-4 midAlign"> 
-                            <button className="btn btn-lg btn-primary">well, nvm..</button>
+                            <Link to="/">
+                                <button className="btn btn-lg btn-primary">well, nvm..</button>
+                            </Link>
                         </div>
                     </div>
                 </div>

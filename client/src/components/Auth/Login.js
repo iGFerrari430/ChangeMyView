@@ -8,7 +8,8 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-            errorMsg: ''
+            errorMsg: '',
+            isSubmitting: false
         }
     }
 
@@ -29,8 +30,12 @@ class Login extends React.Component {
         email = email.trim();
         password = hashCode(password.trim()).toString();
         const body = {email,password};
-        const LoginMsg = await loginUser(body,this.props.dispatch);
+        
         try{
+            await this.setState(() => ({
+                isSubmitting: true
+            }))
+            const LoginMsg = await loginUser(body,this.props.dispatch);
             if (LoginMsg === "SUCCESS"){
                 this.setState(() => ({
                     errorMsg: ''
@@ -38,7 +43,8 @@ class Login extends React.Component {
                 this.props.history.push('/');
             }else{
                 this.setState(() => ({
-                    errorMsg: LoginMsg
+                    errorMsg: LoginMsg,
+                    isSubmitting: false
                 }))
             }
         }catch(err){
@@ -83,7 +89,9 @@ class Login extends React.Component {
                                 {this.state.errorMsg}
                             </div>
                         }
-                        <button onSubmit={this.onSubmit} className="btn btn-primary">Log in</button>
+                        <button onSubmit={this.onSubmit} className="btn btn-primary" disabled={this.state.isSubmitting}>
+                            {this.state.isSubmitting ? "Logging you in..." : "Log In"}
+                        </button>
                     </form>
                     </div>
                 </div>

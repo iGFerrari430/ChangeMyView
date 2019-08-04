@@ -77,6 +77,7 @@ export default class App extends React.Component {
                 </PersistGate>
             
             </Provider>
+            <br/>
             
         </div>
         

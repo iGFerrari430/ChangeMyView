@@ -26,7 +26,8 @@ class TopicEditor extends Component {
       proposition1: '',
       proposition2: '',
       submitState: 0,
-      error: ''
+      error: '',
+      isLoading: false
     }
 
     //get plain text: 
@@ -103,12 +104,16 @@ class TopicEditor extends Component {
     //console.log(richTextContent);
     //const res = await axios.post("/api/auth/Register",body);
     try{
+      await this.setState(() => ({
+        isLoading: true
+      }))
       const res = await axios.post("/api/posts/Post/Topic",body);
       console.log(res.data);
       this.props.history.push('/');
       
     }catch(err){
       this.setState(() => ({
+        isLoading: false,
         error: "There is some server error. Try again or check your internet"
       }))
     }
@@ -196,7 +201,9 @@ class TopicEditor extends Component {
               <div className="row no-gutters">
                 <div className="col-12 rightAlign">
                   <button onClick={this.onSaveDraft} className="btn btn-outline-secondary buttonMargin">Save Draft</button>
-                  <button onClick={this.onFinish} className="btn btn-outline-primary ">{(this.state.submitState === 0) ? "Submit for review" : "Confirm Submit"}</button>
+                  <button onClick={this.onFinish} className="btn btn-outline-primary" disabled={this.state.isLoading}>
+                    {(this.state.isLoading) ? "submitting topic..." : (this.state.submitState === 0) ? "Submit for review" : "Confirm Submit"}
+                  </button>
                 </div>
                 
               </div>
