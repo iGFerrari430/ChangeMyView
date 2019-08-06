@@ -61,10 +61,20 @@ router.post("/Post/argument", async (req, res) => {
         if (topic){
 
             const argument = new Argument({userName: proposition.userName, postDate: proposition.postDate, title: argument_title, plainTextContent: argument_plaintext, richTextContent: argument_richtext})
+            const props = topic.proposition
+            
+            var check = -1
 
-            topic.proposition.splice( topic.proposition.indexOf(proposition), 1 );
+            for(i=0; i<props.length; i++){
+                if (String(props[i]._id)===String(proposition._id)){
+                    check = i
+                }
+            }
+            topic.proposition.splice(check, 1)
             proposition.argument.push(argument)
-            topic.proposition.push(proposition)
+            topic.proposition.splice(check, 0, proposition)
+
+            // topic.proposition.splice( topic.proposition.indexOf(proposition), 1 );\
 
             try{
                 await proposition.save()
@@ -72,13 +82,13 @@ router.post("/Post/argument", async (req, res) => {
                 await topic.save()
                 res.status(200).send("save argument")
             }catch(e){
-                res.status(400).send(e)
+                res.status(500).send(e)
             }
         }else{
-            res.status(400).send("Cannot find proposition id! zxwsb")
+            res.status(400).send("Cannot find topic id! zxwsb")
         }
     }else{
-        res.status(400).send("cannot find topic title! zxwsb")
+        res.status(400).send("cannot find proposition title! zxwsb")
     }
 
 })
