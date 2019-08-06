@@ -7,11 +7,11 @@ const User = require('./models/user')
 // Backend code goes here
 
 router.post("/Register",async (req,res) => {
-    const {userName, email, password1, password2} = req.body
+    const {userName, email, password1, password2, registerDate} = req.body
     //check if password 1 and 2 matches
     if (password1 === password2){
         
-        const user = new User({userName: userName, email: email, password: password1})
+        const user = new User({userName: userName, email: email, password: password1, registerDate: registerDate})
         try{
             //check if the user has already been registered
             const sameNameUsers = await User.findOne({userName: user.userName})

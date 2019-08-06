@@ -36,6 +36,10 @@ const userSchema = new mongoose.Schema({
     history:{
         type: [],
         default: []
+    },
+    registerDate:{
+        type: Date,
+        required: true
     }
 })
 
