@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const historySchema = new mongoose.Schema({
     isFinished: {
-        type: Boolean
+        type: Date
     },
     propIndex: {
         type: Number
