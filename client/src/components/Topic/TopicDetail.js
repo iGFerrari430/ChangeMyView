@@ -67,15 +67,9 @@ class TopicDetail extends React.Component {
         }    
         
     }
-    renderDummyValue = () => {
-        const dummyParagraph = '<h1><span style="font-family: Times New Roman;"><strong>wdsaj;a;fda;sfdadsl;kasf</strong></span></h1><p>WTFWTFWTFWTFDSJIOAFASDJOJIOADFOIJ;ASFJI;ASDFJASFDAJFDJADFS;ADFSK;LZ;ASDZDSFLKLKZDSF</p><p>AAAAAASFASDLKADFSJAKLJASDKLJASFJDLKLASJ;AD;AD;AKSF;ASD;ADASAJSLF;AJKDSAJ;ASJDFAKFDCKNASHJFJSCBVUDSHEWCUUBIAUS FIOCULIRALSIDFURHSCUHDSFACDGKJFAHCUHJDSFAHCFAJKCHSCAFLHCSDFADDSHFASCKSDHDSLCSHFDKSHFSDHHDSKHFSDKHDSKFHSDJHDSJKHFSJHDFKSHJFDHSKHDFJSKHSJDKJFSJFKWHF</p><ul><li>sjdkskldsd</li><li>sdfjklsdfsdflkj</li><li>sdfjkldsfjlsdljk</li><li>sadfjajsfksd</li></ul><ol><li>dfsjklsdflkjjlkdsf</li><li>sdfjkllkjdfsjlkfsd</li><li>sfdjjosdfojisdf</li><li>sdfjiofsdjiofsd</li></ol><p></p><p></p>'
-        return (
-            
-            
-            <div>
-                {ReactHtmlParser(dummyParagraph)}
-            </div>
-        )
+
+    renderChoiceModal = () => {
+        
     }
     stages = {
         LOADING: "Loading",
@@ -631,21 +625,8 @@ class TopicDetail extends React.Component {
 
         return (
             <div className="container">
-            {
-                /*
-                <div>
-                <label > <input type="radio" name='stage' value="PickPoint"
-                                onChange={this.handleChange}/>PickPoint Stage</label><br/>
-                <label > <input type="radio" name='stage' value="ViewOpposite"
-                                onChange={this.handleChange}/>View Opposite Stage</label><br/>
-                <label > <input type="radio" name='stage' value="Summary"
-                                onChange={this.handleChange}/>Summary Stage</label>
-                </div>
-                */
-            }
 
-
-                {mainContent}
+                {mainContent && mainContent}
             </div>
         
 

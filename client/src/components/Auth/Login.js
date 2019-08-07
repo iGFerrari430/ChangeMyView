@@ -2,6 +2,9 @@ import React from 'react'
 import axios from 'axios'
 import {loginUser,hashCode} from "../../actions/authActions";
 import { connect } from 'react-redux';
+import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
+
 class Login extends React.Component {
     constructor(props) {
         super(props)
@@ -56,7 +59,7 @@ class Login extends React.Component {
     render() {
         return (
             <div className="container center_div">
-                <div className="row">
+                <div className="col-md-8 row">
                     <div className="col-0"></div>
                     <div className="col-12">
                     <h1 className="AuthTitle">Logging in</h1>
@@ -89,13 +92,13 @@ class Login extends React.Component {
                                 {this.state.errorMsg}
                             </div>
                         }
+
                         <button onSubmit={this.onSubmit} className="btn btn-primary" disabled={this.state.isSubmitting}>
                             {this.state.isSubmitting ? "Logging you in..." : "Log In"}
                         </button>
                     </form>
                     </div>
                 </div>
-
             </div>
 
         );

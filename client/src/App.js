@@ -17,15 +17,21 @@ import './styles/App.css'
 import { connect } from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react'
 import Particles from 'reactparticles.js';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
+
 const {store,persistor} = getStore();
+
 export default class App extends React.Component {
     constructor(props){
         super(props)
         this.state = {
             dummy: false,
-            isLoggedin: false
+            isLoggedin: false,
             //render={(props) => <EditTopic {...props} isAuthed={true} />
-            //
+            // from here: dummy values
+            showModal: true,
+
         }
 
         store.subscribe(() => {
@@ -48,10 +54,41 @@ export default class App extends React.Component {
         }))
     }
 
+    handleClose = () => {
+        this.setState(() => ({
+            showModal: false
+        }))
+    }
+    renderDummy = () => {
+        return (
+            <div>
+                <Modal
+                show={this.state.showModal}
+                centered
+                >
+                    <Modal.Header>
+                        <Modal.Title>Action Needed</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        We've detected you have view history of this post.<br/> 
+                        Would you like to reload from last times' progress?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={this.handleClose}>
+                            Retrieve
+                        </Button>
+                        <Button variant="primary" onClick={this.handleClose}>
+                            Start Over
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        );
+    }
     render() {
         return (
         <div className="AppClass">
-            
+            {this.renderDummy()}
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <BrowserRouter>

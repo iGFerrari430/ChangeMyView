@@ -32,10 +32,14 @@ class OutNav extends React.Component {
                  </form>
 
                  <div className="col-sm-4 rightAlign ">
+                 {
+                     /*
                     <span className="navbar-text Txt">
-                        Welcome, {this.props.auth.user.userName}!
-                    </span>
-                    <Link to="/signup"><button className="btn btn-outline-info">Dashboard</button></Link>
+                    Welcome, {this.props.auth.user.userName}!
+                    </span>*/
+                 }
+
+                    <Link to="/signup"><button className="btn btn-outline-info">{this.props.auth.user.userName}</button></Link>
                     <button className="btn btn-outline-info" onClick={this.onLogOut}>Log Out</button>
                  </div>
 

@@ -77,7 +77,7 @@ class Register extends React.Component {
     render() {
         return (
             <div className="container center_div">
-                <div className="row">
+                <div className="col-md-8 row">
                     <div className="col-0"></div>
                     <div className="col-12">
                     <h1 className="AuthTitle">Create your CMV Account</h1>
