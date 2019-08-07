@@ -162,8 +162,10 @@ router.post("/Post/userHistory", async(req, res) => {
     }
 })
 
-router.get("/Get/userHistory", async(req, res) =>{
-    const {topic_id, userName} = req.body
+router.get("/Get/userHistory/:topic_id/:userName", async(req, res) =>{
+
+    const topic_id = req.params.topic_id;
+    const userName = req.params.userName;
 
     const user = await User.findOne({userName})
     console.log(user)
