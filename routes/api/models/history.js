@@ -11,13 +11,19 @@ const historySchema = new mongoose.Schema({
         type: Number
     },
     tempHonor: {
-        type: Number
+        type: Number,
+        default: 0
     },
     tempExpreience: {
         type: Number
     },
     topic_id: {
         type: String
+    },
+    listenRecorder:{
+        type: [],
+        default: [],
+        required: true
     }
 })
 
