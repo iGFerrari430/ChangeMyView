@@ -235,6 +235,53 @@ router.post("/Post/Topic", async (req, res) => {
     }
 })
 
+router.get("/Get/getPageNum", async(req, res) => {
+    const topics = await Topic.find()
+    const size = topics.length
+    const result = Math.ceil(size/8)
+
+    res.status(200).send(Object(result))
+})
+
+router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
+    const pageNum = req.params.pageNum
+    const topicNum = (pageNum-1)*8
+    const topics = await Topic.find()
+    const size = await Topic.countDocuments()
+
+
+    var result = []
+    for(i = topicNum; i<size&&i<(topicNum+8); i++){
+        result.push(topics[i])
+    }
+    console.log(result)
+    res.status(200).send(result)
+
+})
+
+router.post("/Post/addHonorAndExp", async(req, res) => {
+    const {userName, experienceGained, honorGained} = req.body
+    const user = await User.findOne({userName})
+    console.log(user)
+    if(user){
+        user.honor += honorGained
+        user.experience += experienceGained
+
+        try{
+            user.save()
+            res.status(200).send("honor and experience added")
+        }catch(e){
+            res.status(500).send("connection problem!")
+        }
+        
+    }else{
+        res.status(400).send("Invalid username")
+    }
+})
+
+
+
+
 
 //backend code ends here 
 module.exports = router;

@@ -6,6 +6,7 @@ const topicSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
+        unique: true,
         validate(value){
             if (value.length<5){
                 throw new Error('Username\'s length should no shorter than 5')
