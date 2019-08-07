@@ -88,28 +88,25 @@ export default class App extends React.Component {
     render() {
         return (
         <div className="AppClass">
-            {this.renderDummy()}
             <Provider store={store}>
                 <PersistGate loading={null} persistor={persistor}>
                     <BrowserRouter>
-                    <div className = "container.fluid">
-                    <Route
-                    path="/"
-                    component={
-                    store.getState().auth.isLoggedin ? OutNav : InNav
-                    }
-                    />
-                        <Switch>
-                            <Route exact path="/register" component={Register} />
-                            <Route exact path="/login" component={Login} />
-                            <Route exact path="/" component={Landing} />
-                            <Route exact path="/topic" component={EditTopic} />
-                            <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
-                            <Route exact path="/EditArgumentProp/:topicId/:userStand" component={EditArgumentProp} />
-                        </Switch>
-
-                        
-                    </div>
+                        <div className = "container.fluid">
+                            <Route
+                            path="/"
+                            component={
+                            store.getState().auth.isLoggedin ? OutNav : InNav
+                            }
+                            />
+                            <Switch>
+                                <Route exact path="/register" component={Register} />
+                                <Route exact path="/login" component={Login} />
+                                <Route exact path="/" component={Landing} />
+                                <Route exact path="/topic" component={EditTopic} />
+                                <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
+                                <Route exact path="/EditArgumentProp/:topicId/:userStand" component={EditArgumentProp} />
+                            </Switch>        
+                        </div>
                     </BrowserRouter>
                 </PersistGate>
             

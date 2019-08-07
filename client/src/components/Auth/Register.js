@@ -45,13 +45,18 @@ class Register extends React.Component {
         password1 = hashCode(password1.trim()).toString();
         password2 = hashCode(password2.trim()).toString();   
 
-        const body ={userName,email,password1,password2} ;
+        const body ={userName,
+            email,
+            password1,
+            password2,
+            registerDate: new Date()
+        } ;
 
         try{
             await this.setState(() => ({
                 isSubmitting: true
             }))
-            const RegisterMsg = await registerUser({userName,email,password1,password2},this.props.dispatch);
+            const RegisterMsg = await registerUser(body,this.props.dispatch);
             if (RegisterMsg === "SUCCESS"){
                 localStorage.setItem("user",RegisterMsg);
                 this.setState(() => ({

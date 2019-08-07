@@ -9,6 +9,11 @@ import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import Particles from 'reactparticles.js';
+
+import Modal from 'react-bootstrap/Modal';
+import Spinner from 'react-bootstrap/Spinner';
+import Button from 'react-bootstrap/Button';
+
 class TopicDetail extends React.Component {
 
     constructor(props)
@@ -25,7 +30,8 @@ class TopicDetail extends React.Component {
                 commentArray: null,
 
             },
-            IsUserFinished: false,
+            IsUserFinished: null,
+            
             propIndex: -1,
             argIndex: -1,
             userStand: -1,
@@ -35,41 +41,16 @@ class TopicDetail extends React.Component {
             // Following dedicated to PICK stage handles.
             pickButtonValue: "Hide Content", // alternative: "Show Content"
             commentContent: "",
-            isSubmittingComment: false
+            isSubmittingComment: false,
+
+            userHistory: null,
+            showViewedModal: false,
+            showModal: false,
+            IsProcessingAction: false
 
             //The following is 
 
         }
-    }
-
-    async componentDidMount() {
-        try{
-            const body = {
-                tId: this.props.match.params.topicId
-            };
-
-            console.log("W T F");
-            const res = await axios.get("/api/posts/Get/specificTopic/"+this.props.match.params.topicId);
-            const length = res.data.proposition.length;
-            let listenRecorder = [];
-            for (let i=0; i<length; i++){
-                listenRecorder.push([0,0]);
-            }
-            this.setState(() => ({
-                listenRecorder,
-                topicObject: res.data,
-                currentStage: this.stages.PICK_POINT
-            }))
-
-            console.log("post is: ",res.data);
-        }catch(err){
-            console.log(err.data);
-        }    
-        
-    }
-
-    renderChoiceModal = () => {
-        
     }
     stages = {
         LOADING: "Loading",
@@ -77,9 +58,166 @@ class TopicDetail extends React.Component {
         VIEW_OPPOSITE: "view_opposite",
         SUMMARY: "summary",
         LACK_CONTENT: "LACK_CONTENT",
-        VIEW_AGAIN: "VIEW_AGAIN"
+        VIEW_AGAIN: "VIEW_AGAIN",
+        QUERY: "QUERY"
     }
 
+    async componentDidMount() {
+        try{
+            const body = {
+                tId: this.props.match.params.topicId
+            };
+            const res = await axios.get("/api/posts/Get/specificTopic/"+this.props.match.params.topicId);
+
+            let listenRecorder = [];
+            const length = res.data.proposition.length;
+            for (let i=0; i<length; i++){
+                listenRecorder.push([0,0]);
+            }
+
+            
+            
+            console.log("got the post");
+            const historyURL = "/api/posts/Get/userHistory/"+body.tId+"/"+this.props.auth.user.userName;
+            let userHistory = await axios.get(historyURL);
+            userHistory = userHistory.data;
+            console.log("got the history",userHistory);
+
+            await this.setState(() => ({
+                listenRecorder,
+                topicObject: res.data
+            }))
+
+            if (userHistory && !userHistory.isFinished){
+                const oldRecorder = userHistory.listenRecorder;
+                for (let i=0; i<oldRecorder.length; i++){
+                    listenRecorder[i][0] = oldRecorder[i][0];
+                    listenRecorder[i][1] = oldRecorder[i][1];
+                }
+                await this.setState(() => ({
+                    listenRecorder,
+                    IsUserFinished: userHistory.isFinished,
+                    propIndex: userHistory.propIndex,
+                    argIndex: userHistory.argIndex,
+                    honorGained: userHistory.tempHonor,
+                    xpGained: userHistory.tempExperience,
+                    currentStage: userHistory.isFinished ? this.stages.PICK_POINT : this.stages.QUERY,
+                    showViewedModal: userHistory.isFinished ? true : false,
+                    showModal: userHistory.isFinished ? false : true,
+                    userStand: userHistory.userStand
+                }))
+
+                const PropArg = this.findNextItem();
+                if (PropArg){
+                    await this.setState(() => ({
+                        propIndex: PropArg[0],
+                        argIndex: PropArg[1]
+                    }))
+                }
+
+            }else{
+                await this.setState(() => ({
+                    currentStage: this.stages.PICK_POINT,
+                    IsUserFinished: userHistory ? userHistory.isFinished : null,
+                    showViewedModal: userHistory.isFinished ? true : false
+                }))
+            }
+            
+
+
+
+            console.log("post is: ",res.data);
+        }catch(err){
+            console.log(err);
+        }    
+        
+    }
+    handleViewedModalClose = () => {
+        this.setState(() => ({
+            showViewedModal: false
+        }))
+    }
+    renderViewedModal = () => {
+        const showViewedModal = this.state.showViewedModal;
+        return (
+            <div>
+                <Modal 
+                show={showViewedModal}
+                onHide = {this.handleViewedModalClose}
+                centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Notice</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        You have finished viewing this topic in the past 
+                        7 Days. You will now be able to view it again, but
+                        you won't receive additional Experience or honor until 
+                        the 7 day cooldown time has elapsed.
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={this.handleViewedModalClose}>
+                            OK,I got it
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+        )
+        
+    }
+    renderChoiceModal = () => (
+            <div>
+                <Modal
+                show={this.state.showModal}
+                centered
+                >
+                    <Modal.Header>
+                        <Modal.Title>Action Needed</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        We've detected you have view history of this post.<br/> 
+                        Would you like to reload from last times' progress?
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="primary" onClick={() => this.onClickChoice(0)}>
+                            Resume From Last Time
+                        </Button>
+                        <Button variant="primary" onClick={() => this.onClickChoice(1)}>
+                            Start Over
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
+            </div>
+    )
+
+    onClickChoice = async(index) => {
+        if (index === 1){
+            let listenRecorder = [];
+            const length = this.state.topicObject.proposition.length;
+            for (let i=0; i<length; i++){
+                listenRecorder.push([0,0]);
+            }
+            await this.setState(() => ({
+                IsUserFinished: null,
+                argIndex: -1,
+                propIndex: -1,
+                honorGained: 0,
+                xpGained: 0,
+                userStand: -1,
+                listenRecorder,
+                currentStage: this.stages.PICK_POINT
+
+            }))
+        }else{
+            this.setState(() => ({
+                currentStage: this.stages.VIEW_OPPOSITE
+            }))
+        }
+
+        this.setState(() => ({
+            showModal: false
+        }))
+    }
     onPickToggleClick = () => {
         let newValue = '';
         if (this.state.pickButtonValue === "Hide Content"){
@@ -91,22 +229,46 @@ class TopicDetail extends React.Component {
         this.setState(() => ({ pickButtonValue: newValue }));
     }
 
-    onViewAction = (actionInd) => {
+    onViewAction = async(actionInd) => {
         let xpGained = this.state.xpGained;
         let honorGained = this.state.honorGained;
         let record = this.state.listenRecorder;
         let propInd = this.state.propIndex;
-        xpGained += 10;
+        let hasFinished = (this.state.IsUserFinished) ? true : false;
+
+        xpGained += (hasFinished ? 0 : 10);
 
 
         if (actionInd === 2){
-            honorGained += 1;
+            honorGained += hasFinished ? 0 : 1;
             record[propInd][1]++;
         }else{
             record[propInd][0]++;
         }
         
         const PropArg = this.findNextItem(); // find the next proposition/argument page to view
+        if (!hasFinished){
+            await this.setState(() => ({
+                IsProcessingAction: true
+            }))
+
+            const body = {
+                user_id: this.props.auth.user._id,
+                topic_id: this.state.topicObject._id,
+                isFinished: PropArg ? null : new Date(),
+                propIndex: this.state.propIndex,
+                argIndex: this.state.argIndex,
+                tempHonor: honorGained,
+                tempExperience: xpGained,
+                listenRecorder: record,
+                userStand: this.state.userStand
+            }
+
+            console.log(body);
+
+            const res = await axios.post("/api/posts/Post/userHistory",body);
+        }
+
         if (PropArg){
             this.setState(() => ({
                 propIndex: PropArg[0],
@@ -123,6 +285,10 @@ class TopicDetail extends React.Component {
                 listenRecorder: record
             }))
         }
+        
+        await this.setState(() => ({
+            IsProcessingAction: false
+        }))
     }
 
     IsArgExist = () => {
@@ -309,6 +475,7 @@ class TopicDetail extends React.Component {
             </div>
         );
     }
+
     renderPickPoint = () => {
         console.log("state is: ",this.state);
         const topic = this.state.topicObject;
@@ -425,7 +592,6 @@ class TopicDetail extends React.Component {
                             </div>
 
                             <div>
-                                {/*ReactHtmlParser(dummyParagraph)*/}
                                 {ReactHtmlParser(draftToHtml(JSON.parse(topic.proposition[propInd].argument[argInd].richTextContent)))}
                             </div>
                         </div>
@@ -462,8 +628,12 @@ class TopicDetail extends React.Component {
                 <div className="Detail_Oppo_Action">
                     <div className="row">
                         <div className="col-md-7 Detail_Oppo_Action_Attitude">
-                            <button className="btn btn-primary Detail_margin1" disabled={!userStatus} onClick={() => this.onViewAction(1)}>Listen</button>
-                            <button className="btn btn-secondary" disabled={!userStatus} onClick={() => this.onViewAction(2)}>Persuaded</button>
+                            <button className="btn btn-primary Detail_margin1" disabled={!userStatus || this.state.IsProcessingAction} onClick={() => this.onViewAction(1)}>
+                                Listen
+                            </button>
+                            <button className="btn btn-secondary" disabled={!userStatus || this.state.IsProcessingAction} onClick={() => this.onViewAction(2)}>
+                                Persuaded
+                            </button>
                         </div>
 
                         <div className="col-md-5">
@@ -530,7 +700,7 @@ class TopicDetail extends React.Component {
 
     }
     handleSummaryAction = async(index) => {
-
+        console.log("Handle Summary Action");
     }
     renderSummary = () => {
         const summary = this.state.listenRecorder;
@@ -544,11 +714,11 @@ class TopicDetail extends React.Component {
                         <h1>Summary</h1>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 ">
-                            <h3>{title}</h3>
+                        <div className="col-md-8 ">
+                            <h3>{topic.title}</h3>
                         </div>
-                        <div className="col-md-6 rightAlign">
-                            Hoteness: {10} Persuaded: {20}
+                        <div className="col-md-4 rightAlign">
+                            Hotness: {10}
                         </div>
                     </div>
                     <div className="Detail_Summary_Content_gains">
@@ -621,11 +791,14 @@ class TopicDetail extends React.Component {
             mainContent = this.renderLoading();
         }else if (stage === this.stages.LACK_CONTENT){
             mainContent = this.renderLackContent();
+        }else if (stage === this.stages.QUERY){
+            mainContent = this.renderChoiceModal();
         }
 
         return (
+            
             <div className="container">
-
+                {this.renderViewedModal()}
                 {mainContent && mainContent}
             </div>
         

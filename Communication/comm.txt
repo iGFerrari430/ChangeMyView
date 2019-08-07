@@ -26,3 +26,28 @@ parameter: body = {
 2. Integrate "History" functionality
 3. Add "Search" functionality
 4. Add "Profile" functionality
+
+// 8.6 
+
+GET Request: Given a user ID, Fetch the following: (格式参考/Get/specificTopic这个接口 没有body,parameter放在url里.)
+basicInfo: {honor,experience,注册时间(可能需要在Register接口添加一个registerDate类似的variable)}
+viewHistory: array of topicIDs 
+topicHistory: array of Topics that are submitted by this user.
+
+
+GET Request: Given a keyword, find all topics that is associated with this keyword
+(that is, the title OR the plainTextContent contains the keyword.)
+格式同样参考specificTopid那个接口。没有body,parameter放在url里.
+
+// 8.7 Handle next Page / previous Page buttons.
+GET Request: Given that there are 8 topics on a page maximum, return the number of pages.
+
+GET Request: Given the PageIndex(starting from 1), Return the topics that should appear on that page.
+GET格式仍然参考specificTopic那个接口。 没有body,parameter放在url里.
+
+POST Request: add honor and experience for a user. 
+body = {
+    userName: string,
+    experienceGained: number,
+    honorGained: number
+}

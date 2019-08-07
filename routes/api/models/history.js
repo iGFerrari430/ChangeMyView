@@ -7,6 +7,9 @@ const historySchema = new mongoose.Schema({
     propIndex: {
         type: Number
     },
+    userStand: {
+        type: Number
+    },
     argIndex: {
         type: Number
     },
@@ -14,7 +17,7 @@ const historySchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    tempExpreience: {
+    tempExperience: {
         type: Number
     },
     topic_id: {

@@ -124,7 +124,7 @@ router.post("/Post/comment", async(req, res) =>{
 })
 
 router.post("/Post/userHistory", async(req, res) => {
-    const {user_id, topic_id, isFinished, propIndex, argIndex, tempHonor, tempExperience, listenRecorder} = req.body
+    const {user_id, topic_id, isFinished, propIndex, argIndex, tempHonor, tempExperience, listenRecorder,userStand} = req.body
     console.log(1)
     
     const user = await User.findOne({_id: mongoose.Types.ObjectId(user_id)})
@@ -145,7 +145,7 @@ router.post("/Post/userHistory", async(req, res) => {
             user.history.splice(user.history.indexOf(history), 1)
         }
 
-        const new_history = new History({topic_id: topic_id, isFinished: isFinished, propIndex: propIndex, argIndex: argIndex, tempHonor: tempHonor, tempExperience: tempExperience, listenRecorder: listenRecorder})
+        const new_history = new History({topic_id: topic_id, isFinished: isFinished, propIndex: propIndex, argIndex: argIndex, tempHonor: tempHonor, tempExperience: tempExperience, listenRecorder: listenRecorder,userStand: userStand})
         console.log(new_history)
         user.history.push(new_history)
 
@@ -171,7 +171,7 @@ router.get("/Get/userHistory/:topic_id/:userName", async(req, res) =>{
     console.log(user)
 
     if(user){
-        var history = undefined
+        var history = null
         for (i=0; i<user.history.length; i++){
             if (user.history[i].topic_id === topic_id){
                 history = user.history[i]
