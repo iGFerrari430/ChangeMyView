@@ -4,31 +4,10 @@ import EditTopic from '../Topic/EditTopic';
 import axios from "axios";
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
+import moment from 'moment';
 // eslint-disable-next-line
 import { BrowserRouter,Route, Switch, Link, NavLink } from 'react-router-dom'; // Route, Switch, Link, NavLink
-/*
-        let dummyTopic1 = {
-            topicId: undefined,
-            title: "My Name is Yinfei Wang",
-            content:" I am from University of Harbin buddism!",
-            hotness: 100,
-            time: undefined,
-            author: undefined
-        };
 
-        let dummyTopic2 = {
-            topicId: undefined,
-            title: "I drew 3 more anime portraits of DOTA2 female heroes!",
-            content:"I would say okasa lhids is a complete trash.Please do not consider using however willing your own risks",
-            hotness: "100",
-            time: undefined,
-            auther: undefined
-        }
-
-        let dummyList = [];
-        dummyList.push(dummyTopic1);
-        dummyList.push(dummyTopic2)
-    */
 class Landing extends React.Component {
 
     constructor(props) {
@@ -40,6 +19,13 @@ class Landing extends React.Component {
             isLoggedin: this.props.auth.isLoggedin
         }
 
+        let end = moment(new Date());
+        let start = moment(new Date(2019, 7, 7, 21, 35, 35, 0));
+
+
+        let elapsed = end.diff(start, 'seconds')
+        
+        console.log(end.from(start, true))
     }
 
     async componentDidMount() {

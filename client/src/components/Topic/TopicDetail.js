@@ -46,6 +46,7 @@ class TopicDetail extends React.Component {
             userHistory: null,
             showViewedModal: false,
             showModal: false,
+            showAgainModal: false,
             IsProcessingAction: false
 
             //The following is 
@@ -88,12 +89,13 @@ class TopicDetail extends React.Component {
                 topicObject: res.data
             }))
 
-            if (userHistory && !userHistory.isFinished){
+            if (userHistory && !userHistory.isFinished && userHistory.userStand !== -1){
                 const oldRecorder = userHistory.listenRecorder;
                 for (let i=0; i<oldRecorder.length; i++){
                     listenRecorder[i][0] = oldRecorder[i][0];
                     listenRecorder[i][1] = oldRecorder[i][1];
                 }
+
                 await this.setState(() => ({
                     listenRecorder,
                     IsUserFinished: userHistory.isFinished,
@@ -101,7 +103,7 @@ class TopicDetail extends React.Component {
                     argIndex: userHistory.argIndex,
                     honorGained: userHistory.tempHonor,
                     xpGained: userHistory.tempExperience,
-                    currentStage: userHistory.isFinished ? this.stages.PICK_POINT : this.stages.QUERY,
+                    currentStage: this.stages.QUERY,
                     showViewedModal: userHistory.isFinished ? true : false,
                     showModal: userHistory.isFinished ? false : true,
                     userStand: userHistory.userStand
@@ -116,12 +118,38 @@ class TopicDetail extends React.Component {
                 }
 
             }else{
+                console.log("got here! else")
+                if (userHistory.isFinished){
+                    let end = moment(new Date());
+                    let start = moment(userHistory.isFinished);
+                    let elapsed = end.diff(start,'seconds');
+                    console.log(elapsed+" "+604800);
+                    if (elapsed > 604800){
+                        userHistory.isFinished = null;
+                        const body = {
+                            user_id: this.props.auth.user._id,
+                            topic_id: this.state.topicObject._id,
+                            isFinished: null,
+                            
+                            propIndex: -1,
+                            argIndex: -1,
+                            tempHonor: 0,
+                            tempExperience: 0,
+                            listenRecorder,
+                            userStand: -1
+                        }
+                        this.setState(() => ({
+                            showAgainModal: true
+                        }))
+                        const res = await axios.post("/api/posts/Post/userHistory",body);
+                    }
+                }
                 await this.setState(() => ({
                     currentStage: this.stages.PICK_POINT,
                     IsUserFinished: userHistory ? userHistory.isFinished : null,
                     showViewedModal: userHistory.isFinished ? true : false
                 }))
-            }
+            }      
             
 
 
@@ -137,8 +165,39 @@ class TopicDetail extends React.Component {
             showViewedModal: false
         }))
     }
+    handleAgainClose = () => {
+        this.setState(() => ({
+            showAgainModal: false
+        }))
+    }
+    renderAgainModal = () => (
+        <div>
+            <Modal 
+            show={this.state.showAgainModal}
+            onHide = {this.handleAgainClose}
+            centered
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>View Again Notice</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    It has been more than 7 days since you last participated in this topic. Therefore,
+                    You are able to view the topic and gain experience and honor again!
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" onClick={this.handleAgainClose}>
+                        Continue
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </div>
+    );
     renderViewedModal = () => {
         const showViewedModal = this.state.showViewedModal;
+        const end = moment(this.state.IsUserFinished).add(7,'days');
+        const start = moment(new Date());
+
+        const cooldownTime = end.from(start, true)
         return (
             <div>
                 <Modal 
@@ -153,7 +212,8 @@ class TopicDetail extends React.Component {
                         You have finished viewing this topic in the past 
                         7 Days. You will now be able to view it again, but
                         you won't receive additional Experience or honor until 
-                        the 7 day cooldown time has elapsed.
+                        the 7 day cooldown time has elapsed.<br/>
+                        Cooldown Time: <strong>{cooldownTime}</strong>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="primary" onClick={this.handleViewedModalClose}>
@@ -165,6 +225,7 @@ class TopicDetail extends React.Component {
         )
         
     }
+
     renderChoiceModal = () => (
             <div>
                 <Modal
@@ -799,6 +860,7 @@ class TopicDetail extends React.Component {
             
             <div className="container">
                 {this.renderViewedModal()}
+                {this.renderAgainModal()}
                 {mainContent && mainContent}
             </div>
         
