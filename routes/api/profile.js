@@ -19,16 +19,28 @@ router.get("/Get/keyword/:keyword", async (req, res) => {
 router.get("/Get/userProfileInfo/:userName", async (req,res)=>{
     const userName = req.params.userName
     const user = await User.findOne({userName})
+    if(user){
+        var result = {
+            basicInfo: {honor: user.honor, experience: user.experience, registerDate: user.registerDate}, 
+            viewHistory: [], 
+            propHistory: undefined,
+            topicHistory: undefined
+        }
+        console.log(user.history.length)
+        for(i = 0; i< user.history.length && i < 15; i++){
+            topic = await Topic.findOne({_id: mongoose.Types.ObjectId(user.history[i].topic_id)})
+            result.viewHistory.push(topic)
+        }
+        const propositions = await Proposition.find({userName: user.userName})
+        result.propHistory = propositions
 
-    var result = {
-        basicInfo: {honor: user.honor, experience: user.experience, registerDate: user.registerDate}, 
-        viewHistory: user.history, 
-        arguHistory: undefined
+        const topics = await Topic.find({userName: user.userName})
+        result.topicHistory = topics
+
+        res.status(200).send(result)
+    }else{
+        res.status(400).send("the userName does not exist!")
     }
-    const proposition = await Proposition.find({userName: user.userName})
-    result.arguHistory = proposition
-
-    res.status(200).send(result)
     
 })
 
