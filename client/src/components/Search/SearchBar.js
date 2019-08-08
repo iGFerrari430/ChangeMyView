@@ -21,7 +21,10 @@ class SearchBar extends React.Component {
     }
 
     onSearch = async() => {
-        const keyword = this.state.inputValue.trim();
+        let keyword = this.state.inputValue.trim();
+        if (!keyword){
+            return;
+        }
         const url = "/Search/"+keyword;
         await this.setState(() => ({
             inputValue: ""
@@ -55,9 +58,5 @@ class SearchBar extends React.Component {
         )
     }
 }
-
-const mapStateToProps = state => ({
-    auth: state.auth
-});
 
 export default withRouter(SearchBar);

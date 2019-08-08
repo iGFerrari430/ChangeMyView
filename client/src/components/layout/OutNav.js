@@ -48,7 +48,7 @@ class OutNav extends React.Component {
                 
 
                  <div className="col-sm-5 rightAlign ">
-                    <Link to="/signup"><button className="btn btn-outline-info">{this.props.auth.user.userName}</button></Link>
+                    <Link to={"/Profile/"+this.props.auth.user.userName}><button className="btn btn-outline-info">{this.props.auth.user.userName}</button></Link>
                     <button className="btn btn-outline-info" onClick={this.onLogOut}>Log Out</button>
                  </div>
 

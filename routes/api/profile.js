@@ -16,10 +16,9 @@ router.get("/Get/keyword/:keyword", async (req, res) => {
 
 })
 
-router.get("/Get/userProfileInfo/:userID", async (req,res)=>{
-    const user_id = req.params.userID
-    console.log(user_id)
-    const user = await User.findOne({_id: mongoose.Types.ObjectId(user_id)})
+router.get("/Get/userProfileInfo/:userName", async (req,res)=>{
+    const userName = req.params.userName
+    const user = await User.findOne({userName})
 
     var result = {
         basicInfo: {honor: user.honor, experience: user.experience, registerDate: user.registerDate}, 

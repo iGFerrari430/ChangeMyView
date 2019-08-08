@@ -35,7 +35,10 @@ export default class TopicPreview extends React.Component {
                     </div>
 
                     <div className="Hotness col-3">
-                        <div style={{marginBottom: "2px"}}><i className="far fa-user"></i> <strong>{userName}</strong></div>
+                        <Link to={"/Profile/"+userName} style={{color: "black"}}>
+                            <div style={{marginBottom: "2px"}}><i className="far fa-user"></i> <strong>{userName}</strong></div>
+                        </Link>
+                        
                         <div style={{fontStyle: "italic",marginBottom: "10px"}}>{moment(postDate).fromNow()}</div>
                         <div style={{marginBottom: "10px"}}>View: {Hotness}</div>
 

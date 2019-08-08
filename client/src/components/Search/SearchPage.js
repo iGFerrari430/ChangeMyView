@@ -6,6 +6,7 @@ import Loader from 'react-loader-spinner';
 import { withRouter } from 'react-router-dom'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import {Link} from 'react-router-dom';
 import Col from 'react-bootstrap/Col'
 import Alert from 'react-bootstrap/Alert'
 import axios from "axios";
@@ -74,7 +75,6 @@ class SearchPage extends React.Component {
         }
 
         const len = this.state.topics.length;
-
         const keyword = this.props.match.params.keyword;
         return (
             
