@@ -44,9 +44,9 @@ class TopicDetail extends React.Component {
             isSubmittingComment: false,
 
             userHistory: null,
-            showViewedModal: false,
-            showModal: false,
-            showAgainModal: false,
+            showViewedModal: false, // control the modal that tells the user he/she has viewed the modal in past 7 days
+            showModal: false, // control the modal that let the user pick whether to start over or continue from last time's record
+            showAgainModal: false, // control the modal that tells the user it has been 7 days since last time's record so he/she can gain from this topic again.
             IsProcessingAction: false
 
             //The following is 
@@ -62,33 +62,35 @@ class TopicDetail extends React.Component {
         VIEW_AGAIN: "VIEW_AGAIN",
         QUERY: "QUERY"
     }
-
+    /* this function loads the topic, and retrieve users'history 
+    to decide what to render. */
     async componentDidMount() {
+        
         try{
             const body = {
                 tId: this.props.match.params.topicId
             };
+            // get the topic object.
             const res = await axios.get("/api/posts/Get/specificTopic/"+this.props.match.params.topicId);
 
+            //initialize the listen/persuade counter (for each proposition)
             let listenRecorder = [];
             const length = res.data.proposition.length;
             for (let i=0; i<length; i++){
                 listenRecorder.push([0,0]);
             }
 
-            
-            
-            console.log("got the post");
+            // fetch user's view progress, if there is any
             const historyURL = "/api/posts/Get/userHistory/"+body.tId+"/"+this.props.auth.user.userName;
             let userHistory = await axios.get(historyURL);
             userHistory = userHistory.data;
-            console.log("got the history",userHistory);
 
             await this.setState(() => ({
                 listenRecorder,
                 topicObject: res.data
             }))
-
+            // when the user viewed the topic but haven't finished,
+            // recover the status from the time he left last time
             if (userHistory && !userHistory.isFinished && userHistory.userStand !== -1){
                 const oldRecorder = userHistory.listenRecorder;
                 for (let i=0; i<oldRecorder.length; i++){
@@ -108,7 +110,8 @@ class TopicDetail extends React.Component {
                     showModal: userHistory.isFinished ? false : true,
                     userStand: userHistory.userStand
                 }))
-
+                // since the history is sent to server everytime user click "persuade" or "listen"
+                // the next Item of the saved history is where the user actually was last time
                 const PropArg = this.findNextItem();
                 if (PropArg){
                     await this.setState(() => ({
@@ -117,8 +120,11 @@ class TopicDetail extends React.Component {
                     }))
                 }
 
-            }else{
-                console.log("got here! else")
+            }else{ // when the user does not have a history, or has finished viewing it last time
+                
+                // determine whether it had been more than 7 days since last times' record.
+                // if it is, the user will be able to gain xp/honor from this topic again. else the user can 
+                // go through this topic but cannot gain any xp/honor.
                 if (userHistory.isFinished){
                     let end = moment(new Date());
                     let start = moment(userHistory.isFinished);
@@ -141,13 +147,15 @@ class TopicDetail extends React.Component {
                         this.setState(() => ({
                             showAgainModal: true
                         }))
-                        const res = await axios.post("/api/posts/Post/userHistory",body);
+                        axios.post("/api/posts/Post/userHistory",body);
                     }
                 }
-                await this.setState(() => ({
+
+                
+                this.setState(() => ({
                     currentStage: this.stages.PICK_POINT,
                     IsUserFinished: userHistory ? userHistory.isFinished : null,
-                    showViewedModal: userHistory.isFinished ? true : false
+                    showViewedModal: userHistory.isFinished ? true : false //Show the appropriate popup/modal when applicable
                 }))
             }      
             
@@ -170,6 +178,8 @@ class TopicDetail extends React.Component {
             showAgainModal: false
         }))
     }
+
+    // tells the user it has been 7 days since last time's record so he/she can gain from this topic again.
     renderAgainModal = () => (
         <div>
             <Modal 
@@ -192,6 +202,8 @@ class TopicDetail extends React.Component {
             </Modal>
         </div>
     );
+
+    // tell the user viewed the topic in the pst 7 days so he/she cannot gain from this topic in this cooldown time.
     renderViewedModal = () => {
         const showViewedModal = this.state.showViewedModal;
         const end = moment(this.state.IsUserFinished).add(7,'days');
@@ -226,6 +238,7 @@ class TopicDetail extends React.Component {
         
     }
 
+    // when the user has unfinished record of this post, let him/her choose whether to continue or start over.
     renderChoiceModal = () => (
             <div>
                 <Modal
@@ -425,7 +438,7 @@ class TopicDetail extends React.Component {
         return (
             <div style={{marginLeft: "45%",  marginTop: "25%"}}>
                 <Loader
-                type="Ball-Triangle"
+                type="ThreeDots"
                 color="#00BFFF"
                 height="100"	
                 width="100"

@@ -1,4 +1,5 @@
 import React from 'react';
+import SearchPage from './components/Search/SearchPage'
 import InNav from './components/layout/InNav'
 import OutNav from './components/layout/OutNav'
 import Register from './components/Auth/Register'
@@ -28,8 +29,6 @@ export default class App extends React.Component {
         this.state = {
             dummy: false,
             isLoggedin: false,
-            //render={(props) => <EditTopic {...props} isAuthed={true} />
-            // from here: dummy values
             showModal: true,
 
         }
@@ -105,6 +104,7 @@ export default class App extends React.Component {
                                 <Route exact path="/topic" component={EditTopic} />
                                 <Route exact path="/viewTopic/:topicId" component={TopicDetail}/>
                                 <Route exact path="/EditArgumentProp/:topicId/:userStand" component={EditArgumentProp} />
+                                <Route exact path="/Search/:keyword" component={SearchPage} />
                             </Switch>        
                         </div>
                     </BrowserRouter>
