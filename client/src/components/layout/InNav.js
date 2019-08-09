@@ -24,7 +24,7 @@ export default class InNav extends React.Component {
 
                  <div className="col-sm-5 rightAlign ">
                     <Link to="/register"><button className="btn btn-outline-success">Sign up</button></Link>
-                    <Link to="/login"><button className="btn btn-outline-primary">Log in</button></Link>
+                    <Link to="/login"><button className="btn btn-outline-primary ml-2">Log in</button></Link>
                  </div>
 
 

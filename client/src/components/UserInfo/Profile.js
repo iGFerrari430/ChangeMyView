@@ -48,7 +48,7 @@ class SearchPage extends React.Component {
 
         const currUser = this.props.auth.user.userName;
         const thisUser = this.props.match.params.userName
-        const {arguHistory,basicInfo,viewHistory} = this.state.userProfile;
+        const {basicInfo,viewHistory,topicHistory} = this.state.userProfile;
         const joinTime = moment(basicInfo.registerDate).format("MMMM Do, YYYY")
         return (
             <div className="mt-3">
@@ -70,26 +70,53 @@ class SearchPage extends React.Component {
                                         Accumulated Honor: <strong>{basicInfo.honor}</strong>
                                     </li>
                                 </ul>
-                                <h3>View History</h3>
+
+                                {(currUser === thisUser) && 
+                                    <div>
+                                        <h3>Topics Participated</h3>
+                                        <Table bordered hover style={{backgroundColor: "white", "borderColor": "black"}}>
+                                            <thead style={{backgroundColor: "white"}}>
+                                                <tr>
+                                                    <th style={{textAlign: "center"}}>Topic Title</th>
+                                                    <th style={{textAlign: "center"}}>Status</th>
+                                                </tr>
+                                            </thead>
+                                            {
+                                                viewHistory.map((topic,index) => (
+                                                    <tbody key={index} style={{backgroundColor: "white"}}>
+                                                        <tr>
+                                                            <td style={{textAlign: "center"}}>
+                                                                <Link to={"/viewTopic/"+topic._id}>
+                                                                    {topic.title}
+                                                                </Link>
+                                                            </td>
+
+                                                            <td style={{textAlign: "center"}}>
+                                                                {topic.isFinished ? "Finished" : "In Progress"}
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                ))
+                                            }
+                                        </Table>
+                                    </div>
+                                }
+
+                                <h3>Topics Created</h3>
                                 <Table bordered hover style={{backgroundColor: "white", "borderColor": "black"}}>
                                     <thead style={{backgroundColor: "white"}}>
                                         <tr>
                                             <th style={{textAlign: "center"}}>Topic Title</th>
-                                            <th style={{textAlign: "center"}}>Status</th>
                                         </tr>
                                     </thead>
                                     {
-                                        viewHistory.map((topic,index) => (
-                                            <tbody style={{backgroundColor: "white"}}>
+                                        topicHistory.map((topic,index) => (
+                                            <tbody key={index} style={{backgroundColor: "white"}}>
                                                 <tr>
                                                     <td style={{textAlign: "center"}}>
-                                                        <Link to={"/viewTopic/"+topic.topic_id}>
-                                                            {topic.topic_id}
+                                                        <Link to={"/viewTopic/"+topic._id}>
+                                                            {topic.title}
                                                         </Link>
-                                                    </td>
-
-                                                    <td style={{textAlign: "center"}}>
-                                                        {topic.isFinished ? "Finished" : "In Progress"}
                                                     </td>
                                                 </tr>
                                             </tbody>

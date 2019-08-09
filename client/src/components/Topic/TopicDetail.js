@@ -352,12 +352,28 @@ class TopicDetail extends React.Component {
                 listenRecorder: record
             }))
         }else{
+            // Game over. so, Post xp,honor and hotness to database
+            // And then, wrap up and go to summary page.
+            const body = {
+                userName: this.props.auth.user.userName,
+                experienceGained: xpGained,
+                honorGained: honorGained
+            }
+            const body2 = {
+                topicId: this.state.topicObject._id,
+                adder: 1
+            }
+            axios.post("/api/posts/Post/addHonorAndExp",body);
+            axios.post("/api/posts/Post/addHotness",body2);
+
             this.setState(() => ({
                 xpGained,
                 honorGained,
                 currentStage: this.stages.SUMMARY,
                 listenRecorder: record
             }))
+
+            
         }
         
         await this.setState(() => ({
@@ -574,8 +590,8 @@ class TopicDetail extends React.Component {
                         </h2>
                         <div className="Detail_Pick_Topic_Info row">
                             <div className="col-md-8 cdx">
-                                {"Hoteness:  "+topic.Hotness+" "}
-                                <span>Contributor: {topic.userName}</span>
+                                {"Hotness:  "+" "}<strong>{topic.Hotness}</strong>
+                                <span>       Contributor: <strong>{topic.userName}</strong></span>
                             </div>
 
                             <div className="col-md-4 rightAlign">
@@ -611,7 +627,7 @@ class TopicDetail extends React.Component {
                         <button 
                         key={index} 
                         onClick={() => this.handlePointPick(index)} 
-                        className="btn btn-secondary btn-lg AddMargin">
+                        className="btn btn-outline-dark btn-lg AddMargin">
                             {point.content}
                         </button>
                         )
@@ -623,7 +639,7 @@ class TopicDetail extends React.Component {
             </div>
         );
     }
-    // onClick={() => this.handleSort(column)}
+    
     renderViewOpposite = () => {
         // none dummy contents begin here 
         const userStatus = this.state.IsLoggedIn;
@@ -649,7 +665,7 @@ class TopicDetail extends React.Component {
                     <div className="col-md-4">
                         <br/>
                         <div>Topic Hoteness: {topic.Hotness}</div>
-                        <div>Point Contributor: {topic.proposition[propInd].userName}</div>
+                        <div>Topic Contributor: <i className="far fa-user"></i>{" "}<strong>{topic.userName}</strong></div>
                     </div>
                     
 
@@ -703,16 +719,22 @@ class TopicDetail extends React.Component {
                     <div className="row">
                         <div className="col-md-7 Detail_Oppo_Action_Attitude">
                             <button className="btn btn-primary Detail_margin1" disabled={!userStatus || this.state.IsProcessingAction} onClick={() => this.onViewAction(1)}>
-                                Listen
+                                {this.state.IsProcessingAction ? "saving.." : "Listen"}
                             </button>
                             <button className="btn btn-secondary" disabled={!userStatus || this.state.IsProcessingAction} onClick={() => this.onViewAction(2)}>
-                                Persuaded
+                                {this.state.IsProcessingAction ? "saving.." : "Persuaded"}
                             </button>
                         </div>
 
                         <div className="col-md-5">
                             <textarea className="Detail_Oppo_commentArea" disabled={!userStatus} placeholder={textPlaceholder} onChange={this.onCommentChange} value={this.state.commentContent}/>
-                            <button className="btn btn-success btn-block" disabled={!userStatus || this.state.isSubmittingComment} onClick={this.onSubmitComment}>Submit your comment</button>
+                            <Button variant="success" 
+                            block disabled={!userStatus || this.state.isSubmittingComment} 
+                            onClick={this.onSubmitComment}
+                            >
+                                {this.state.isSubmittingComment ? "Submitting..." : "Submit your comment"}
+                                {true && <Spinner as="span" animation="grow" size="sm" role="status" aria-hidden="true"/>}
+                            </Button>
                         </div>
                     </div>
                 </div>
@@ -792,7 +814,7 @@ class TopicDetail extends React.Component {
                             <h3>{topic.title}</h3>
                         </div>
                         <div className="col-md-4 rightAlign">
-                            Hotness: {10}
+                            Hotness: {topic.Hotness}
                         </div>
                     </div>
                     <div className="Detail_Summary_Content_gains">
@@ -817,18 +839,18 @@ class TopicDetail extends React.Component {
                     <div className="row Detail_Summary_Action_Button">
                         <div className="col-md-4 midAlign">
                             <Link to={editLink}>
-                                <button className="btn btn-lg btn-primary">Contribute</button>
+                                <button className="btn btn-lg btn-outline-primary">Contribute</button>
                             </Link>
                         </div>
                         <div className="col-md-4 midAlign">
                             <Link to="/">
-                                <button className="btn btn-lg btn-primary">Persuaded</button>
+                                <button className="btn btn-lg btn-outline-primary">Persuaded</button>
                             </Link>
                             
                         </div>
                         <div className="col-md-4 midAlign"> 
                             <Link to="/">
-                                <button className="btn btn-lg btn-primary">well, nvm..</button>
+                                <button className="btn btn-lg btn-outline-primary">well, nvm..</button>
                             </Link>
                         </div>
                     </div>

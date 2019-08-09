@@ -17,20 +17,7 @@ class OutNav extends React.Component {
         logoutUser(this.props.dispatch);
         this.props.history.push("/");
     }
-    /*
-                <Navbar bg="dark" variant="dark">
-                <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-                <Nav className="mr-auto">
-                <Nav.Link href="#home">Home</Nav.Link>
-                <Nav.Link href="#features">Features</Nav.Link>
-                <Nav.Link href="#pricing">Pricing</Nav.Link>
-                </Nav>
-                <Form inline>
-                <FormControl type="text" placeholder="Search" className="mr-sm-2" />
-                <Button variant="outline-info">Search</Button>
-                </Form>
-            </Navbar>
-    */
+
     render() {
         return (
 
@@ -49,7 +36,7 @@ class OutNav extends React.Component {
 
                  <div className="col-sm-5 rightAlign ">
                     <Link to={"/Profile/"+this.props.auth.user.userName}><button className="btn btn-outline-info">{this.props.auth.user.userName}</button></Link>
-                    <button className="btn btn-outline-info" onClick={this.onLogOut}>Log Out</button>
+                    <button className="ml-2 btn btn-outline-info" onClick={this.onLogOut}>Log Out</button>
                  </div>
 
 

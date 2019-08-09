@@ -125,7 +125,6 @@ router.post("/Post/comment", async(req, res) =>{
 
 router.post("/Post/userHistory", async(req, res) => {
     const {user_id, topic_id, isFinished, propIndex, argIndex, tempHonor, tempExperience, listenRecorder,userStand} = req.body
-    console.log(1)
     
     const user = await User.findOne({_id: mongoose.Types.ObjectId(user_id)})
     if (user){
@@ -146,7 +145,7 @@ router.post("/Post/userHistory", async(req, res) => {
         }
 
         const new_history = new History({topic_id: topic_id, isFinished: isFinished, propIndex: propIndex, argIndex: argIndex, tempHonor: tempHonor, tempExperience: tempExperience, listenRecorder: listenRecorder,userStand: userStand})
-        console.log(new_history)
+
         user.history.push(new_history)
 
         try{
@@ -168,7 +167,6 @@ router.get("/Get/userHistory/:topic_id/:userName", async(req, res) =>{
     const userName = req.params.userName;
 
     const user = await User.findOne({userName})
-    console.log(user)
 
     if(user){
         var history = null
@@ -254,7 +252,7 @@ router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
     for(i = topicNum; i<size&&i<(topicNum+8); i++){
         result.push(topics[i])
     }
-    console.log(result)
+
     res.status(200).send(result)
 
 })
@@ -262,7 +260,7 @@ router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
 router.post("/Post/addHonorAndExp", async(req, res) => {
     const {userName, experienceGained, honorGained} = req.body
     const user = await User.findOne({userName})
-    console.log(user)
+    console.log(user.userName)
     if(user){
         user.honor += honorGained
         user.experience += experienceGained
@@ -277,6 +275,25 @@ router.post("/Post/addHonorAndExp", async(req, res) => {
     }else{
         res.status(400).send("Invalid username")
     }
+})
+
+router.post("/Post/addHotness",async(req,res) => {
+    const {topicId,adder} = req.body;
+    try{
+        const topic = await Topic.findOne({_id: mongoose.Types.ObjectId(topicId)});
+
+        if (topic){
+            let before = topic.Hotness;
+            before += adder;
+            topic.Hotness = before;
+
+            topic.save();
+            res.status(200).send("Added Hotness");
+        }
+    }catch(e){
+        res.status(400).send("problem occured")
+    }
+
 })
 
 
