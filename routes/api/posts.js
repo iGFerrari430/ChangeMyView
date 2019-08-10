@@ -113,14 +113,20 @@ router.post("/Post/comment", async(req, res) =>{
         }
         for(i=0; i<proposition.argument.length; i++){
             if (String(proposition.argument[i]._id)===String(argument_id)){
-                console.log("get here")
                 check_2 = i
             }
         }
 
         topic.proposition.splice(check_1, 1)
         proposition.argument.splice(check_2, 1)
-        argument.comment.push(comment)
+        
+        // for(i=0; i<argument.comment.length; i++){
+        //     if(argument.comment.postDate<comment.postDate){
+
+        //     }
+        // }
+
+        argument.comment.splice(0, 0, comment)
         proposition.argument.splice(check_1, 0, argument)
         topic.proposition.splice(check_2, 0, proposition)
 
@@ -151,9 +157,6 @@ router.post("/Post/userHistory", async(req, res) => {
                 }
             }
         }
-        // const check_history = await user.history.some(async(element) =>{
-        //     return element.topicId === topic_id
-        // })
 
         if (history){
             user.history.splice(user.history.indexOf(history), 1)
