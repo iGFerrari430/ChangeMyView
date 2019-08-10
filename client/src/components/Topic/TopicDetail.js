@@ -1,14 +1,11 @@
 import React from 'react';
-import { EditorState, convertToRaw, convertFromRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import {Link} from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import axios from "axios";
-import TopicPreview from './TopicPreview';
 import Loader from 'react-loader-spinner';
 import { connect } from 'react-redux';
 import moment from 'moment';
-import Particles from 'reactparticles.js';
 
 import Modal from 'react-bootstrap/Modal';
 import Spinner from 'react-bootstrap/Spinner';
@@ -129,7 +126,6 @@ class TopicDetail extends React.Component {
                     let end = moment(new Date());
                     let start = moment(userHistory.isFinished);
                     let elapsed = end.diff(start,'seconds');
-                    console.log(elapsed+" "+604800);
                     if (elapsed > 604800){
                         userHistory.isFinished = null;
                         const body = {
@@ -159,10 +155,6 @@ class TopicDetail extends React.Component {
                 }))
             }      
             
-
-
-
-            console.log("post is: ",res.data);
         }catch(err){
             console.log(err);
         }    
@@ -338,8 +330,6 @@ class TopicDetail extends React.Component {
                 userStand: this.state.userStand
             }
 
-            console.log(body);
-
             const res = await axios.post("/api/posts/Post/userHistory",body);
         }
 
@@ -395,7 +385,6 @@ class TopicDetail extends React.Component {
         return false;
     }
     findNextItem = () => {
-        console.log("User stand:",this.state.userStand);
         let propList = this.state.topicObject.proposition;
         let currProp = this.state.propIndex;
         let currArg = this.state.argIndex+1;
@@ -421,7 +410,6 @@ class TopicDetail extends React.Component {
             }
         }
         if (found){
-            console.log("Next Res: ",[currProp,currArg]);
             return [currProp,currArg];
             
         }else{
@@ -429,12 +417,10 @@ class TopicDetail extends React.Component {
         }
     }
     handlePointPick = async(index) => {
-        console.log("from handlePointPick: "+"Index: "+index);
         const ind = index;
         await this.setState(() => ({
             userStand: ind
         }))
-        console.log("From handlePointPick: ",this.state);
         if (this.IsArgExist()){
             const propArg = this.findNextItem();
             this.setState(() => ({
@@ -567,7 +553,6 @@ class TopicDetail extends React.Component {
     }
 
     renderPickPoint = () => {
-        console.log("state is: ",this.state);
         const topic = this.state.topicObject;
         const bodyStyle = {
             fontSize: "20px"
@@ -768,8 +753,7 @@ class TopicDetail extends React.Component {
             argument_id,
             comment_content: content
         }
-        console.log("comment body: ",body);
-        console.log("Prop: ",this.props)
+
         try{
             await this.setState(() => ({
                 isSubmittingComment: true
@@ -823,7 +807,7 @@ class TopicDetail extends React.Component {
                             return (
                                     (index !== this.state.userStand) && 
                                     <div key={index}>
-                                        You have listened to point {index+1} <strong>{comment[0]}</strong> times, and been persuaded <strong>{comment[1]}</strong> times
+                                        You have listened to proposition {index+1} <strong>{comment[0]}</strong> times, and been persuaded <strong>{comment[1]}</strong> times
                                     </div>
                             );
                         })

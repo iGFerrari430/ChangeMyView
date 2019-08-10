@@ -15,7 +15,6 @@ class TopicEditor extends Component {
   constructor(props)
   {
     super(props);
-    console.log(props);
     const str = '{"blocks":[{"key":"54u14","text":"MAC OS X ","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":9,"style":"BOLD"}],"entityRanges":[],"data":{}},{"key":"ce22u","text":"IOS 13","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":6,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"1imab","text":"cdx","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":3,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"b8ice","text":"vds","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":3,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"ru07","text":"vdssd","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":5,"style":"ITALIC"}],"entityRanges":[],"data":{}},{"key":"b3o16","text":"sdaf","type":"unstyled","depth":0,"inlineStyleRanges":[{"offset":0,"length":4,"style":"ITALIC"}],"entityRanges":[],"data":{}}],"entityMap":{}}';
     const raw = JSON.parse(str);
     // eslint-disable-next-line
@@ -98,17 +97,11 @@ class TopicEditor extends Component {
       proposition2
     }
 
-    //console.log("Type of plain: ",typeof(plainTextContent));
-    //console.log(plainTextContent);
-    //console.log(postTime);
-    //console.log(richTextContent);
-    //const res = await axios.post("/api/auth/Register",body);
     try{
       await this.setState(() => ({
         isLoading: true
       }))
       const res = await axios.post("/api/posts/Post/Topic",body);
-      console.log(res.data);
       this.props.history.push('/');
       
     }catch(err){
@@ -117,14 +110,6 @@ class TopicEditor extends Component {
         error: "There is some server error. Try again or check your internet"
       }))
     }
-    /*
-    moment(Date);
-    const momentTime = moment(postTime);
-    console.log(momentTime);*/
-    //var day = moment(postTime);
-    //console.log(ve);
-
-    //console.log(JSON.parse(ve));
 
   }
 
@@ -146,7 +131,6 @@ class TopicEditor extends Component {
     }))
   }
   onTitleChange = e => {
-    console.log("title changed");
     const val = e.target.value;
     this.setState(() => ({ title: val }));
   }

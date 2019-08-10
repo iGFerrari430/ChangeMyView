@@ -27,7 +27,6 @@ class Landing extends React.Component {
     async componentDidMount() {
         try{
             const res = await axios.get("/api/posts/Get/getPageNum");
-            console.log(res);
             this.setState(() => ({
                 totalPage: res.data
             }))

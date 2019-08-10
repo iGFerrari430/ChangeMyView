@@ -1,9 +1,7 @@
 import React from 'react'
-import axios from 'axios'
 import {loginUser,hashCode} from "../../actions/authActions";
 import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
-import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
 
 class Login extends React.Component {

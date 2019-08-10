@@ -16,9 +16,7 @@ import EditTopic from './components/Topic/EditTopic';
 import getStore from "./store/store";
 import {Provider} from "react-redux";
 import './styles/App.css'
-import { connect } from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react'
-import Particles from 'reactparticles.js';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 

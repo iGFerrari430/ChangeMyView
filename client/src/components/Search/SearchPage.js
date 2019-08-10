@@ -18,7 +18,6 @@ class SearchPage extends React.Component {
     constructor(props){
         
         super(props);
-        console.log(this.props.history);
         this.state = {
             currentStage: this.LOADING,
             keyword: this.props.match.params.keyword,
@@ -46,7 +45,6 @@ class SearchPage extends React.Component {
 
     }
     async componentDidMount() {
-        console.log("keyword is: ",this.props.match.params.keyword)
         this.loadResource(this.props.match.params.keyword);
         this.props.history.listen(async(route)=>{
             if (route.pathname.substring(0,7) !== "/Search"){

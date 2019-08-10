@@ -1,8 +1,6 @@
 import React from 'react';
-import axios from 'axios';
 import {registerUser,hashCode} from "../../actions/authActions";
 import { connect } from 'react-redux';
-import Button from 'react-bootstrap/Button';
 
 class Register extends React.Component {
     constructor(props) {

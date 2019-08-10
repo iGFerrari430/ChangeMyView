@@ -254,14 +254,14 @@ router.post("/Post/Topic", async (req, res) => {
 router.get("/Get/getPageNum", async(req, res) => {
     const topics = await Topic.find()
     const size = topics.length
-    const result = Math.ceil(size/8)
+    const result = Math.ceil(size/5)
 
     res.status(200).send(Object(result))
 })
 
 router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
     const pageNum = req.params.pageNum
-    const topicNum = (pageNum-1)*8
+    const topicNum = (pageNum-1)*5
     const topics = await Topic.find().sort({postDate: -1})
     const size = await Topic.countDocuments()
 

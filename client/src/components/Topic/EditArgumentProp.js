@@ -25,7 +25,6 @@ class EditArgumentProp extends Component {
             processing: false
         }
 
-        console.log(props);
     }
     onEditorStateChange = (editorState) => {
         this.setState({
@@ -44,7 +43,6 @@ class EditArgumentProp extends Component {
     }
     async componentDidMount() {
         try{
-            console.log("Did Mount from editArgProp");
             const res = await axios.get("/api/posts/Get/specificTopic/"+this.props.match.params.topicId);
             this.setState(() => ({
                 topicObject: res.data,
@@ -53,9 +51,7 @@ class EditArgumentProp extends Component {
                 choice: "AddArg"
             }))
 
-            console.log("post is: ",res.data);
         }catch(err){
-            console.log(err.data);
         }    
         
     }
@@ -149,7 +145,6 @@ class EditArgumentProp extends Component {
             topicId: this.state.topicObject._id,
             content: this.state.newProp
         }
-        console.log("body is: ",body);
         try {
             await this.setState(() => ({
                 processing: true
@@ -162,7 +157,6 @@ class EditArgumentProp extends Component {
             await this.setState(() => ({
                 processing: false
             }))
-            console.log(err.response.data);
             this.setState(() => ({
                 propError: err.response.data
               }))
@@ -176,7 +170,6 @@ class EditArgumentProp extends Component {
         const outerWrapper = {
             marginTop: "10px"
         }
-        console.log("state choice: "+this.state.choice)
         const topic = this.state.topicObject;
         return (
             <div style={outerWrapper}>
@@ -209,7 +202,6 @@ class EditArgumentProp extends Component {
     handleChange = e => {
         
         const val = e.target.value;
-        console.log(val);
         this.setState(() => ({
             choice: val
         }))

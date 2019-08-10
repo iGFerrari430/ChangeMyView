@@ -25,7 +25,6 @@ class SearchPage extends React.Component {
     async componentDidMount() {
         const user = this.props.match.params.userName;
         const res = await axios.get("/api/profile/Get/userProfileInfo/"+user);
-        console.log(res);
         await this.setState(() => ({
             
             userProfile: res.data,
