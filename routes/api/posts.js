@@ -267,7 +267,7 @@ router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
 
 
     var result = []
-    for(i = topicNum; i<size&&i<(topicNum+8); i++){
+    for(i = topicNum; i<size&&i<(topicNum+5); i++){
         result.push(topics[i])
     }
 
