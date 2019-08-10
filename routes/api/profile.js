@@ -26,15 +26,17 @@ router.get("/Get/userProfileInfo/:userName", async (req,res)=>{
             propHistory: undefined,
             topicHistory: undefined
         }
-        console.log(user.history.length)
+        // console.log(user.history.length)
         for(i = 0; i< user.history.length && i < 15; i++){
             topic = await Topic.findOne({_id: mongoose.Types.ObjectId(user.history[i].topic_id)})
-            result.viewHistory.push(topic)
+            result.viewHistory.push({title: topic.title, topic_id: topic._id, isFinished: user.history[i].isFinished})
         }
-        const propositions = await Proposition.find({userName: user.userName})
+        var propositions = await Proposition.find({userName: user.userName}).sort({postDate: -1})
+        if(propositions.length>5){propositions = propositions.slice(0, 5)}
         result.propHistory = propositions
 
-        const topics = await Topic.find({userName: user.userName})
+        var topics = await Topic.find({userName: user.userName}).sort({postDate: -1})
+        if(topics.length>5){topics = topics.slice(0, 5)}
         result.topicHistory = topics
 
         res.status(200).send(result)

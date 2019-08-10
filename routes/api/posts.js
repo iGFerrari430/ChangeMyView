@@ -103,11 +103,26 @@ router.post("/Post/comment", async(req, res) =>{
     if (proposition && topic && argument){
         const comment = new Comment({userName: post_id, postDate: post_date, content: comment_content, numLike: 0})
 
-        topic.proposition.splice(topic.proposition.indexOf(proposition), 1)
-        proposition.argument.splice(proposition.argument.indexOf(argument), 1)
+        var check_1 = -1
+        var check_2 = -1
+
+        for(i=0; i<topic.proposition.length; i++){
+            if (String(topic.proposition[i]._id)===String(proposition_id)){
+                check_1 = i
+            }
+        }
+        for(i=0; i<proposition.argument.length; i++){
+            if (String(proposition.argument[i]._id)===String(argument_id)){
+                console.log("get here")
+                check_2 = i
+            }
+        }
+
+        topic.proposition.splice(check_1, 1)
+        proposition.argument.splice(check_2, 1)
         argument.comment.push(comment)
-        proposition.argument.push(argument)
-        topic.proposition.push(proposition)
+        proposition.argument.splice(check_1, 0, argument)
+        topic.proposition.splice(check_2, 0, proposition)
 
         try{
             await comment.save()
