@@ -61,11 +61,11 @@ class TopicPreview extends React.Component {
                         <div className="topicContent">
                             <p>{plainTextContent}</p>
                         </div>
-                        <Link to={{
-                            pathname: "/viewTopic/"+this.props.topic._id
-                        }}
+                        <Link to=
+                            {isAuthed ? "/viewTopic/"+this.props.topic._id : "/login"}
+ 
                         >
-                            <button type="button" className="btn btn-outline-info" disabled={!isAuthed}>
+                            <button type="button" className="btn btn-outline-info">
                                 {isAuthed ? "View" : "Log in to view"}
                             </button>
                         </Link>

@@ -1,6 +1,7 @@
 import React from 'react'
 import axios from 'axios'
 import {loginUser,hashCode} from "../../actions/authActions";
+import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import Spinner from 'react-bootstrap/Spinner';
 import Button from 'react-bootstrap/Button';
@@ -96,6 +97,9 @@ class Login extends React.Component {
                         <button onSubmit={this.onSubmit} className="btn btn-primary" disabled={this.state.isSubmitting}>
                             {this.state.isSubmitting ? "Logging you in..." : "Log In"}
                         </button>
+                        <Link to="/register">
+                            <Button variant="link">Don't have an account yet?</Button>
+                        </Link>
                     </form>
                     </div>
                 </div>
