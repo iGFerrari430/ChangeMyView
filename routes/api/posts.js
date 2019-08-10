@@ -126,7 +126,7 @@ router.post("/Post/comment", async(req, res) =>{
         //     }
         // }
 
-        argument.comment.splice(0, 0, comment)
+        argument.comment.splice(0, 0, commente)
         proposition.argument.splice(check_1, 0, argument)
         topic.proposition.splice(check_2, 0, proposition)
 
@@ -262,7 +262,7 @@ router.get("/Get/getPageNum", async(req, res) => {
 router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
     const pageNum = req.params.pageNum
     const topicNum = (pageNum-1)*8
-    const topics = await Topic.find()
+    const topics = await Topic.find().sort({postDate: -1})
     const size = await Topic.countDocuments()
 
 
