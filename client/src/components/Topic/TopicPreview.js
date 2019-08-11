@@ -71,7 +71,7 @@ class TopicPreview extends React.Component {
                         </Link>
                     </div>
 
-                    <div className="Hotness col-3">
+                    <div className="Hotness col-3" style={{overflow: "scroll"}}>
                         <Link to={isAuthed ? "/Profile/"+userName : "/Login"} style={{color: "black"}}>
                             <div style={{marginBottom: "2px"}}><i className="far fa-user"></i> <strong>{userName}</strong></div>
                         </Link>

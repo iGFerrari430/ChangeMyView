@@ -333,20 +333,6 @@ ol.Edit-ol {
     height: 400px;
 }
 
-::-webkit-scrollbar {
-    width: 5px;
-}
-   
-::-webkit-scrollbar-thumb {
-    background: #666; 
-}
-
-
-
-::-webkit-scrollbar-track {
-    display: none;
-}
-
 .Detail_Oppo_commentArea {
     width: 100%;
     border: 1px solid black;

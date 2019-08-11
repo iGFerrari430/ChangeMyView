@@ -81,6 +81,7 @@ class EditArgumentProp extends Component {
                 }
                 <button type="button" 
                 className="btn btn-outline-success btn-lg btn-block" 
+                style={{wordWrap: "break-word"}}
                 onClick={this.onPropFinish}
                 disabled={this.state.processing}
                 >
@@ -191,6 +192,7 @@ class EditArgumentProp extends Component {
                 }
                 <button type="button" 
                 className="btn btn-outline-success btn-lg btn-block" 
+                style={{wordWrap: "break-word",overflow: "scroll"}}
                 onClick={this.onArgFinish}
                 disabled={this.state.processing}>
                     {this.state.processing ? "Processing your request" : "Submit your argument of your standPoint now!"}
