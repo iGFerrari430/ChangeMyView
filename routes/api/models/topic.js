@@ -25,8 +25,8 @@ const topicSchema = new mongoose.Schema({
     },
 
     richTextContent: {
-        type: String
-        //required: true
+        type: String,
+        required: true
     },
 
     plainTextContent: {

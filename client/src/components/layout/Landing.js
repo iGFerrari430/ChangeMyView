@@ -133,7 +133,7 @@ class Landing extends React.Component {
                             <div className="CreatePost">
                                 <p className="Hand">Share new ideas to the community!</p>
                                 <Link to={this.props.auth.isLoggedin ? "/topic" : "/login"}>
-                                    <button type="button" className="btn btn-info">{this.props.auth.isLoggedin ? "Create Topic" : "Log in to Create Post" }</button>
+                                    <button type="button" className="btn btn-info" style={{wordWrap: "break-word"}}>{this.props.auth.isLoggedin ? "Create Topic" : "Log in to Create Post" }</button>
                                 </Link>
                             </div>
                         </div>

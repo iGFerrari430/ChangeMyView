@@ -247,6 +247,7 @@ router.post("/Post/Topic", async (req, res) => {
         await topic.save()
         res.status(200).send("save topic")
     }catch(e){
+        console.log(e);
         res.status(400).send(e)
     }
 })
