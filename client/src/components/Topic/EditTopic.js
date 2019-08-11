@@ -107,7 +107,7 @@ class TopicEditor extends Component {
     }catch(err){
       this.setState(() => ({
         isLoading: false,
-        error: "There is some server error. Try again or check your internet"
+        error: "The content is empty, or something is wrong with Internet"
       }))
     }
 

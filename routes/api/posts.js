@@ -24,7 +24,7 @@ router.get("/Get/specificTopic/:tId", async (req, res) =>{
     if(topic){
         res.status(200).send(topic)
     }else{
-        res.status(400).send("The title name does not exist! zxwsb")
+        res.status(400).send("The title name does not exist!")
     }
 })
 
@@ -48,7 +48,7 @@ router.post("/Post/proposition", async (req, res) => {
             res.status(400).send("cannot save prop or topic")
         }
     }else{
-        res.status(400).send("The title name does not exist! zxwsb")
+        res.status(400).send("The title name does not exist!")
     }
 })
 
@@ -85,10 +85,10 @@ router.post("/Post/argument", async (req, res) => {
                 res.status(500).send(e)
             }
         }else{
-            res.status(400).send("Cannot find topic id! zxwsb")
+            res.status(400).send("Cannot find topic id!")
         }
     }else{
-        res.status(400).send("cannot find proposition title! zxwsb")
+        res.status(400).send("cannot find proposition title!")
     }
 
 })
@@ -140,7 +140,7 @@ router.post("/Post/comment", async(req, res) =>{
             res.status(400).send(e)
         }
     }else{
-        res.status(400).send("cannot find topic or proposition or comment id! zxwdsb")
+        res.status(400).send("cannot find topic or proposition or comment id!")
     }
 })
 
@@ -175,7 +175,7 @@ router.post("/Post/userHistory", async(req, res) => {
         }
 
     }else{
-        res.status(400).send("The user_id does not exist! ZXWSB")
+        res.status(400).send("The user_id does not exist!")
     }
 })
 
@@ -254,14 +254,14 @@ router.post("/Post/Topic", async (req, res) => {
 router.get("/Get/getPageNum", async(req, res) => {
     const topics = await Topic.find()
     const size = topics.length
-    const result = Math.ceil(size/5)
+    const result = Math.ceil(size/8)
 
     res.status(200).send(Object(result))
 })
 
 router.get("/Get/getPageTopics/:pageNum", async(req, res) => {
     const pageNum = req.params.pageNum
-    const topicNum = (pageNum-1)*5
+    const topicNum = (pageNum-1)*8
     const topics = await Topic.find().sort({postDate: -1})
     const size = await Topic.countDocuments()
 

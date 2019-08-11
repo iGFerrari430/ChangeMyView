@@ -24,22 +24,22 @@ router.post("/Register",async (req,res) => {
                         await user.save()
                         res.status(200).send(user)
                     }else{
-                        res.status(400).send("The email address is already exist! Please try another one! Or ask ZHUXIAOWEN for a new one")
+                        res.status(400).send("The email address is already exist! Please try another one!")
                     }
 
                 }catch(error){
-                    res.status(500).send("There is something wrong with your internet! Ask ZHUXIAOWEN to fix it~!")
+                    res.status(500).send("There is something wrong with your internet!")
                 }
             }else{
-                res.status(400).send("The username is already exist! Please try another one! Or ask ZHUXIAOWEN for a new name")
+                res.status(400).send("The username is already exist! Please try another one!")
             }
 
         }catch(e){
-            res.status(500).send("There is something wrong with your internet! Ask ZHUXIAOWEN to fix it~!")
+            res.status(500).send("There is something wrong with your internet!")
         }
 
     }else{
-        res.status(400).send("The password one and two does not match, please check them again! Or ask ZHUXIAOWEN for a new one")
+        res.status(400).send("The password one and two does not match, please check them again!")
     }
 
 })
@@ -50,7 +50,7 @@ router.post("/Login",async (req,res) => {
         const user = await User.findbyCredentials(req.body.email, req.body.password)
         res.status(200).send(user)
     }catch(e){
-        res.status(400).send("OMG you are so stupid. Either password wrong or username no exist. Stop using our service.");
+        res.status(400).send("The email address does not exist or the password does not match! please try again!");
     }
 })
 
