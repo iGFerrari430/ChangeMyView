@@ -20,7 +20,7 @@ class Landing extends React.Component {
             stage: 0,
             isLoggedin: this.props.auth.isLoggedin,
             totalPage: -1,
-            currPage: 0
+            currPage: 1000
         }
     }
 
