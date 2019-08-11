@@ -20,7 +20,7 @@ class Landing extends React.Component {
             stage: 0,
             isLoggedin: this.props.auth.isLoggedin,
             totalPage: -1,
-            currPage: -1
+            currPage: 0
         }
     }
 
@@ -32,6 +32,10 @@ class Landing extends React.Component {
             }))
             if (res.data !== 0){
                 this.fetchPages(1);
+            }else{
+                this.setState(() => ({
+                    stage: 1
+                }))
             }
         }catch(err){
             this.setState(() => ({
