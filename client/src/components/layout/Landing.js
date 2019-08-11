@@ -79,7 +79,7 @@ class Landing extends React.Component {
             return (
                 <div className="container">
                     <div className="row">
-                        <div className="col-sm-9">
+                        <div className="col-xl-9">
                             {
                                 this.state.TopicList.map((topic,index) => 
                                     (
@@ -129,7 +129,7 @@ class Landing extends React.Component {
 
                         </div>
     
-                        <div className="col-sm-3">
+                        <div className="col-xl-3">
                             <div className="CreatePost">
                                 <p className="Hand">Share new ideas to the community!</p>
                                 <Link to={this.props.auth.isLoggedin ? "/topic" : "/login"}>
