@@ -126,7 +126,7 @@ router.post("/Post/comment", async(req, res) =>{
         //     }
         // }
 
-        argument.comment.splice(0, 0, commente)
+        argument.comment.splice(0, 0, comment)
         proposition.argument.splice(check_1, 0, argument)
         topic.proposition.splice(check_2, 0, proposition)
 
