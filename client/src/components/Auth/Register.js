@@ -95,7 +95,7 @@ class Register extends React.Component {
                                 value={this.state.userName} 
                                 onChange={this.onNameChange} 
                                 aria-describedby="nameHelp" 
-                                placeholder="Enter email" 
+                                placeholder="Enter your username" 
                                 required/>
                             <small id="nameHelp" className="form-text text-muted">This name will be displayed to other users :) </small>
                         </div>
