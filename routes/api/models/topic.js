@@ -2,6 +2,16 @@ const mongoose = require("mongoose")
 const proposition = require("./proposition")
 
 const topicSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+
+    postDate: {
+        type: Date,
+        required: true,
+    },
+
     userName: {
         type: String,
         required: true,
@@ -11,16 +21,6 @@ const topicSchema = new mongoose.Schema({
                 throw new Error('Username\'s length should no shorter than 5')
             }
         }
-    },
-
-    title: {
-        type: String,
-        required: true
-    },
-
-    postDate: {
-        type: Date,
-        required: true,
     },
 
     richTextContent: {

@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true,
-        unque: true,
         validate(value){
             if (value.length<5){
                 throw new Error('Username\'s length should no shorter than 5')
@@ -16,11 +15,9 @@ const userSchema = new mongoose.Schema({
     },
     email:{
         type: String,
-        unique: true,
         required: true,
         trim: true,
         lowercase: true,
-        unique: true,
         validate(value) {
             if (!validator.isEmail(value)) {
                 throw new Error('Email is invalid')

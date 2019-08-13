@@ -25,7 +25,7 @@ const argumentSchema = new mongoose.Schema({
 
     plainTextContent: {
         type: String,
-        required: true
+        // required: true
     },
 
     richTextContent: {
