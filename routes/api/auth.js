@@ -10,7 +10,9 @@ router.post("/Register",async (req,res) => {
     const {userName, email, password1, password2, registerDate} = req.body
     //check if password 1 and 2 matches
     if (password1 === password2){
-        
+        if(userName.length<5){
+            res.status(400).send("The userName should be longer than 5! please try again! ")
+        }else{
         const user = new User({userName: userName, email: email, password: password1, registerDate: registerDate})
         try{
             //check if the user has already been registered
@@ -37,10 +39,11 @@ router.post("/Register",async (req,res) => {
         }catch(e){
             res.status(500).send("There is something wrong with your internet!")
         }
-
+    }
     }else{
         res.status(400).send("The password one and two does not match, please check them again!")
     }
+
 
 })
 
