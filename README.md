@@ -1,6 +1,6 @@
 # Change My View
 
-An reddit-like Forum 
+An reddit-like Forum.<br/>
 The site(Version 1.0.0) is now available at:
 https://damp-taiga-66357.herokuapp.com
 ## Environment Setup
