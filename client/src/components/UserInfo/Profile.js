@@ -30,6 +30,7 @@ class SearchPage extends React.Component {
             userProfile: res.data,
             currStage: this.READY
         }))
+        console.log(res.data);
     }
     render() {
         if (this.state.currStage === this.LOADING){
@@ -85,7 +86,7 @@ class SearchPage extends React.Component {
                                                     <tbody key={index} style={{backgroundColor: "white"}}>
                                                         <tr>
                                                             <td style={{textAlign: "center"}}>
-                                                                <Link to={"/viewTopic/"+topic._id}>
+                                                                <Link to={"/viewTopic/"+topic.topic_id}>
                                                                     {topic.title}
                                                                 </Link>
                                                             </td>
